@@ -96,7 +96,7 @@ stages:
 
 - stage: Package
   dependsOn: QA
-  condition: eq(variables.hasDeploy, true)
+  condition: and(succeeded(), eq(variables.hasDeploy, true))
   jobs:
   
   
