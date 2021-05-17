@@ -88,6 +88,7 @@ stages:
           testResultsFiles: '**/TESTS-*.xml'
           
       - task: PublishCodeCoverageResults@1
+        condition: succeededOrFailed()
         inputs: 
           codeCoverageTool: Cobertura # or JaCoCo
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
