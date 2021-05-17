@@ -8,7 +8,9 @@
             [checked]="data.principal"
             #principal
     />
-    <div *ngSwitchCase="type === 'telephone' ||type === 'fax' ? type : ''">
+    <div *ngSwitchCase="type === 'telephone' ||type === 'fax' ? type : ''"
+         class="input_lg"
+    >
         <label for="modalTypeTel">Type</label>
         <ng-select2 [data]="typesTelephones |async"
                     [options]="options"
@@ -34,7 +36,9 @@
         />
 
     </div>
-    <div *ngSwitchCase="'email'">
+    <div *ngSwitchCase="'email'"
+         class="input_lg"
+    >
         <label for="modalTypeEmail">Type</label>
         <ng-select2 [data]="typesEmails |async"
                     [options]="options"
@@ -51,7 +55,9 @@
                 #valeurEmail
         />
     </div>
-    <div *ngSwitchCase="'site'">
+    <div *ngSwitchCase="'site'"
+          class="input_lg"
+    >
         <label for="modalTypeSite">Type</label>
         <ng-select2 [data]="typesSites |async"
                     [options]="options"

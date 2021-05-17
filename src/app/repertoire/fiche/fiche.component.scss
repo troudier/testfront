@@ -106,26 +106,7 @@
         background-color: var(--blanc);
         position: relative;
         margin-top: 3px;
-
-        .content_select2 {
-            ::ng-deep .select2-selection.select2-selection--multiple {
-                min-height: 48px;
-                padding-right: 45px;
-                caret-color: transparent;
-            }
-
-            ::ng-deep .select2.select2-container.select2-container--default {
-                padding-top: 20px;
-                margin: auto;
-                width: 100% !important;
-            }
-
-            ::ng-deep .select2-search__field {
-                height: 20px;
-                margin-top: 9px !important;
-            }
-
-        }
+        padding-top: 20px;
     
         .qualite_relation {
             position: absolute;

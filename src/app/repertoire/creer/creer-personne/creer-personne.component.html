@@ -15,7 +15,7 @@
                 <div class="bloc_information_generale">
                     <div class="bandeau_form">Informations générales</div>
                     <div class="input_container">
-                        <div class="espace_input">
+                        <div class="espace_input input_lg">
                             <label for="statut">Type</label>
                             <app-statut-select2
                                     id="statut"
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="input_container" *ngIf="typePersonne === 'morale'">
-                        <div class="espace_input">
+                        <div class="espace_input input_lg">
                             <label for="raisonSociale">Raison sociale</label>
                             <input
                                     type="text"
@@ -61,7 +61,7 @@
                                     [ngClass]="{'background_alert_required': !form.controls.raisonSociale.value}"
                             />
                         </div>
-                        <div>
+                        <div class="input_lg">
                             <label for="formeJuridique">Forme juridique</label>
                             <app-form-juridique-select2
                                     id="formeJuridique"
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="input_container" *ngIf="typePersonne === 'physique'">
-                        <div class="espace_input">
+                        <div class="espace_input input_lg">
                             <label for="prenom">Prénom</label>
                             <input
                                     type="text"
@@ -83,7 +83,7 @@
                                     [ngClass]="{'background_alert_required': !form.controls.prenom.value}"
                             />
                         </div>
-                        <div>
+                        <div class="input_lg">
                             <label for="nom">Nom</label>
                             <input
                                     type="text"
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="input_container input_group">
-                        <div class="espace_input">
+                        <div class="espace_input input_lg">
                             <label for="email">Email</label>
                             <input
                                     type="text"
@@ -109,7 +109,7 @@
                             <div>
                                 <label for="telephone">Téléphone</label>
                             </div>
-                            <div class="container_indicatif select2_sans_badge"
+                            <div class="container_indicatif select2_sans_badge input_lg"
                                  [ngClass]="{'background_alert_recommended': !form.controls.indicatifTel.value}"
                             >
                                 <ng-select2 [data]="indicatifData | async"

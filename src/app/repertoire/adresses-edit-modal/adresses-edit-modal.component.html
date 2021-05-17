@@ -8,71 +8,73 @@
             [checked]="data.principal"
             #principal
     />
-    <label for="modalType">Type</label>
-    <ng-select2 [data]="types |async"
-                [options]="options"
-                [className]="'typeSelect'"
-                id="modalType"
-                [value]="data.type_id"
-                (valueChanged)="typeChange($event)"
-                #type
-    ></ng-select2>
-    <label for="ligne1">Ligne1</label>
-    <input
-            type="text"
-            id="ligne1"
-            [value]="data.ligne1"
-            #ligne1
-    />
-    <label for="ligne2">Ligne2</label>
-    <input
-            type="text"
-            id="ligne2"
-            [value]="data.ligne2"
-            #ligne2
-    />
-    <label for="ligne3">Ligne3</label>
-    <input
-            type="text"
-            id="ligne3"
-            [value]="data.ligne3"
-            #ligne3
-    />
-    <label for="cp">CP</label>
-    <input
-            type="text"
-            id="cp"
-            [value]="data.cp"
-            #cp
-    />
-    <label for="ville">Ville</label>
-    <input
-            type="text"
-            id="ville"
-            [value]="data.ville"
-            #ville
-    />
-    <label for="cedexCode">Cedex Code</label>
-    <input
-            type="text"
-            id="cedexCode"
-            [value]="data.cedexCode"
-            #cedexCode
-    />
-    <label for="cedexLibelle">Cedex Libellé</label>
-    <input
-            type="text"
-            id="cedexLibelle"
-            [value]="data.cedexLibelle"
-            #cedexLibelle
-    />
-    <label for="pays">Pays</label>
-    <input
-            type="text"
-            id="pays"
-            [value]="data.pays"
-            #pays
-    />
+    <div class="input_lg">
+        <label for="modalType">Type</label>
+        <ng-select2 [data]="types |async"
+                    [options]="options"
+                    [className]="'typeSelect'"
+                    id="modalType"
+                    [value]="data.type_id"
+                    (valueChanged)="typeChange($event)"
+                    #type
+        ></ng-select2>
+        <label for="ligne1">Ligne1</label>
+        <input
+                type="text"
+                id="ligne1"
+                [value]="data.ligne1"
+                #ligne1
+        />
+        <label for="ligne2">Ligne2</label>
+        <input
+                type="text"
+                id="ligne2"
+                [value]="data.ligne2"
+                #ligne2
+        />
+        <label for="ligne3">Ligne3</label>
+        <input
+                type="text"
+                id="ligne3"
+                [value]="data.ligne3"
+                #ligne3
+        />
+        <label for="cp">CP</label>
+        <input
+                type="text"
+                id="cp"
+                [value]="data.cp"
+                #cp
+        />
+        <label for="ville">Ville</label>
+        <input
+                type="text"
+                id="ville"
+                [value]="data.ville"
+                #ville
+        />
+        <label for="cedexCode">Cedex Code</label>
+        <input
+                type="text"
+                id="cedexCode"
+                [value]="data.cedexCode"
+                #cedexCode
+        />
+        <label for="cedexLibelle">Cedex Libellé</label>
+        <input
+                type="text"
+                id="cedexLibelle"
+                [value]="data.cedexLibelle"
+                #cedexLibelle
+        />
+        <label for="pays">Pays</label>
+        <input
+                type="text"
+                id="pays"
+                [value]="data.pays"
+                #pays
+        />
+    </div>
 </div>
 <div class="action_bloc_modal">
     <button type="reset" class="btn btn-med btn-annuler" (click)="closeModal();"><span>Annuler</span></button>

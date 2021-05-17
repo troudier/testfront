@@ -1,0 +1,222 @@
+::ng-deep .select2-selection {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 0 !important;
+    border: 1px solid var(--bg-title-blocks);
+    background: var(--blanc);
+    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+    color: var(--gris-fonce);
+}
+
+// icon chevron vers le bas select2
+::ng-deep .select2-selection:after {
+    color: var(--bg-title-blocks);
+    font-family: "Font Awesome 5 Free", serif;
+    font-weight: 900;
+    content: "\f078";
+    position: absolute;
+    right: 17px;
+    align-items: center;
+    align-self: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+::ng-deep .bandeau_outils ng-select2 {
+    margin-right: 10px;
+    float: right;
+    font: normal normal var(--main-font-weight-semibold) 12px/27px var(--main-font-family);
+    text-transform: uppercase;
+}
+
+::ng-deep .select2-selection__choice__display {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+::ng-deep .select2-results, ::ng-deep .select2-container--default .select2-search--inline .select2-search__field {
+    font: normal normal var(--main-font-weight-semibold) 15px var(--main-font-family);
+}
+
+::ng-deep .select2-search .select2-search--inline {
+    position: relative;
+    top: 10px;
+}
+
+::ng-deep .select2-search .select2-search__field {
+    margin-top: unset !important;
+    margin-left: unset !important;
+    position: relative;
+}
+
+::ng-deep .select2-container .select2-selection--multiple .select2-selection__rendered {
+    display: flex !important;
+}
+
+// item select 2
+::ng-deep .select2-container--default .select2-selection--multiple .select2-selection__choice, ::ng-deep span.select2-selection__rendered {
+    padding-left: 5px;
+    font: normal normal var(--main-font-weight-semibold) 12px var(--main-font-family);
+    height: 29px;
+    display: flex;
+    align-items: center;
+    border-color: transparent;
+}
+
+// select2 type single
+::ng-deep span.selection .select2-selection--single span.select2-selection__rendered:not(.select2_sans_badge span) {
+    padding: 0 10px;
+    background-color: #e4e4e4;
+    height: auto;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+
+// select2 type single
+::ng-deep .select2_sans_badge span.selection .select2-selection--single span.select2-selection__rendered {
+    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+    color: var(--gris-fonce);
+    align-items: center;
+    display: flex;
+    padding-left: 0;
+}
+
+// tag select 2 multiple
+::ng-deep .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-top: 6px;
+    padding: 0 10px;
+}
+
+// tag select 2 multiple mais pas sur le 1er tag
+::ng-deep .select2-container--default .select2-selection--multiple li.select2-selection__choice:first-child {
+    margin-left: inherit;
+}
+
+//  -----------------------------OK --------------------------------
+
+// select 2 tag
+::ng-deep .bandeau_outils .select2-selection__choice[title="Prospect"], ::ng-deep span.select2-selection__rendered[title="Prospect"] {
+    background: var(--prospect-bg) 0 0 no-repeat padding-box;
+    border: 1px solid var(--prospect-border) !important;
+    color: var(--gris-fonce) !important;
+}
+
+::ng-deep .bandeau_outils .select2-selection__choice[title="Client"], ::ng-deep span.select2-selection__rendered[title="Client"] {
+    background: var(--gris-fonce) 0 0 no-repeat padding-box !important;
+    color: var(--blanc) !important;
+}
+
+::ng-deep .bandeau_outils .select2-selection__choice[title^="Partie"], ::ng-deep span.select2-selection__rendered[title^="Partie"] {
+    background: var(--alert) 0 0 no-repeat padding-box !important;
+    color: var(--blanc) !important;
+}
+
+::ng-deep .bandeau_outils .select2-selection__choice[title="Membre"], ::ng-deep span.select2-selection__rendered[title="Membre"] {
+    background: var(--bleu-azko) 0 0 no-repeat padding-box !important;
+    color: var(--blanc) !important;
+}
+
+::ng-deep .bandeau_outils .select2-selection__choice[title="Autre"], ::ng-deep span.select2-selection__rendered[title="Autre"] {
+    background: var(--autre-bg) 0 0 no-repeat padding-box !important;
+    color: var(--blanc) !important;
+}
+
+// icon croix (x) supprimer sur tag
+::ng-deep .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    background-color: transparent;
+    border: none;
+    border-right: transparent;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 4px;
+    position: relative;
+    left: -4px;
+    top: 0;
+}
+
+// suppression flèche par défaut sur l'input
+::ng-deep .select2-selection__arrow {
+    display: none;
+}
+
+// icon supprimer autre item
+::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background-color: transparent;
+}
+
+::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Prospect"] .select2-selection__choice__remove {
+    border-color: var(--prospect-border);
+}
+
+::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title^="Partie"] .select2-selection__choice__remove {
+    color: var(--blanc);
+}
+
+::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Client"] .select2-selection__choice__remove {
+    color: var(--blanc);
+}
+
+::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Autre"] .select2-selection__choice__remove {
+    color: var(--blanc);
+}
+
+::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Membre"] .select2-selection__choice__remove {
+    color: var(--blanc);
+}
+
+::ng-deep .info_commerciales_select2_sans_border .select2-selection {
+    border: none !important;
+    margin-left: -10px;
+    cursor: default;
+}
+
+::ng-deep .info_commerciales_select2_sans_border .select2-selection:focus {
+    border: none !important;
+}
+
+::ng-deep .info_commerciales_select2_sans_border .select2-selection:after {
+    display: none;
+}
+
+
+
+
+
+::ng-deep .select2-container--default {
+    width: 100% !important;
+}
+
+::ng-deep .select2-selection.select2-selection--multiple, ::ng-deep .select2-selection.select2-selection--single {
+    padding-right: 45px;
+    caret-color: transparent;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--gris-clair);
+}
+
+// focus des select 2 overrider de noir a gris
+::ng-deep .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 1px solid var(--gris-clair);
+}
+
+::ng-deep .input_sm .select2-selection.select2-selection--multiple,
+::ng-deep .input_sm .select2-selection.select2-selection--single,
+::ng-deep .input_sm input {
+    min-height: 36px;
+}
+
+::ng-deep .input_lg .select2-selection.select2-selection--multiple,
+::ng-deep .input_lg .select2-selection.select2-selection--single,
+::ng-deep .input_lg input {
+    min-height: 48px;
+}

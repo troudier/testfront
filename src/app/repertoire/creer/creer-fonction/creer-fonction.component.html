@@ -12,11 +12,10 @@
             <div class="container_form">
                 <div class="bloc_information_generale">
                     <div class="bandeau_form">Informations générales</div>
-                    <div class="input_container">
+                    <div class="input_container input_lg">
                         <label for="physique">Personne Physique</label>
                         <ng-select2 [data]="dataPhysique | async"
                                     [options]="optionsPhysique"
-                                    [width]="273"
                                     [className]="'typeSelect'"
                                     [value]="valuePhysique"
                                     id="physique"
@@ -25,12 +24,11 @@
                                     [disabled]="disabledPhysique"
                         ></ng-select2>
                     </div>
-                    <div class="input_container">
+                    <div class="input_container input_lg">
                         <label for="morale">Personne Morale</label>
                         <div [ngClass]="{'background_alert_required': !form.controls.morale.value}">
                             <ng-select2 [data]="dataMorale | async"
                                         [options]="optionsMorale"
-                                        [width]="273"
                                         [className]="'typeSelect'"
                                         [value]="valueMorale"
                                         id="morale"
@@ -42,13 +40,15 @@
                     </div>
                     <div class="input_container">
                         <label>Fonction</label>
-                        <div [ngClass]="{'background_alert_required': !form.controls.fonction.value}">
+                        <div [ngClass]="{'background_alert_required': !form.controls.fonction.value}"
+                             class="input_lg"
+                        >
                             <app-fonction-personne-select2
-                                    id="fonction_personnalisee"
-                                    [form]="form"
-                                    [id]="'fonction_personnalisee'"
-                                    [multiple]="false"
-                                    (changed)="onChangedSelect2($event, 'fonction')"
+                                id="fonction_personnalisee"
+                                [form]="form"
+                                [id]="'fonction_personnalisee'"
+                                [multiple]="false"
+                                (changed)="onChangedSelect2($event, 'fonction')"
                             >
                             </app-fonction-personne-select2>
                         </div>

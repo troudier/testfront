@@ -1,11 +1,9 @@
-<div [ngClass]="{'background_alert_required': !form.controls.statut.value}">
-    <ng-select2 [data]="data | async"
-                [options]="options"
-                [className]="'typeSelect'"
-                id="{{id}}"
-                [disabled]="disabled"
-                [value]="value"
-                (valueChanged)="valueChanged($event)"
-    ></ng-select2>
-</div>
+<ng-select2 [data]="data | async"
+            [options]="options"
+            [className]="'typeSelect'"
+            id="{{id}}"
+            [disabled]="disabled"
+            [value]="value"
+            (valueChanged)="valueChanged($event)"
+></ng-select2>
 

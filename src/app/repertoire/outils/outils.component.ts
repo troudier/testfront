@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Select2OptionData} from 'ng-select2';
 import { Options } from 'select2';
-import * as jquery from 'jquery';
 import {
   faListUl,
   faFilter,

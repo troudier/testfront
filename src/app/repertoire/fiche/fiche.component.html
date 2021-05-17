@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="fiche_bloc2">
-            <div class="content_select2" *ngIf="personne">
+            <div class="content_select2 input_lg" *ngIf="personne">
                 <app-tags-select2 [personne]="personne" [disabled]="disabled" [persist]="true"></app-tags-select2>
             </div>
             <app-memos [personne]="personne" [disabled]="disabled" [persist]="true"></app-memos>

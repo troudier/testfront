@@ -1,7 +1,6 @@
-<div [formGroup]="form">
+<div [formGroup]="form" class="input_lg">
     <ng-select2 [data]="data | async"
                 [options]="options"
-                [width]="273"
                 [value]="referent"
                 formControlName="{{id}}"
                 [className]="'typeSelect'"
