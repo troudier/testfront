@@ -134,7 +134,7 @@ stages:
     - task: ArchiveFiles@1
       displayName: Archive files
       inputs:
-        rootFolder: dist/
+        rootFolder: dist/front
         includeRootFolder: false
         archiveType: zip
 
@@ -143,8 +143,6 @@ stages:
       inputs:
         PathtoPublish: $(build.artifactstagingdirectory)
         artifactName: $(build.Repository.Name)-Build
-  
-    - script: echo Hi!
       
   - job: DockerPackage
     steps:
