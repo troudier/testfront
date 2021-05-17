@@ -84,10 +84,6 @@ stages:
       - script: ls -la coverage
         displayName: 'show dir'
         condition: succeededOrFailed() 
-        
-      - script: ls -la coverage/front
-        displayName: 'show dir'
-        condition: succeededOrFailed()  
           
       - task: PublishTestResults@2
         condition: succeededOrFailed()
