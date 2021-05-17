@@ -109,7 +109,7 @@ stages:
 
 - stage: Package
   dependsOn: QA
-  condition: and(succeeded(), eq(variables.hasDeploy, true))
+  condition: and(succeededOrFailed(), eq(variables.hasDeploy, true))
   jobs:
   
   
@@ -127,6 +127,9 @@ stages:
       
     - script: npm run build --prod
       displayName: 'run build'  
+    
+    - script: ls -la
+      displayName: 'show dir' 
       
     - task: ArchiveFiles@1
       displayName: Archive files
