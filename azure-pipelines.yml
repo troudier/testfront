@@ -76,7 +76,7 @@ stages:
         
       - script: cat package.json
         displayName: 'show packages'  
-      - script: cat package.lock
+      - script: cat package-lock.lock
         displayName: 'show packages' 
         
       - script: npm run build
