@@ -76,14 +76,6 @@ stages:
           
       - script: npm run test-ci
         displayName: 'run Karma'
-      
-      - script: ls -la 
-        displayName: 'show dir'
-        condition: succeededOrFailed() 
-      
-      - script: ls -la coverage
-        displayName: 'show dir'
-        condition: succeededOrFailed() 
           
       - task: PublishTestResults@2
         condition: succeededOrFailed()
@@ -101,19 +93,19 @@ stages:
   - job: notify
     dependsOn: []
     condition: succeededOrFailed()
-    steps:
-    - task: EmailReport@1
-      inputs:
-        sendMailConditionConfig: 'Always'
-        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
-        defaultDomain: 'microsoft.com'
-        includeResultsStr: '1, 2'
-        groupTestResultsBy: 'run'
-        includeCommits: true
-        maxTestFailuresToShow: '15'
-        includeOthersInTotal: false
-        usePreviousEnvironment: false
-        smtpConnectionEndpoint: 'smtpforci'
+    steps: []
+#    - task: EmailReport@1
+#      inputs:
+#        sendMailConditionConfig: 'Always'
+#        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
+#        defaultDomain: 'microsoft.com'
+#        includeResultsStr: '1, 2'
+#        groupTestResultsBy: 'run'
+#        includeCommits: true
+#        maxTestFailuresToShow: '15'
+#        includeOthersInTotal: false
+#        usePreviousEnvironment: false
+#        smtpConnectionEndpoint: 'smtpforci'
 
 - stage: Package
   dependsOn: QA
@@ -132,7 +124,10 @@ stages:
           node_modules
         path: $(NODE_MODULES_DIR)
       displayName: Cache node modules
-    
+      
+    - script: npm run build --prod
+      displayName: 'run build'  
+      
     - task: ArchiveFiles@1
       displayName: Archive files
       inputs:
@@ -237,19 +232,19 @@ stages:
   - job: notify
     dependsOn: []
     condition: succeededOrFailed()
-    steps:
-    - task: EmailReport@1
-      inputs:
-        sendMailConditionConfig: 'Always'
-        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
-        defaultDomain: 'microsoft.com'
-        includeResultsStr: '1, 2'
-        groupTestResultsBy: 'run'
-        includeCommits: true
-        maxTestFailuresToShow: '15'
-        includeOthersInTotal: false
-        usePreviousEnvironment: false
-        smtpConnectionEndpoint: 'smtpforci'
+    steps: []
+#    - task: EmailReport@1
+#      inputs:
+#        sendMailConditionConfig: 'Always'
+#        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
+#        defaultDomain: 'microsoft.com'
+#        includeResultsStr: '1, 2'
+#        groupTestResultsBy: 'run'
+#        includeCommits: true
+#        maxTestFailuresToShow: '15'
+#        includeOthersInTotal: false
+#        usePreviousEnvironment: false
+#        smtpConnectionEndpoint: 'smtpforci'
   
   
        
