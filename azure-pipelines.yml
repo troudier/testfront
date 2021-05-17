@@ -72,7 +72,7 @@ stages:
         displayName: 'npm ci' 
           
       - script: run Karma
-        displayName: 'npm run test-ci'      
+        displayName: 'npm run-script test-ci'      
 
 
   - job: notify
