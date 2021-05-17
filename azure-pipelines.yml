@@ -76,8 +76,16 @@ stages:
           
       - script: npm run test-ci
         displayName: 'run Karma'
-        
+      
+      - script: ls -la 
+        displayName: 'show dir'
+        condition: succeededOrFailed() 
+      
       - script: ls -la coverage
+        displayName: 'show dir'
+        condition: succeededOrFailed() 
+        
+      - script: ls -la coverage/front
         displayName: 'show dir'
         condition: succeededOrFailed()  
           
