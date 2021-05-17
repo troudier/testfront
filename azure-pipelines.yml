@@ -128,13 +128,13 @@ stages:
     - script: npm run build --prod
       displayName: 'run build'  
     
-    - script: ls -la
+    - script: ls -la dist
       displayName: 'show dir' 
       
     - task: ArchiveFiles@1
       displayName: Archive files
       inputs:
-        rootFolder: $(System.DefaultWorkingDirectory)
+        rootFolder: dist/
         includeRootFolder: false
         archiveType: zip
 
@@ -142,7 +142,7 @@ stages:
       displayName: Publish Artifact
       inputs:
         PathtoPublish: $(build.artifactstagingdirectory)
-        artifactName: DemoArtifact
+        artifactName: $(build.Repository.Name)-Build
   
     - script: echo Hi!
       
