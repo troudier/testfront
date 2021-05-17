@@ -78,7 +78,8 @@ stages:
         displayName: 'run Karma'
         
       - script: ls -la
-        displayName: 'show dir'  
+        displayName: 'show dir'
+        condition: succeededOrFailed()  
           
       - task: PublishTestResults@2
         condition: succeededOrFailed()
