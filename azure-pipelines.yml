@@ -85,7 +85,7 @@ stages:
         condition: succeededOrFailed()
         inputs:
           testRunner: JUnit
-          testResultsFiles: '**/TEST-RESULTS.xml'
+          testResultsFiles: '**/TEST-*.xml'
 
   - job: notify
     dependsOn: []
