@@ -56,7 +56,9 @@ stages:
         
 - stage: QA
   jobs:
-  - task: Cache@2
+  - job: "Karma"
+    steps:
+      - task: Cache@2
         inputs:
           key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"'
           restoreKeys: |
@@ -66,7 +68,7 @@ stages:
           path: $(NODE_MODULES_DIR)
         displayName: Cache node modules
           
-      - script: Karma
+      - script: run Karma
         displayName: 'npm run test-ci'      
 
 
