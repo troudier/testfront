@@ -23,7 +23,7 @@ pool:
 stages:
 - stage: Prepare
   jobs:
-  - job: "ComposerInstall"
+  - job: "NpmInstall"
 #    pool:
 #      vmImage: 'Ubuntu 16.04'
     steps:
@@ -60,7 +60,7 @@ stages:
 
 
   - job: notify
-    dependsOn: [Phpmd,Phploc, PhpUnit]
+    dependsOn: []
     condition: succeededOrFailed()
     steps:
     - task: EmailReport@1
@@ -195,7 +195,22 @@ stages:
   dependsOn: [QA]
   condition: eq(variables.hasDeploy, true)  
   jobs:
-  
+  - job: notify
+    dependsOn: []
+    condition: succeededOrFailed()
+    steps:
+    - task: EmailReport@1
+      inputs:
+        sendMailConditionConfig: 'Always'
+        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
+        defaultDomain: 'microsoft.com'
+        includeResultsStr: '1, 2'
+        groupTestResultsBy: 'run'
+        includeCommits: true
+        maxTestFailuresToShow: '15'
+        includeOthersInTotal: false
+        usePreviousEnvironment: false
+        smtpConnectionEndpoint: 'smtpforci'
   
   
        
