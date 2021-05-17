@@ -1,0 +1,26 @@
+<div class="nav-item {{faIconName.iconName}} {{className}}"
+     routerLink="{{route}}"
+     [ngClass]="  {
+                  'selected': router.url.startsWith(route)
+                 }"
+
+>
+  <ng-template [ngIf]="route" [ngIfElse]="nolink">
+    <a>
+      <fa-icon
+        [icon]="faIconName"
+        [classes]="['menu_' + faIconName.iconName]"
+        size="lg"
+      >
+      </fa-icon>
+    </a>
+  </ng-template>
+  <ng-template #nolink>
+    <fa-icon
+      [icon]="faIconName"
+      [classes]="['menu_' + faIconName.iconName]"
+      size="lg"
+    >
+    </fa-icon>
+  </ng-template>
+</div>

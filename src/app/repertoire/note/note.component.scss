@@ -1,0 +1,13 @@
+.note {
+    display: flex;
+    width: 15%;
+}
+
+.icon_note {
+    display: inline-flex;
+    margin-right: -5px;
+}
+
+.icon_note_on:before {
+    opacity: 100%;
+}

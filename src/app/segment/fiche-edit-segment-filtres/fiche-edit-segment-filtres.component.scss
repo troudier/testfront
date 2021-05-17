@@ -1,0 +1,49 @@
+.deprecie {
+    color: var(--alert);
+    font-weight: bold;
+}
+
+.form_group .delete_filtre_segment {
+    width: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.action_filtre_segment {
+    margin-top: 30px;
+    display: flex;
+    
+    button {
+        margin-right: 10px;
+    }
+}
+
+.label_form_group {
+    margin-bottom: -10px;
+    margin-top: 10px;
+}
+
+.edit_segment {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
+
+.edit_segment .nb_contact_dynamique {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 2;
+    
+    .nb_contact_chiffre {
+        margin-top: 32px;
+        color: var(--segments);
+        font-size: 22px;
+    }
+}
+
+::ng-deep .input_container {
+    position: relative;
+}

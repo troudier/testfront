@@ -1,0 +1,94 @@
+
+.carte {
+  border-radius: 0.1rem;
+  box-shadow: 4px 4px 4px var(--ombre);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: white;
+  padding-bottom: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.carte:hover {
+  box-shadow: 5px 5px 5px 4px var(--ombre);
+}
+
+.carte_content {
+  background-color: var(--blanc);
+  font: normal normal var(--main-font-weight-semibold) 11px/27px var(--main-font-family);
+  padding-bottom: 0;
+  position: relative;
+  height: 160px;
+}
+
+.carte_sous_titre {
+  display: grid;
+}
+
+.carte_sous_titre div {
+  float: left;
+  margin-right: 5px;
+  padding: 0 5px;
+}
+
+.carte_texte {
+  padding: 5px 15px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0;
+  clear: both;
+  min-height: 48px;
+}
+
+.carte_clear {
+  clear: both;
+}
+
+.carte_alerte {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.carte_alerte fa-icon {
+  margin-right: 5px;
+}
+
+::ng-deep .carte .carte_avatar {
+  height: 80px;
+  width: 80px;
+  margin: 0 auto;
+  position: relative;
+  right: 10px;
+  float: right;
+  bottom: 110px;
+}
+
+::ng-deep .carte .carte_avatar_inner {
+  position: relative;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+::ng-deep .carte .cercle_lg {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+::ng-deep .carte .carte_avatar.morale.small {
+  position: relative;
+  float: right;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.select2-selection.select2-selection--multiple {
+  display: flex;
+  margin-bottom: 7px;
+  height: 36px;
+}

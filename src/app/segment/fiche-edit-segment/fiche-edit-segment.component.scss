@@ -1,0 +1,56 @@
+.bandeau_segment {
+    background-color: var(--segments);
+}
+
+.input_container {
+    padding: 0 30px 25px 30px;
+    
+    button {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+    }
+}
+
+.form_group .action_filtre_segment {
+    width: inherit;
+}
+
+.nb_contact_span {
+    margin-right: 53px;
+    position: absolute;
+    right: 28px;
+}
+
+#trapeze {
+    height: 65%;
+    background: var(--fond-de-page);
+    transform: perspective(8px) rotateX(-1deg);
+    width: 85px;
+    position: absolute;
+    right: 83px;
+    bottom: 50px;
+    z-index: 1;
+}
+
+::ng-deep .espace_input {
+    margin-right: 15px;
+}
+
+// select 2 filtre segments
+::ng-deep .edit_segment .form_segment .edit_segment .select2.select2-container.select2-container--default{
+    width: 100%;
+    max-width: 275px;
+}
+
+::ng-deep .edit_segment .select2-container .select2-selection--multiple .select2-selection__rendered {
+    display: inline !important;
+}
+
+::ng-deep .edit_segment .select2-container--default .select2-selection--multiple li.select2-selection__choice:first-child {
+    margin-left: 5px;
+}
+
+::ng-deep .edit_segment .select2-selection__choice {
+    display: inline-flex !important;
+}

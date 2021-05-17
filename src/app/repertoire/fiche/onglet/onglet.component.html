@@ -1,0 +1,11 @@
+<div class="container_onglet">
+  <div *ngFor="let onglet of data" (click)="changeOnglet(onglet.uuid)" class="div_onglet" [ngClass]="{'active': active === onglet.uuid}">
+    <span *ngIf="onglet.type === 'physique'" id="{{onglet.uuid}}" class="onglet {{onglet.type}}" [ngClass]="{'active': active === onglet.uuid}">
+      {{onglet.prenom}} {{onglet.nom}}
+    </span>
+    <span *ngIf="onglet.type === 'lien'" id="{{onglet.uuid}}" class="onglet {{onglet.type}}" [ngClass]="{'active': active === onglet.uuid}">
+      {{onglet.fonctionLibelle}} ({{onglet.raisonSociale}})
+    </span>
+  </div>
+  <button class="btn btn-sm btn-ajouter" (click)="addFonction(active)">Ajouter une fonction</button>
+</div>

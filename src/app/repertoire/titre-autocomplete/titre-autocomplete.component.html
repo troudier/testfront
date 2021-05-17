@@ -1,0 +1,22 @@
+<label for="titre">Titre</label>
+<div id="titre" class="ng-autocomplete">
+  <ng-autocomplete
+    id="ng-autocomplete"
+    [data]="data"
+    [searchKeyword]="keyword"
+    [initialValue]="titre"
+    (selected)='selectEvent($event)'
+    (inputChanged)='onChangeSearch($event)'
+    (inputFocused)='onFocused($event)'
+    [itemTemplate]="itemTemplate"
+    [notFoundTemplate]="notFoundTemplate">
+  </ng-autocomplete>
+
+  <ng-template #itemTemplate let-item>
+    <a [innerHTML]="item.name"></a>
+  </ng-template>
+
+  <ng-template #notFoundTemplate let-notFound>
+    <div [innerHTML]="notFound"></div>
+  </ng-template>
+</div>

@@ -1,0 +1,30 @@
+app-menu {
+    width: 100%;
+}
+
+.volet_parametre {
+    height: calc(100% - 50px);
+    width: 0;
+    float: right;
+    border-left: solid 5px var(--fond-de-page);
+    -webkit-box-shadow: -12px 0px 40px 0px rgba(0, 0, 0, 0.41);
+    -moz-box-shadow: -12px 0px 40px 0px rgba(0, 0, 0, 0.41);
+    box-shadow: -12px 0px 40px 0px rgba(0, 0, 0, 0.41);
+    position: absolute;
+    right: -5px;
+    background-color: var(--gris-fonce);
+    z-index: 5;
+    transition: all 200ms;
+    -webkit-transition: all 200ms;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.volet_parametre.ouvert {
+    width: 278px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}

@@ -1,0 +1,40 @@
+<div id="menu">
+    <div class="block_menu_gauche">
+        <app-navigation-item [faIconName]=faHome [route]="'/home'" class="navigation_item"></app-navigation-item>
+        <app-navigation-item [faIconName]=faAddressCard  [route]="'/repertoire'" class="navigation_item"></app-navigation-item>
+        <app-navigation-item [faIconName]=faFilter  [route]="'/segment'" class="navigation_item"></app-navigation-item>
+        <app-navigation-item [faIconName]=faEnvelope [route]="'/campagne'" class="navigation_item"></app-navigation-item>
+        <app-navigation-item [faIconName]=faFileSignature  [route]="'/offre'" class="navigation_item"></app-navigation-item>
+        <app-navigation-item [faIconName]=faChartLine  [route]="'/statistique'" class="navigation_item"></app-navigation-item>
+    </div>
+    <div class="block_menu_centre" #list >
+        <div class="container_last_item">
+            <div *ngFor="let item of lastItems | keyvalue "
+                 (click)="onClickUpsellLastEntities(item.value.uuid, list)"
+                 class="onglet_last_item {{item.value.type}}"
+                 [ngClass]="{
+                    'active' : router.url.endsWith(item.value.uuid)
+                 }"
+            >
+                <span [ngSwitch]="item.value.type">
+                    <span *ngSwitchCase="'physique'" class="icon user"></span>
+                    <span *ngSwitchCase="'morale'" class="icon building"></span>
+                    <span *ngSwitchCase="'lien'" class="icon building"></span>
+                </span>
+                <span class="text_onglet_item">{{item.value.libelle}}</span>
+                <span class="icon close" (click)="upsellLastEntity.supprimerItem(item.value.uuid)"></span>
+            </div>
+        </div>
+    </div>
+    <div class="container_fleche">
+        <div class="icon fleche fleche_gauche" (click)="upsellLastEntity.scrollLeft(list)"></div>
+        <div class="icon fleche fleche_droite" (click)="upsellLastEntity.scrollRight(list)"></div>
+    </div>
+    <div class="block_menu_droite">
+        <app-navigation-item [faIconName]=faExclamationCircle class="navigation_item"></app-navigation-item>
+        <app-navigation-item [faIconName]=faBell class="navigation_item"></app-navigation-item>
+        <button class="btn btn-picto-lg bouton_volet" (click)="actionVolet()">
+            {{personneConnecte.prenom.substring(0, 1) | uppercase}}{{personneConnecte.nom.substring(0, 1) | uppercase}}
+        </button>
+    </div>
+</div>

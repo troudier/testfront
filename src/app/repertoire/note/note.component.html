@@ -1,0 +1,6 @@
+<div class="note">
+    <div *ngFor="let star of stars">
+        <div [ngClass]="{'icon_note_on': star <= qualite}" class="icon_note"
+             (click)="changeQualite(star)"></div>
+    </div>
+</div>

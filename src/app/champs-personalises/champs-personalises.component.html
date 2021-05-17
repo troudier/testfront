@@ -1,0 +1,90 @@
+<div *ngIf="chargementComplet">
+    <div [formGroup]="form" *ngFor="let champ of listeChampsVisibles" class="form_group select2_sans_majuscule">
+        <div class="custom_title espace_input select2_sans_badge">
+            <ng-select2 [data]="data | async"
+                        [options]="options"
+                        [value]="champ.uuid"
+                        [className]="'typeSelect'"
+                        placeholder=""
+                        id="{{champ.uuid}}"
+                        (valueChanged)="onChampChange($event, champ.uuid)"
+                        [disabled]="champ.requis"
+            ></ng-select2>
+        </div>
+        <div class="custom_data espace_input" [ngSwitch]="champ.type">
+            <div *ngSwitchCase="'telephone'">
+                <input
+                        type="tel"
+                        formControlName="{{champ.uuid}}"
+                        (change)="onChange($event, champ.uuid)"
+                />
+            </div>
+            <div *ngSwitchCase="'mail'">
+                <input
+                        type="email"
+                        formControlName="{{champ.uuid}}"
+                        value=""
+                        (change)="onChange($event, champ.uuid)"
+                        [placeholder]=""
+                />
+            </div>
+            <div *ngSwitchCase="'textarea'">
+                <textarea
+                        formControlName="{{champ.uuid}}"
+                        (change)="onChange($event, champ.uuid)"
+                ></textarea>
+            </div>
+            <div *ngSwitchCase="'text'">
+                <input
+                        type="text"
+                        formControlName="{{champ.uuid}}"
+                        (change)="onChange($event, champ.uuid)"
+                />
+            </div>
+            <div *ngSwitchCase="'date'">
+                <input
+                        type="date"
+                        formControlName="{{champ.uuid}}"
+                        (change)="onChange($event, champ.uuid)"
+                />
+            </div>
+            <div *ngSwitchCase="'select'" class="select2_sans_badge">
+                <ng-select2
+                        [data]="champ.valeurs"
+                        [options]="options"
+                        formControlName="{{champ.uuid}}"
+                        (valueChanged)="onValueChange($event, champ.uuid)"
+                >
+                </ng-select2>
+            </div>
+            <div formArrayName="{{champ.uuid}}" *ngSwitchCase="'checkbox'" class="container_checkbox">
+                <div *ngFor="let valeur of champ.valeurs; let i = index;" [formGroupName]="i">
+                    <input type="checkbox"
+                           name="{{valeur.id}}"
+                           class="icon"
+                           (change)="onChangeCheckBox($event, champ.uuid, valeur.id)"
+                           formControlName="{{valeur.id}}"
+                    >
+                    <label for="{{valeur.id}}">{{valeur.text}}</label>
+                </div>
+            </div>
+            <div *ngSwitchCase="'radio'" class="container_radio">
+                <div *ngFor="let valeur of champ.valeurs;">
+                    <input type="radio"
+                           id="{{valeur.id}}"
+                           name="{{champ.uuid}}"
+                           value="{{valeur.id}}"
+                           (change)="onChange($event, champ.uuid)"
+                           formControlName="{{champ.uuid}}">
+                    <label for="{{valeur.id}}">{{valeur.text}}</label>
+                </div>
+            </div>
+            <p *ngSwitchDefault>
+            </p>
+        </div>
+        <button class="btn btn-picto-lg btn-supprimer" (click)="onSupprimer(champ.uuid)"></button>
+    </div>
+    <div class="action_bloc">
+        <button class="btn btn-med btn-ajouter" (click)="ajouterChamp()"><span>Ajouter</span></button>
+    </div>
+</div>

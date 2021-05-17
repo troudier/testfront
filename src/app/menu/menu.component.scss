@@ -1,0 +1,136 @@
+#menu {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.block_menu_gauche {
+    display: flex;
+    flex: 1;
+}
+
+.block_menu_centre {
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+
+.block_menu_centre::-webkit-scrollbar {
+    display: none;  // Safari and Chrome
+}
+
+.block_menu_centre {
+    display: flex;
+    align-items: center;
+    flex: 3;
+    width: 1px;
+    overflow-x: auto;
+    direction: rtl;
+    
+    
+    .container_last_item {
+        display: flex;
+        height: 29px;
+        direction: ltr;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .container_last_item .onglet_last_item {
+        margin-right: 10px;
+        margin-left: 10px;
+        white-space: nowrap;
+        display: flex;
+
+        .icon.user {
+            color: var(--repertoire-et-pp);
+        }
+        
+        .icon.building {
+            color: var(--repertoire-pm);
+        }
+        
+        .icon.close {
+            font-size: 15px;
+            margin-left: 15px;
+            opacity: 0.5;
+        }
+        
+        .icon.close:hover {
+            opacity: 1;
+        }
+    }
+    
+    // onglet last items
+    .container_last_item .onglet_last_item {
+        cursor: pointer;
+    }
+    // physique
+    .container_last_item .onglet_last_item.physique.active {
+        border-bottom: 4px solid var(--repertoire-et-pp);
+    }
+    
+    .container_last_item .onglet_last_item.physique:hover {
+        border-bottom: 4px solid var(--repertoire-et-pp);
+    }
+    //morale et fonction
+    .container_last_item .onglet_last_item.morale.active, .onglet_last_item.lien.active {
+        border-bottom: 4px solid var(--repertoire-pm);
+    }
+    
+    .container_last_item .onglet_last_item.morale:hover, .onglet_last_item.lien:hover {
+        border-bottom: 4px solid var(--repertoire-pm);
+    }
+    
+}
+
+.container_fleche {
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    width: 50px;
+    margin-left: 30px;
+    
+    .icon.fleche {
+        opacity: 0.5;
+        cursor: pointer;
+    }
+    
+    .icon.fleche:hover {
+        opacity: 1;
+    }
+}
+
+.block_menu_droite {
+    display: flex;
+    padding-right: 20px;
+    flex: 1;
+    justify-content: flex-end;
+    background-color: #2b3436;
+    z-index: 1;
+    
+}
+
+
+#logout {
+    float: left;
+    color: white;
+}
+
+#logout a {
+    float: right;
+    position: relative;
+    color: white;
+    top: 20px;
+    margin-left: 200px;
+}
+
+.bouton_volet {
+    width: 40px;
+    height: 40px;
+    background-color: var(--gris-clair-2);
+    color: var(--repertoire-pm);
+    font-weight: 800;
+}
+
+.navigation_item {
+    margin-right: 10px;
+}

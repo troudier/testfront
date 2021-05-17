@@ -1,0 +1,153 @@
+::ng-deep .form_modifier .container_form .select2-container {
+    margin: auto;
+    width: 100% !important;
+}
+
+.carte_alerte p {
+    font: normal normal var(--main-font-weight-semibold) 14px/27px var(--main-font-family);
+}
+
+::ng-deep .form_personne.form_modifier app-memos .bandeau_fiche {
+    background-color: transparent;
+    text-align: inherit;
+    margin: inherit;
+    justify-content: flex-end;
+
+    span.identite_personne_memo {
+        display: flex;
+        order: 1;
+    }
+
+    span.date_memo {
+        display: flex;
+        order: 2;
+        margin-left: 10px;
+    }
+}
+
+// memo personne lien
+.info_commerciales_personne_lien {
+
+    ::ng-deep .bandeau_fiche {
+        background-color: var(--fond-de-page);
+        padding: 0 10px;
+        margin: 10px auto 5px auto;
+        height: 24px;
+        display: flex;
+        align-items: center;
+    }
+
+    ::ng-deep .memo_fiche {
+        color: var(--gris-foncé);
+        font: normal normal var(--main-font-weight-semibold) 14px/27px var(--main-font-family);
+    }
+}
+
+::ng-deep .form_personne.form_modifier app-memos .donnee_memo {
+    display: flex;
+    flex-direction: row-reverse;
+    place-content: space-between;
+    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+}
+
+::ng-deep .form_personne.form_modifier app-memos .donnee_memo:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+::ng-deep .form_personne.form_modifier app-memos .container_memo {
+    border: 1px solid #C3C3C3;
+    border-top: none;
+    padding: 20px;
+}
+
+::ng-deep .form_personne.form_modifier .container_qualite_relation app-note {
+    position: relative;
+    top: 20%;
+}
+
+.form_gauche {
+
+    .bloc_identite .input_container{
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        padding: 0 30px 25px 0;
+
+        .form_group.bloc_avatar {
+            display: block;
+        }
+    }
+
+    .bloc_info_commerciales .input_container, .bloc_champs_personalises .input_container {
+        padding: 0 30px 25px 30px;
+    }
+
+    .identite .input_container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+
+    // container avatar
+    .identite .input_container > .form_group {
+        flex-direction: column;
+    }
+}
+
+::ng-deep .coordonnees .action_bloc, ::ng-deep .adresses .action_bloc {
+    margin-left: 30px;
+    padding-bottom: 25px;
+}
+
+::ng-deep .action_bloc {
+    margin-top: 25px;
+}
+
+::ng-deep .input_container .form_group .carte_avatar {
+    width: 146px;
+    height: 146px;
+    justify-content: center;
+    font: normal normal var(--main-font-weight-semibold) 11px/27px var(--main-font-family);
+
+    .carte_avatar_inner.cercle_lg {
+        font-size: 60px;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .carte_avatar.morale.small {
+        height: 63px;
+        width: 63px;
+        font-size: 30px;
+        position: relative;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        top: 50px !important;
+        left: 50px;
+    }
+}
+
+// bouton container avatar
+.formulaire .container_form .input_container .form_group .container_bouton_edition {
+    display: flex;
+    justify-content: center;
+    grid-gap: 15px;
+}
+
+::ng-deep .form_modifier .formulaire .input_memo button {
+    display: none;
+}
+
+::ng-deep .info_commerciales_select2_sans_border .select2-selection {
+    border: none !important;
+    margin-left: -10px;
+    cursor: default;
+}
+
+::ng-deep .info_commerciales_select2_sans_border .select2-selection:focus {
+    border: none !important;
+}
+
+::ng-deep .info_commerciales_select2_sans_border .select2-selection:after {
+    display: none;
+}

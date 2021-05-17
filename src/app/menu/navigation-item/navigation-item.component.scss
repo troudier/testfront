@@ -1,0 +1,44 @@
+.nav-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  top: 5px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.home.selected, .home:hover {
+  background-color: var(--bleu-azko);
+}
+
+.address-card.selected, .address-card:hover {
+  background-color: var(--repertoire-et-pp);
+}
+
+.filter.selected, .filter:hover {
+  background-color: var(--segments);
+}
+
+.envelope.selected, .envelope:hover {
+  background-color: var(--campagnes);
+}
+
+.file-signature.selected, .file-signature:hover {
+  background-color: var(--offres);
+}
+
+.chart-line.selected, .chart-line:hover {
+  background-color: var(--stats);
+}
+
+.nav-item.menu-home {
+}
+
+.nav-item fa-icon {
+  height: 50%;
+  width: 50%;
+  color: white;
+  position: relative;
+  top: 09px;
+}

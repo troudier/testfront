@@ -1,0 +1,124 @@
+<div class="fiche segment" *ngIf="segment">
+    <div class="fiche_gauche">
+        <div class="fiche_bloc1">
+            <div class="carte_titre bandeau_personne bandeau_segment icon user">
+                {{segment.titre}}
+            </div>
+            <div class="carte_information">
+                <div class="information">
+                    <div class="container_information" *ngFor="let filtre of segment.filtres |keyvalue">
+                        <span class="libelle_champ">{{filtre.value.champ.libelle}}</span>
+                        <p class="valeur_champ">
+                            {{filtre.value.operateur.libelle}} :
+                            <span *ngFor="let valeur of filtre.value.valeurs; index as i ">
+                                <span *ngIf="i === 0">
+                                    <span
+                                        *ngIf="isInstanceOf(valeur[0]) === 'string' && isInstanceOf(valeur) !== 'object'">
+                                          "{{valeur}}"
+                                    </span>
+                                    <span
+                                        *ngIf="isInstanceOf(valeur) === 'object' && isInstanceOf(valeur[0]) !== 'object'">
+                                        <span *ngFor="let item of valeur | keyvalue">
+                                            <span *ngIf="item.key != 0">
+                                            ,
+                                            </span>
+                                            "{{item.value}}"
+                                        </span>
+                                    </span>
+                                    <span
+                                        *ngIf="isInstanceOf(valeur[0]) === 'object' && isInstanceOf(valeur) === 'object'">
+                                        <span *ngFor="let item of valeur | keyvalue">
+                                            <span *ngFor="let val of item.value  | keyvalue; index as j">
+                                                <span *ngIf="j === 0">
+                                                    "{{val.value}}"
+                                                </span>
+                                                <span *ngIf="j !== 0">
+                                                    et  "{{val.value}}"
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                                <span *ngIf="i !== 0">
+                                    <span *ngIf="isInstanceOf(valeur[0]) === 'string'">
+                                    , "{{valeur}}"
+                                    </span>
+                                    <span *ngIf="isInstanceOf(valeur[0]) === 'object'">
+                                        <span *ngFor="let item of valeur | keyvalue">
+                                            <span *ngFor="let val of item.value  | keyvalue; index as j">
+                                                <span *ngIf="j === 0">
+                                                    , "{{val.value}}"
+                                                </span>
+                                                <span *ngIf="j !== 0">
+                                                    et  "{{val.value}}"
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="btn_border_white">
+                    <button class="btn btn-picto-lg btn-editer" (click)="toModifier(segment.uuid)"></button>
+                </div>
+            </div>
+        </div>
+        <div class="fiche_bloc2">
+        </div>
+        <div class="fiche_bloc3">
+            <div class="status_personne">
+                <div class="bloc_actif" *ngIf="segment.actif">
+                    <i class="icon actif"></i>
+                    <span>Actif</span>
+                </div>
+            </div>
+            <div class="date_creation_fiche">
+                <p>Crée le {{segment.creationDate | date:'dd/MM/YYYY'}}
+                    par {{segment.creationUser.prenom}} {{segment.creationUser.nom}}</p>
+                <p>Modifié le {{segment.modificationDate | date:'dd/MM/YYYY'}}
+                    par {{segment.modificationUser.prenom}} {{segment.modificationUser.nom}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="fiche_droite" *ngIf="resultats">
+        <div class="onglet segment">
+            <div class="onglet icon list">Résultat</div>
+        </div>
+        <div class="carte_information">
+            <div class="container_information">
+                <div class="info_fiche_segment">
+                    <p>Dernière exécution : {{segment.derniereDate | date : 'dd/MM/YYYY'  }}</p>
+                    <p>{{nbResultats.public}} + {{nbResultats.prive}} contacts trouvés</p>
+                </div>
+            </div>
+            <div class="container_action">
+                <div class="action_fiche_segment">
+                    <button class="btn btn-med btn-actualiser" (click)="actualiser(segment.uuid)">
+                        <span>Actualiser</span></button>
+                    <button class="btn btn-med btn-exporter"><span>Exporter</span></button>
+                    <button class="btn btn_add_segement btn-med btn-ajouter"><span>Créer une campagne</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="information">
+            <div *ngFor="let res of resultats">
+                <div class="contacts_find icon {{res.type}}"
+                     [ngClass]="{
+                        'user': res.type === 'physique',
+                        'building': res.type === 'morale'
+                     }"
+                >
+                    <span class="libelle_contact">
+                        {{res.libelle}}
+                    </span>
+                    <span class="libelle_email">
+                        {{res.email}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

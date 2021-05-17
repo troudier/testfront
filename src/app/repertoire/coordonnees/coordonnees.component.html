@@ -1,0 +1,117 @@
+<div class="coordonnees" *ngIf="coordonnees">
+    <div class="container_coordonnee" *ngIf="coordonnees.emails">
+        <div class="border_icon_coordonnee icon mail"></div>
+        <div class="data_coordonnee">
+            <div *ngFor="let email of coordonnees.emails" class="form_group">
+                <input
+                        name="'email'"
+                        (change)="onChangeRadio(email.uuid, 'emails')"
+                        type="radio"
+                        [checked]="email.principal"
+                />
+                <div>
+                    <span class="type_coordonnee">{{email.type}}</span>
+                    <br>
+                    <span>{{email.valeur}}</span>
+                </div>
+                <div class="container_bouton_coordonees">
+                    <button class="btn btn-picto-med btn-editer" (click)="onEditer(email, 'email')"></button>
+                    <button class="btn btn-picto-med btn-supprimer"
+                            (click)="onSupprimer(email.uuid, 'emails')"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container_coordonnee" *ngIf="coordonnees.telephones">
+        <div class="border_icon_coordonnee icon phone"></div>
+        <div class="data_coordonnee">
+            <div *ngFor="let telephone of coordonnees.telephones" class="form_group">
+                <input
+                        name="'telephone'"
+                        (change)="onChangeRadio(telephone.uuid, 'telephones')"
+                        type="radio"
+                        [checked]="telephone.principal"
+                />
+                <div>
+                    <span class="type_coordonnee">{{telephone.type}}</span>
+                    <br>
+                    <span *ngIf="telephone.indicatif">{{telephone.indicatif.valeur}}</span>
+                    <span>{{telephone.valeur}}</span>
+                </div>
+                <div class="container_bouton_coordonees">
+                    <button class="btn btn-picto-med btn-editer" (click)="onEditer(telephone, 'telephone')"></button>
+                    <button class="btn btn-picto-med btn-supprimer"
+                            (click)="onSupprimer(telephone.uuid, 'telephones')">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container_coordonnee" *ngIf="coordonnees.faxes">
+        <div class="border_icon_coordonnee icon faxe"></div>
+        <div class="data_coordonnee">
+            <div *ngFor="let fax of coordonnees.faxes" class="form_group">
+                <input
+                        name="'fax'"
+                        (change)="onChangeRadio(fax.uuid, 'faxes')"
+                        type="radio"
+                        [checked]="fax.principal"
+                />
+                <div>
+                    <span class="type_coordonnee">{{fax.type}}</span>
+                    <br>
+                    <span *ngIf="fax.indicatif">{{fax.indicatif.valeur}}</span>
+                    <span>{{fax.valeur}}</span>
+                </div>
+                <div class="container_bouton_coordonees">
+                    <button class="btn btn-picto-med btn-editer" (click)="onEditer(fax, 'fax')"></button>
+                    <button class="btn btn-picto-med btn-supprimer" (click)="onSupprimer(fax.uuid, 'faxes')"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container_coordonnee" *ngIf="coordonnees.sites">
+        <div class="border_icon_coordonnee icon site"></div>
+        <div class="data_coordonnee">
+            <div *ngFor="let site of coordonnees.sites" class="form_group">
+                <input
+                        name="'site'"
+                        (change)="onChangeRadio(site.uuid, 'sites')"
+                        type="radio"
+                        [checked]="site.principal"
+                />
+                <div>
+                    <span class="type_coordonnee">{{site.type}}</span>
+                    <br>
+                    <span>{{site.valeur}}</span>
+                </div>
+                <div class="container_bouton_coordonees">
+                    <button class="btn btn-picto-med btn-editer" (click)="onEditer(site, 'site')"></button>
+                    <button class="btn btn-picto-med btn-supprimer" (click)="onSupprimer(site.uuid, 'sites')"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="action_bloc">
+        <button class="btn btn-med btn-ajouter" (click)="openModal('addModal')">
+            <span>Ajouter une coordonnée</span>
+        </button>
+    </div>
+</div>
+<jw-modal id="editModal">
+    <div class="bandeau_form_modal">Edition des coordonnées</div>
+    <app-coordonnees-edit-modal
+            [data]="objetCourant"
+            [type]="typeCourant"
+            [idModal]="'editModal'"
+            [edit]="false"
+    ></app-coordonnees-edit-modal>
+
+</jw-modal>
+
+<jw-modal id="addModal">
+    <app-coordonnees-add-modal
+            [idModal]="'addModal'"
+            (added)="addCoordonnee($event)"
+    ></app-coordonnees-add-modal>
+</jw-modal>

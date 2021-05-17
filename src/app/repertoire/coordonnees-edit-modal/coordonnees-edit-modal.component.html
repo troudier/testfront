@@ -1,0 +1,77 @@
+<div class="edit_data" [ngSwitch]="type" *ngIf="data">
+    <label for="principalModal">Principal</label>
+    <input
+            id="principalModal"
+            name="principal"
+            type="checkbox"
+            class="icon"
+            [checked]="data.principal"
+            #principal
+    />
+    <div *ngSwitchCase="type === 'telephone' ||type === 'fax' ? type : ''">
+        <label for="modalTypeTel">Type</label>
+        <ng-select2 [data]="typesTelephones |async"
+                    [options]="options"
+                    [className]="'typeSelect'"
+                    id="modalTypeTel"
+                    [value]="data.type_id"
+                    (valueChanged)="typeChange($event)"
+                    #typeTel
+        ></ng-select2>
+        <ng-select2 [data]="indicatifData | async"
+                    [options]="options"
+                    [className]="'indicatifSelect'"
+                    [value]="data.indicatif ? data.indicatif.uuid : ''"
+                    (valueChanged)="indicatifChange($event)"
+                    id="indicatifTel"
+                    #valeurIndicatif
+        ></ng-select2>
+        <input
+                type="tel"
+                id="modalTel"
+                [value]="data.valeur"
+                #valeurTel
+        />
+
+    </div>
+    <div *ngSwitchCase="'email'">
+        <label for="modalTypeEmail">Type</label>
+        <ng-select2 [data]="typesEmails |async"
+                    [options]="options"
+                    [className]="'typeSelect'"
+                    id="modalTypeEmail"
+                    [value]="data.type_id"
+                    (valueChanged)="typeChange($event)"
+                    #typeEmail
+        ></ng-select2>
+        <input
+                type="email"
+                id="modalEmail"
+                [value]="data.valeur"
+                #valeurEmail
+        />
+    </div>
+    <div *ngSwitchCase="'site'">
+        <label for="modalTypeSite">Type</label>
+        <ng-select2 [data]="typesSites |async"
+                    [options]="options"
+                    [className]="'typeSelect'"
+                    id="modalTypeSite"
+                    [value]="data.type_id"
+                    (valueChanged)="typeChange($event)"
+                    #typeSite
+        ></ng-select2>
+        <input
+                type="text"
+                id="modalSite"
+                [value]="data.valeur"
+                #valeurSite
+        />
+    </div>
+</div>
+<div class="action_bloc_modal">
+    <button type="reset" class="btn btn-med btn-annuler" (click)="closeModal();"><span>Annuler</span></button>
+    <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmitModal(type)"><span>Valider</span></button>
+</div>
+
+

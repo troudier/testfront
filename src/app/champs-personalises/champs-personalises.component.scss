@@ -1,0 +1,27 @@
+::ng-deep app-champs-personalises .form_group {
+    display: grid;
+    grid-template-columns: 3fr 6fr 0fr;
+
+    .espace_input {
+        padding-right: 25px;
+    }
+
+    .custom_data .container_radio, .custom_data .container_checkbox {
+
+        div {
+            width: unset;
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        div label {
+            margin-left: 15px;
+        }
+    }
+
+    .custom_data textarea {
+        width: 100%;
+        height: 49px;
+    }
+}

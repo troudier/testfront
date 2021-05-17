@@ -1,0 +1,50 @@
+<div class="carte" (click)="openFiche(personne.uuid)">
+  <div class="carte_content">
+    <div class="carte_titre bandeau_personne bandeau_personne_{{personne.type}}" *ngIf="personne.pp_uuid">
+      <fa-icon
+        [icon]="faUserAlt"
+        [classes]="['menu_' + faUserAlt.iconName]"
+        size="sm"
+      >
+      </fa-icon>
+      {{ personne.prenom }} {{personne.nom | uppercase}}
+    </div>
+    <div class="carte_titre bandeau_personne bandeau_personne_{{personne.type}}" *ngIf="personne.pm_uuid && !personne.pp_uuid">
+      <fa-icon
+        [icon]="faBuilding"
+        [classes]="['menu_' + faBuilding.iconName]"
+        size="sm"
+      >
+      </fa-icon>
+      {{personne.raisonSociale |uppercase}} ({{personne.formeJuridique |uppercase}})
+    </div>
+    <div class="carte_sous_titre {{personne.type}}" *ngIf="personne.pm_uuid && personne.pp_uuid">
+      <app-fonction-sticker [statut]="personne.statut">
+      </app-fonction-sticker>
+      <p>{{personne.fonction}} <br/> {{personne.raisonSociale |uppercase}} ({{personne.formeJuridique |uppercase}})</p>
+    </div>
+    <div class="carte_sous_titre" *ngIf="!(personne.pm_uuid && personne.pp_uuid)">
+      <app-fonction-sticker [statut]="personne.statut">
+      </app-fonction-sticker>
+    </div>
+    <div class="carte_texte">
+      <p *ngIf="personne.cp">{{personne.cp}} {{personne.ville}}</p>
+      <p *ngIf="personne.mail"> {{personne.mail}}</p>
+      <p *ngIf="personne.telephone"> {{personne.telephone}}</p>
+    </div>
+    <app-avatar [personne]="personne"></app-avatar>
+    <div class="carte_alerte" *ngIf="personne.isComplete !== '1'"
+         [ngClass]="  {
+                  'lien': personne.pm_uuid && personne.pp_uuid
+                 }"
+    >
+      <fa-icon
+        [icon]="faExclamationCircle"
+        [classes]="['menu_' + faExclamationCircle.iconName]"
+        size="lg"
+      >
+      </fa-icon>
+      Fiche incomplète !
+    </div>
+  </div>
+</div>

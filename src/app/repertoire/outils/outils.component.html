@@ -1,0 +1,37 @@
+<div class="bandeau_outils">
+  <div class="bloc1" [ngClass]="{segments: type === 'segments'}">
+    <button class="btn btn-ajouter btn-med" (click) = creerPersonne() *ngIf="type === 'personnes'">
+      Ajouter une personne
+    </button>
+    <button class="btn btn-ajouter btn-med" (click) = creerSegment() *ngIf="type === 'segments'">
+      Ajouter un segment
+    </button>
+    <button class="btn btn-mode-tableau btn-picto-med" *ngIf="type === 'personnes'"></button>
+  </div>
+  <div class="bloc2">
+    <ng-select2 [data]="typeData"
+                [options]="typeOptions"
+                [(ngModel)]="typeValue"
+                [className]="'typeSelect'"
+                placeholder="Personnes"
+                (valueChanged)="valueChangedType($event)"
+                *ngIf="type !== 'segments'"
+    >
+    </ng-select2>
+    <ng-select2 [data]="statutData"
+                [options]="statutOptions"
+                [(ngModel)]="statutValue"
+                [className]="'StatutSelect'"
+                class="item-select2"
+                placeholder="Statut"
+                (valueChanged)="valueChangedStatut($event)"
+                *ngIf="type !== 'segments'"
+    >
+    </ng-select2>
+    <div class="recherche-bandeau-outils">
+      <input type="search" class="input-selection"  placeholder="Recherche" size="30"  [(ngModel)] = "rechercheTerme" (ngModelChange) = "recherche()"/>
+      <button class="icon-search"></button>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>

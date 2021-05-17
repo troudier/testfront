@@ -1,0 +1,153 @@
+<div class="form_personne form_ajouter<">
+    <notifier-container></notifier-container>
+    <form
+            name="form"
+            (ngSubmit)="f.form.valid && onSubmit()"
+            #f="ngForm"
+            [formGroup]="form"
+            novalidate
+    >
+        <div class="icon user bandeau_personne_formulaire bandeau_personne_{{typePersonne}}">
+            <span>Nouvelle personne {{typePersonne}}</span>
+        </div>
+        <div class="formulaire">
+            <div class="container_form form_gauche">
+                <div class="bloc_information_generale">
+                    <div class="bandeau_form">Informations générales</div>
+                    <div class="input_container">
+                        <div class="espace_input">
+                            <label for="statut">Type</label>
+                            <app-statut-select2
+                                    id="statut"
+                                    [form]="form"
+                                    [id]="'statut'"
+                                    [multiple]="false"
+                                    (changed)="onChangedSelect2($event, 'statut')"
+                            ></app-statut-select2>
+                        </div>
+                        <div class="container_civilite" *ngIf="typePersonne === 'physique'">
+                            <label>Civilité</label>
+                            <div>
+                                <input
+                                        type="radio"
+                                        id="civilite_mr"
+                                        name="civilite"
+                                        value="M"
+                                        formControlName="civilite"
+                                        [ngClass]="{'background_alert_required': !form.controls.civilite.value}"
+                                >
+
+                                <label for="civilite_mr">M.</label>
+                                <input
+                                        type="radio"
+                                        id="civilite_mme"
+                                        name="civilite"
+                                        value="Mme"
+                                        formControlName="civilite"
+                                        [ngClass]="{'background_alert_required': !form.controls.civilite.value}"
+                                >
+                                <label for="civilite_mme">Mme.</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input_container" *ngIf="typePersonne === 'morale'">
+                        <div class="espace_input">
+                            <label for="raisonSociale">Raison sociale</label>
+                            <input
+                                    type="text"
+                                    id="raisonSociale"
+                                    name="raisonSociale"
+                                    formControlName="raisonSociale"
+                                    [ngClass]="{'background_alert_required': !form.controls.raisonSociale.value}"
+                            />
+                        </div>
+                        <div>
+                            <label for="formeJuridique">Forme juridique</label>
+                            <app-form-juridique-select2
+                                    id="formeJuridique"
+                                    [form]="form"
+                                    [id]="'formeJuridique'"
+                                    [multiple]="false"
+                                    (changed)="onChangedSelect2($event, 'formeJuridique')"
+                            ></app-form-juridique-select2>
+                        </div>
+                    </div>
+                    <div class="input_container" *ngIf="typePersonne === 'physique'">
+                        <div class="espace_input">
+                            <label for="prenom">Prénom</label>
+                            <input
+                                    type="text"
+                                    id="prenom"
+                                    name="prenom"
+                                    formControlName="prenom"
+                                    [ngClass]="{'background_alert_required': !form.controls.prenom.value}"
+                            />
+                        </div>
+                        <div>
+                            <label for="nom">Nom</label>
+                            <input
+                                    type="text"
+                                    id="nom"
+                                    name="nom"
+                                    formControlName="nom"
+                                    [ngClass]="{'background_alert_required': !form.controls.nom.value}"
+                            />
+                        </div>
+                    </div>
+                    <div class="input_container input_group">
+                        <div class="espace_input">
+                            <label for="email">Email</label>
+                            <input
+                                    type="text"
+                                    id="email"
+                                    name="email"
+                                    formControlName="email"
+                                    [ngClass]="{'background_alert_recommended': !form.controls.email.value}"
+                            />
+                        </div>
+                        <div>
+                            <div>
+                                <label for="telephone">Téléphone</label>
+                            </div>
+                            <div class="container_indicatif select2_sans_badge"
+                                 [ngClass]="{'background_alert_recommended': !form.controls.indicatifTel.value}"
+                            >
+                                <ng-select2 [data]="indicatifData | async"
+                                            formControlName="indicatifTel"
+                                            [className]="'indicatifSelect'"
+                                            [value]="indicatifFrance"
+                                            id="indicatifTel"
+                                            name="indicatifTel"
+                                            (valueChanged)="valueChangedType($event)"
+                                ></ng-select2>
+                                <input
+                                        type="text"
+                                        name="telephone"
+                                        id="telephone"
+                                        formControlName="telephone"
+                                        [ngClass]="{'background_alert_recommended': !form.controls.telephone.value}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form_area">
+                        <label for="memo">Mémo</label>
+                        <textarea id="memo" name="memo" rows="4" cols="50" formControlName="memo"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="container_form form_droit">
+                <div class="bloc_visibilite">
+                    <app-bloc-visibilite [form]="form" [type]="'personne'" [creation]="true"></app-bloc-visibilite>
+                </div>
+            </div>
+        </div>
+        <div class="form_bas">
+            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
+        </div>
+        <div *ngIf="message">
+            {{message.erreur}}
+        </div>
+    </form>
+</div>

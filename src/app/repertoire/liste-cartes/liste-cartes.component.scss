@@ -1,0 +1,31 @@
+.main {
+  margin: 0 auto;
+  height: 100%;
+}
+
+.content_cartes {
+  overflow-y: auto;
+}
+
+.cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cartes_item {
+  display: inline-block;
+  padding: 0 1rem 1.5rem 1rem;
+}
+
+@media (min-width: 40rem) {
+  .cartes_item {
+  }
+}
+
+@media (min-width: 56rem) {
+  .cartes_item {
+  }
+}

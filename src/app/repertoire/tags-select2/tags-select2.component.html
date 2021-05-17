@@ -1,0 +1,9 @@
+<ng-select2 [data]="data | async"
+            [options]="options"
+            [(ngModel)]="value"
+            [className]="'tagsSelect'"
+            placeholder="Tags"
+            [disabled]="disabled"
+            (valueChanged)="addTag($event)"
+>
+</ng-select2>

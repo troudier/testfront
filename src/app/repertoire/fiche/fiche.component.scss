@@ -1,0 +1,188 @@
+.fiche {
+    
+    .bandeau_personne_morale {
+        background-color: var(--repertoire-pm);
+        color: white;
+    }
+
+    .bandeau_personne_physique {
+        background-color: var(--repertoire-et-pp);
+    }
+
+    .bandeau_personne_lien {
+        background-color: var(--repertoire-et-pp);
+        height: 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    ::ng-deep .carte_avatar {
+        height: 146px;
+        width: 146px;
+        font-size: 70px;
+    }
+
+    ::ng-deep .carte_avatar.morale.small {
+        height: 63px;
+        width: 63px;
+        font-size: 30px;
+        position: relative;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        top: 50px !important;
+        left: 50px;
+    }
+
+    ::ng-deep .carte_avatar.morale.small .carte_avatar_inner {
+        padding-top: unset !important;
+    }
+
+    ::ng-deep .cercle_lg {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+}
+
+.fiche_gauche {
+    width: 25%;
+    margin-right: 30px;
+    display: grid;
+    grid-template-rows: 0fr 1fr 0fr;
+
+    .fiche_bloc1.incomplete {
+        border: 5px solid var(--incomplete-bg);
+
+        ::ng-deep .carte_alerte {
+            margin-bottom: -5px !important;
+        }
+    }
+
+    .fiche_bloc1 {
+        background-color: var(--blanc);
+
+        .carte_sous_titre.lien {
+            display: grid;
+            grid-template-columns: 1fr 10fr;
+        }
+
+        .carte_sous_titre:before {
+            font-size: 24px;
+        }
+
+        .carte_information {
+            display: grid;
+            grid-template-columns: 3fr 6fr 0;
+            padding: 10px 25px 10px;
+        }
+
+        .information {
+            padding: 0 0 0 25px;
+
+            .chiffres_personne {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .btn_border_white {
+            height: 46px;
+            width: 46px;
+            border-radius: 23px;
+            position: relative;
+            top: -42px;
+            right: 30px;
+        }
+
+        .btn_border_white .btn {
+            height: 42px;
+            width: 42px;
+        }
+    }
+
+    .fiche_bloc2 {
+        background-color: var(--blanc);
+        position: relative;
+        margin-top: 3px;
+
+        .content_select2 {
+            ::ng-deep .select2-selection.select2-selection--multiple {
+                min-height: 48px;
+                padding-right: 45px;
+                caret-color: transparent;
+            }
+
+            ::ng-deep .select2.select2-container.select2-container--default {
+                padding-top: 20px;
+                margin: auto;
+                width: 100% !important;
+            }
+
+            ::ng-deep .select2-search__field {
+                height: 20px;
+                margin-top: 9px !important;
+            }
+
+        }
+    
+        .qualite_relation {
+            position: absolute;
+            bottom: 10px;
+            width: 90%;
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+            font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+        }
+    }
+
+    .fiche_bloc3 {
+        background-color: var(--blanc);
+        padding: 0 30px 0 30px;
+        display: grid;
+        text-align: right;
+        grid-template-columns: 1fr 3fr;
+        margin-top: 3px;
+
+        .bloc_actif {
+            display: flex;
+            align-items: center;
+            height: 100%;
+
+            span {
+                color: var(--repertoire-et-pp);
+                font-size: 16px;
+            }
+        }
+
+        .icon.actif {
+            margin-right: 5px;
+            background-color: var(--repertoire-et-pp);
+            color: white;
+            border-radius: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            height: 18px;
+            padding-right: 1px;
+        }
+
+        .icon.inactif {
+            background-color: var(--alert);
+        }
+
+        .date_creation_fiche {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .date_creation_fiche p {
+            color: var(--gris-clair);
+            line-height: 16px;
+        }
+    }
+}
+
+

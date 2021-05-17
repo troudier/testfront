@@ -1,0 +1,78 @@
+<div class="form_segment form_modifier" *ngIf="segment">
+    <notifier-container></notifier-container>
+    <form
+            name="form"
+            [formGroup]="form"
+            #f="ngForm"
+            novalidate
+    >
+        <div class="bandeau_segment_formulaire bandeau_segment icon user">
+            {{segment.titre}}
+        </div>
+        <div class="formulaire">
+            <div class="container_form form_gauche">
+                <div class="bloc_information_generale">
+                    <div class="bandeau_form">Informations générales</div>
+                    <div class="input_container">
+                        <div class="form_group">
+                            <div>
+                                <label for="intitule">Intitulé</label>
+                                <input
+                                    type="text"
+                                    id="intitule"
+                                    name="titre"
+                                    formControlName="titre"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bloc_champs_personalises">
+                    <div class="bandeau_form">Filtres</div>
+                    <div class="input_container">
+<!--                        <span class="nb_contact_span" *ngIf="segment.filtres">Nb. contacts</span>-->
+<!--                        <div id="trapeze" *ngIf="segment.filtres"></div>-->
+                        <app-fiche-edit-segment-filtres
+                                [filtres]="segment.filtres"
+                                [form]="form"
+                                [uuid]="segment.uuid"
+                                (recalculer)="calculateFiltres()"
+                                [nbContacts]="nbContacts"
+                                [showCalculer]="showCalculer"
+                                (showResultat)="showResultats()"
+                        >
+                        </app-fiche-edit-segment-filtres>
+                    </div>
+                </div>
+            </div>
+            <div class="container_form form_droit">
+                <div class="bloc_visibilite">
+                    <app-bloc-visibilite [form]="form" [type]="'segment'"></app-bloc-visibilite>
+                </div>
+                <div class="bloc_coordonnees">
+                    <div class="bandeau_form">Prévisualisation</div>
+                    <div class="input_container">
+                        <button class="btn btn-med btn-actualiser" (click)="refreshResultats(segment.uuid)">
+                            <span>Actualiser</span>
+                        </button>
+                        <div *ngIf="resultats && showResultats">
+                            <p>{{segment.nbContactsPublics}} + {{segment.nbContactsPrives}} contacts</p>
+                            <div *ngFor="let res of resultats">
+                                {{res.libelle}}
+                                {{res.email}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_bas">
+            <button type="reset" class="btn btn-med btn-annuler"><span>Annuler</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
+            </button>
+        </div>
+        <div *ngIf="message">
+            {{message.erreur}}
+        </div>
+    </form>
+</div>

@@ -1,0 +1,21 @@
+::ng-deep .adresses .form_group {
+    display: grid;
+    grid-template-columns: 2fr 8fr 3fr;
+}
+
+.adresses .container_bouton_adresses {
+    display: flex;
+
+    button {
+        margin-left: 10px;
+    }
+}
+
+.adresses .data_adresses {
+    margin-left: 25px;
+    margin-right: 15px;
+}
+
+.bloc_adresses .input_container {
+    padding: inherit;
+}

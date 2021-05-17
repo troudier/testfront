@@ -1,0 +1,49 @@
+#ariane{
+  background-color: var(--ariane-bg);
+  color: var(--bg-title-blocks);
+  font: normal normal var(--main-font-weight-medium) 14px/19px var(--main-font-family);
+  height: 28px;
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 3;
+}
+
+#ariane ol{
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#ariane li {
+  list-style: none;
+  float: left;
+  display: flex;
+  align-items: center;
+
+  :hover{
+    text-decoration: underline;
+  }
+
+}
+
+#ariane li span {
+  padding: 5px 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+li::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--fond-de-page);
+  border-right: 2px solid var(--fond-de-page);
+  transform: rotate(45deg);
+  position: relative;
+  left: -5px;
+}
+
+li:last-child::after {
+  display: none;
+}

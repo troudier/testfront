@@ -1,0 +1,65 @@
+.creation {
+  margin: 22px auto 0 auto;
+  width: 565px;
+  height: 337px;
+  background-color: var(--blanc);
+
+  p {
+    margin-top: 21px;
+    margin-left: 30px;
+    color: var(--gris-foncé);
+    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+  }
+
+  // présent dans app.scss
+  .building, .user {
+    color: var(--blanc);
+    font-size: 48px;
+    text-align: center;
+    padding-top: 30px;
+  }
+}
+
+.creation .bandeau {
+  height: 40px;
+  background-color: var(--repertoire-et-pp);
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  font: normal normal var(--main-font-weight-semibold) 26px/36px var(--main-font-family);
+  color: white;
+}
+
+.creation .badge {
+  display: grid;
+  width: 160px;
+  height: 160px;
+  background-color: var(--repertoire-et-pp);
+  border-radius: 15px;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+
+  a {
+    color: var(--blanc);
+    font: normal normal var(--main-font-weight-semibold) 24px/33px var(--main-font-family);
+    text-decoration: none;
+    padding-bottom: 27px;
+  }
+}
+
+.creation .badge.badge_moral {
+  margin-right: 60px;
+  background-color: var(--repertoire-pm);
+}
+
+.creation .badge.badge_physique {
+  background-color: var(--repertoire-et-pp);
+}
+
+.creation .choix_personne {
+  padding-top: 37px;
+  display: grid;
+  justify-content: center;
+  grid-auto-flow: column;
+}

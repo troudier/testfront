@@ -1,0 +1,19 @@
+<div class="main">
+    <app-repertoire-outils
+            (rechercheEvent)="onRecherche($event)"
+            [type]="'segments'"
+    >
+    </app-repertoire-outils>
+
+    <div class="content_cartes"
+         infiniteScroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scroll)="onScroll()">
+        <ul class="cartes">
+            <li class="cartes_item" *ngFor="let segment of segments">
+                <app-segment-carte [segment]="segment"></app-segment-carte>
+            </li>
+        </ul>
+    </div>
+</div>

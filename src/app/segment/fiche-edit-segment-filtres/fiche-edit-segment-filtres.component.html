@@ -1,0 +1,60 @@
+<div class="edit_segment" *ngFor="let filtre of filtres | keyvalue; index as i ">
+    <div>
+         <label *ngIf="i === 0" class="label_form_group">
+            Extraire la liste des contacts dont...
+         </label>
+        <span *ngIf="i > 0">
+            et...
+        </span>
+        
+        <div class="form_group">
+            <div class="espace_input select2_sans_badge">
+                <app-champs-requetables-select2
+                    id="{{filtre.value.uuid}}"
+                    [form]="form"
+                    [id]="filtre.value.uuid"
+                    [disabled]="false"
+                    [value]="filtre.value.champ.uuid"
+                    (changed)="onChangedSelect2($event, filtre.value.uuid, 'champ', i)"
+                    (click)="onClickChamp(i)"
+                >
+                </app-champs-requetables-select2>
+            </div>
+            <div class="espace_input select2_sans_badge">
+                <app-operateurs-select2
+                    id="ope-{{filtre.value.uuid}}"
+                    [form]="form"
+                    [id]="filtre.value.uuid"
+                    [disabled]="false"
+                    [value]="filtre.value.operateur.uuid"
+                    (changed)="onChangedSelect2Operateur($event, filtre.value.uuid, 'operateur', i)"
+                >
+                </app-operateurs-select2>
+            </div>
+            <div class="espace_input">
+
+                <app-segment-edit-valeurs
+                    *ngIf="afficheValeur[i]"
+                    [valeurs]="filtre.value.valeurs"
+                    [form]="form"
+                    [filtre]="filtre"
+                    (recalculer)="showRecalculer(i)"
+                    [nbValeurs]="nbValeurs[i]"
+                >
+                </app-segment-edit-valeurs>
+            </div>
+            <div class="delete_filtre_segment">
+                <button class="btn btn-picto-med btn-supprimer" (click)="onSupprimer(filtre.value.uuid, i)"></button>
+            </div>
+        </div>
+    </div>
+    <div class="nb_contact_dynamique" *ngIf="nbContacts">
+        <div [ngClass]="{'deprecie': !!+toRecalculer[i]}" class="nb_contact_chiffre">
+            <span *ngIf="nbContacts[i]">{{nbContacts[i]['public']}} + {{nbContacts[i]['prive']}}</span>
+        </div>
+    </div>
+</div>
+<div class="action_filtre_segment">
+    <button class="btn btn-med btn-ajouter" (click)="ajouterChamp()"><span>Ajouter un filtre</span></button>
+    <button class="btn btn-med btn_reload_filtre btn-actualiser" (click)="calculate(uuid)" *ngIf="showCalculer"></button>
+</div>

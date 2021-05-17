@@ -1,0 +1,30 @@
+::ng-deep .coordonnees .form_group {
+    display: grid;
+    grid-template-columns: 1fr 6fr 2fr;
+}
+
+.data_coordonnee .container_bouton_coordonees {
+    display: flex;
+
+    button {
+        margin-left: 10px;
+    }
+}
+
+.coordonnees .container_coordonnee {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+
+    .data_coordonnee {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .border_icon_coordonnee {
+        background-color: var(--gris-clair-2);
+        color: var(--bg-title-blocks);
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+}

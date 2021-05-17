@@ -1,0 +1,11 @@
+<div class="select2_sans_badge"
+     [ngClass]="{'background_alert_required': !form.controls.formeJuridique.value}"
+>
+    <ng-select2 [data]="data | async"
+                [options]="options"
+                [className]="'typeSelect'"
+                id="{{id}}"
+                [value]="value"
+                (valueChanged)="valueChanged($event)"
+    ></ng-select2>
+</div>

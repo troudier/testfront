@@ -1,19 +1,201 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+  
+variables:
+  nodeVersion:
+#  COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
+  NODE_MODULES_DIR: $(Build.SourcesDirectory)/node_modules
+#  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  hasDeploy: $[or(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), eq(variables['Build.SourceBranch'], 'refs/heads/develop') )]
+
 
 trigger:
-- main
-
+  branches:
+    include:
+    - develop
+    - releases/*
+    - feature/*
+  tags:
+    include:
+    - '*'
+    
 pool:
   vmImage: ubuntu-latest
+     
+stages:
+- stage: Prepare
+  jobs:
+  - job: "ComposerInstall"
+#    pool:
+#      vmImage: 'Ubuntu 16.04'
+    steps:
+        
+      - script: ls -l $(Build.SourcesDirectory)
+        displayName: show workspace dir content 
+    
+#      - task: Cache@2
+#        inputs:
+#          key: 'composer | "$(Agent.OS)" | "$(Build.SourceBranch)" | composer.lock'
+#          restoreKeys: |
+#            composer | "$(Agent.OS)" | "$(Build.SourceBranch)"
+#            composer | "$(Agent.OS)"
+#            composer
+#          path: $(COMPOSER_CACHE_DIR)
+#        displayName: Cache composer  
+          
+      - task: Cache@2
+        inputs:
+          key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"'
+          restoreKeys: |
+            node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
+            node_modules | "$(Agent.OS)"
+            node_modules
+          path: $(NODE_MODULES_DIR)
+        displayName: Cache node modules
+          
+      - script: npm install 
+        displayName: 'npm install'
+        
+- stage: QA
+  jobs:
+        
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - job: notify
+    dependsOn: [Phpmd,Phploc, PhpUnit]
+    condition: succeededOrFailed()
+    steps:
+    - task: EmailReport@1
+      inputs:
+        sendMailConditionConfig: 'Always'
+        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
+        defaultDomain: 'microsoft.com'
+        includeResultsStr: '1, 2'
+        groupTestResultsBy: 'run'
+        includeCommits: true
+        maxTestFailuresToShow: '15'
+        includeOthersInTotal: false
+        usePreviousEnvironment: false
+        smtpConnectionEndpoint: 'smtpforci'
+
+- stage: Package
+  dependsOn: QA
+  condition: eq(variables.hasDeploy, true)
+  jobs:
+  
+  
+  - job: ZipPackage
+    steps:
+    - task: Cache@2
+      inputs:
+        key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"'
+        restoreKeys: |
+          node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
+          node_modules | "$(Agent.OS)"
+          node_modules
+        path: $(NODE_MODULES_DIR)
+      displayName: Cache node modules
+    
+    - task: ArchiveFiles@1
+      displayName: Archive files
+      inputs:
+        rootFolder: $(System.DefaultWorkingDirectory)
+        includeRootFolder: false
+        archiveType: zip
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Artifact
+      inputs:
+        PathtoPublish: $(build.artifactstagingdirectory)
+        artifactName: DemoArtifact
+  
+    - script: echo Hi!
+      
+  - job: DockerPackage
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
+
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
+      
+  - job: HelmPackage
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
+
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
+      
+      
+#- stage: Deploy
+#  dependsOn: [Package]
+#  condition: eq(variables.hasDeploy, true)
+#  jobs:
+#  - deployment: deployProd     
+#    condition: eq(variables.isMain, true)
+#    pool:
+#      vmImage: ubuntu-latest
+#    environment: prod
+#    strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - script: echo Hi!
+          
+#  - deployment: deployTest     
+#    condition: eq(variables.isMain, false)
+#    pool:
+#      vmImage: ubuntu-latest
+#    environment: test
+#    strategy:
+#      runOnce:
+#        deploy:
+#          steps:
+#          - script: echo Hi!
+#  - job: notify
+#    dependsOn: [deployProd, deployTest]
+#    steps:
+#    - script: echo notify
+#      displayName: send notification
+      
+#- stage: FTest
+#  dependsOn: [Deploy]
+#  condition: and(eq(variables.hasDeploy, true),eq(variables.isMain, false))
+#  jobs:
+#  - job: JmeterTest
+#    steps:
+#    - script: echo Hello, world!
+#      displayName: 'Run a one-line script'
+
+#    - script: |
+#        echo Add other tasks to build, test, and deploy your project.
+#        echo See https://aka.ms/yaml
+#      displayName: 'Run a multi-line script'
+      
+#  - job: SomeOtherTest
+#    steps:
+#    - script: echo Hello, world!
+#      displayName: 'Run a one-line script'
+
+#    - script: |
+#        echo Add other tasks to build, test, and deploy your project.
+#        echo See https://aka.ms/yaml
+#      displayName: 'Run a multi-line script'
+          
+#  - job: notify
+#    dependsOn: [JmeterTest, SomeOtherTest]
+#    steps:
+#    - script: echo notify
+#      displayName: send notification    
+            
+- stage: Document
+  dependsOn: [QA]
+  condition: eq(variables.hasDeploy, true)  
+  jobs:
+  
+  
+  
+       

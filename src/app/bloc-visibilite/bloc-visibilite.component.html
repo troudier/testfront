@@ -1,0 +1,61 @@
+<div class="container_visibilite"
+     [formGroup]="form"
+>
+    <div class="bandeau_form">
+        <span>Visibilité</span>
+        <div class="input_visibilite">
+            <input type="checkbox"
+                   class="switch"
+                   id="actif"
+                   [ngClass]="{'background_alert_required': !form.controls.actif.value}"
+                   [checked]="!!+form.controls.actif.value"
+                   (change)="onChangeActif($event)"
+            >
+            <label for="actif" class="switch" *ngIf="!!+form.controls.actif.value">Actif</label>
+            <label for="actif" class="switch" *ngIf="!+form.controls.actif.value">Inactif</label>
+        </div>
+    </div>
+    <div class="input_container">
+        <div class="form_group">
+            <div class="choix_visibilite">
+                <input type="radio"
+                       name="visibilite"
+                       id="visibilite_public"
+                       value="1"
+                       formControlName="visibilite"
+                       [ngClass]="{'background_alert_required': !form.controls.visibilite.value}"
+                >
+                <label for="visibilite_public">Public</label>
+                <input type="radio"
+                       name="visibilite"
+                       id="visibilite_protege"
+                       value="2"
+                       formControlName="visibilite"
+                       [ngClass]="{'background_alert_required': !form.controls.visibilite.value}"
+                >
+                <label for="visibilite_protege">Protégé</label>
+                <input type="radio"
+                       name="visibilite"
+                       id="visibilite_prive"
+                       value="3"
+                       checked
+                       formControlName="visibilite"
+                       [ngClass]="{'background_alert_required': !form.controls.visibilite.value}"
+                >
+                <label for="visibilite_prive">Privé</label>
+            </div>
+        </div>
+        <div class="form_group">
+            <div>
+                <label>Référent</label>
+                <app-users-select2 [form]="form" [id]="'referent'" [uuidReferent]="uuidReferent" [formCreation]="creation" [multiple]="false"></app-users-select2>
+            </div>
+        </div>
+        <div class="form_group">
+            <div>
+                <label>Interventant(s)</label>
+                <app-users-select2 [form]="form" [id]="'intervenants'" [multiple]="true"></app-users-select2>
+            </div>
+        </div>
+    </div>
+</div>

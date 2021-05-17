@@ -1,0 +1,67 @@
+span {
+  font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+}
+
+.container_onglet {
+  display: flex;
+  align-items: center;
+  background-color: var(--ariane-bg);
+  position: sticky;
+  top: 28px;
+  z-index: 3;
+}
+
+.div_onglet {
+  margin-right: 2px;
+}
+
+.onglet {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: var(--bg-title-blocks);
+  color: var(--blanc);
+  font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+}
+
+.onglet.active {
+  color: var(--gris-foncé);
+  font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+  padding-bottom: 4px;}
+
+.onglet:hover {
+  color: var(--gris-foncé);
+  padding-bottom: 4px;}
+
+.onglet.physique.active, .onglet.physique:hover {
+  border-top: 4px solid var(--repertoire-et-pp);
+  background-color: var(--fond-de-page);
+}
+
+.onglet.lien.active, .onglet.lien:hover {
+  border-top: 4px solid var(--repertoire-pm);
+  background-color: var(--fond-de-page);
+}
+
+.onglet.physique::before {
+  content: "\f007";
+  margin-right: 10px;
+  color: var(--repertoire-et-pp);
+}
+
+.onglet.lien::before {
+  content: "\f1ad";
+  margin-right: 10px;
+  color: var(--repertoire-pm);
+}
+
+.container_onglet .btn {
+  margin-left: 15px;
+}
+
+.container_onglet .btn:before {
+  padding-right: 12px;
+}

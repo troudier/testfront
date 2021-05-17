@@ -1,0 +1,54 @@
+<div class="adresses">
+    <div class="data_adresses">
+        <div *ngFor="let adresse of adresses" class="form_group">
+            <input
+                    name="'adresse'"
+                    (change)="onChangeRadio(adresse.uuid)"
+                    type="radio"
+                    [checked]="adresse.principal"
+            />
+            <div>
+                <span class="type_adresse">{{adresse.type}}</span>
+                <br>
+                <p *ngIf="adresse.ligne1">{{adresse.ligne1}}</p>
+                <p *ngIf="adresse.ligne2">{{adresse.ligne2}}</p>
+                <p *ngIf="adresse.ligne3">{{adresse.ligne3}}</p>
+                <p>{{adresse.cp}} {{adresse.ville}}</p>
+                <p>{{adresse.cedexCode}} {{adresse.cedexLibelle}}</p>
+                <p>{{adresse.pays}}</p>
+
+            </div>
+            <div class="container_bouton_adresses">
+                <button class="btn btn-picto-med btn-editer" (click)="onEditer(adresse)"></button>
+                <button class="btn btn-picto-med btn-supprimer" (click)="onSupprimer(adresse.uuid)"></button>
+            </div>
+        </div>
+    </div>
+    <div class="action_bloc">
+        <button class="btn btn-med btn-ajouter" (click)="onAjouter('adresseAddModal')">
+            <span>Ajouter une adresse</span>
+        </button>
+    </div>
+</div>
+<jw-modal id="adresseEditModal">
+    <div class="bandeau_form_modal">Editer une adresse</div>
+    <app-adresses-edit-modal
+            [data]="objetCourant"
+            [idModal]="'adresseEditModal'"
+            [edit]="false"
+            (closed)="close()"
+            (added)="addAdresses($event)"
+
+    ></app-adresses-edit-modal>
+</jw-modal>
+<jw-modal id="adresseAddModal">
+    <div class="bandeau_form_modal">Ajouter une adresse</div>
+    <app-adresses-edit-modal
+            [data]="objetCourant"
+            [idModal]="'adresseAddModal'"
+            [edit]="true"
+            (closed)="close()"
+            (added)="addAdresses($event)"
+
+    ></app-adresses-edit-modal>
+</jw-modal>

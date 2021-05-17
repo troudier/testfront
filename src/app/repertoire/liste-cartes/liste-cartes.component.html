@@ -1,0 +1,21 @@
+<div class="main">
+    <app-repertoire-outils
+            (statutFiltreEvent)="onStatutFiltre($event)"
+            (typeFiltreEvent)="onTypeFiltre($event)"
+            (rechercheEvent)="onRecherche($event)"
+            [type]="'personnes'"
+    >
+    </app-repertoire-outils>
+
+    <div class="content_cartes"
+         infiniteScroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scroll)="onScroll()">
+        <ul class="cartes">
+            <li class="cartes_item" *ngFor="let personne of personnes">
+                <app-repertoire-carte [personne]="personne"></app-repertoire-carte>
+            </li>
+        </ul>
+    </div>
+</div>

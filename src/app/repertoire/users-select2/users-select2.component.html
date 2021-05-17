@@ -1,0 +1,12 @@
+<div [formGroup]="form">
+    <ng-select2 [data]="data | async"
+                [options]="options"
+                [width]="273"
+                [value]="referent"
+                formControlName="{{id}}"
+                [className]="'typeSelect'"
+                placeholder=""
+                id="{{id}}"
+    ></ng-select2>
+</div>
+

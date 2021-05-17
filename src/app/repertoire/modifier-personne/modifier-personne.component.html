@@ -1,0 +1,409 @@
+<div [ngClass]="{carte_alerte: personne.isComplete === '0'}" *ngIf="personne">
+    <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">Fiche incomplète ! Des champs recommandés sont manquants</p>
+</div>
+<div class="form_personne form_modifier" *ngIf="personne">
+    <notifier-container></notifier-container>
+    <form
+            name="form"
+            [formGroup]="form"
+            #f="ngForm"
+            novalidate
+    >
+        <div class="bandeau_personne_formulaire bandeau_personne_physique icon user"
+             *ngIf="personne.type === 'physique'">
+            {{personne.prenom}} {{personne.nom}}
+        </div>
+        <div class="bandeau_personne_formulaire bandeau_personne_morale icon building"
+             *ngIf="personne.type === 'morale'">
+            {{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})
+        </div>
+        <div class="bandeau_personne_lien_multi" *ngIf="personne.type === 'lien'">
+            <div class="bandeau_personne_formulaire bandeau_personne_physique icon user">
+                {{personne.prenom}} {{personne.nom}}
+            </div>
+            <div class="bandeau_personne_formulaire bandeau_personne_morale icon building">
+                <div>
+                    <p>{{personne.fonctionLibelle}}</p>
+                    <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</p>
+                </div>
+            </div>
+        </div>
+        <div class="formulaire">
+            <div class="container_form form_gauche">
+                <div class="bloc_identite">
+                    <div class="bandeau_form">Identité</div>
+                    <div class="input_container">
+                        <div class="form_group bloc_avatar">
+                            <app-avatar [personne]="personne"></app-avatar>
+                            <div class="container_bouton_edition" *ngIf="personne.type !== 'lien'">
+                                <button class="btn btn-picto-lg btn-editer"></button>
+                                <button class="btn btn-picto-lg btn-supprimer"></button>
+                            </div>
+                        </div>
+                        <div *ngIf="personne.type === 'physique'">
+                            <div class="form_group identite_personne_physique">
+                                <div class="espace_input">
+                                    <label for="prenom">Prénom</label>
+                                    <input
+                                            type="text"
+                                            id="prenom"
+                                            name="prenom"
+                                            formControlName="prenom"
+                                            [ngClass]="{'background_alert_required': !form.controls.prenom.value}"
+                                    />
+                                </div>
+                                <div class="container_civilite">
+                                    <label for="civilite" class="test_label">Civilité</label>
+                                    <input id="civilite" type="text" style="display: none">
+                                    <div>
+                                        <input type="radio" id="civilite_mr" name="civilite" value="M"
+                                               formControlName="civilite">
+                                        <label for="civilite_mr">M.</label>
+                                        <input type="radio" id="civilite_mme" name="civilite" value="Mme"
+                                               formControlName="civilite">
+                                        <label for="civilite_mme">Mme.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="espace_input">
+                                    <label for="nom">Nom</label>
+                                    <input
+                                            type="text"
+                                            id="nom"
+                                            name="nom"
+                                            formControlName="nom"
+                                            [ngClass]="{'background_alert_required': !form.controls.nom.value}"
+                                    />
+                                </div>
+                                <div>
+                                    <app-titre-autocomplete
+                                            [value]="personne.titre"
+                                            (changed)="onChangedSelect2($event, 'titre')"
+                                            [form]="form"
+                                    ></app-titre-autocomplete>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="personne.type === 'morale'">
+                            <div class="form_group">
+                                <div>
+                                    <label>Raison sociale</label>
+                                    <input
+                                            type="text"
+                                            formControlName="raisonSociale"
+                                            [ngClass]="{'background_alert_required': !form.controls.raisonSociale.value}"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="espace_input">
+                                    <label for="formeJuridique">Forme juridique</label>
+                                    <app-form-juridique-select2
+                                            id="formeJuridique"
+                                            [form]="form"
+                                            [id]="'formeJuridique'"
+                                            [multiple]="false"
+                                            [value]="personne.formeJuridique"
+                                            (changed)="onChangedSelect2($event, 'formeJuridique')"
+                                    ></app-form-juridique-select2>
+                                </div>
+                                <div>
+                                    <label for="capital">Capital</label>
+                                    <input type="text" class="icon " id="capital" name="capital" formControlName="capital"/>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="espace_input">
+                                    <label for="siret">N° SIRET</label>
+                                    <input
+                                            type="text"
+                                            id="siret"
+                                            name="siret"
+                                            formControlName="siret"
+                                            [ngClass]="{'background_alert_recommended': !form.controls.siret.value}"
+                                    />
+                                </div>
+                                <div>
+                                    <label for="codeNaf">Code activité (NAF)</label>
+                                    <input
+                                            type="text"
+                                            id="codeNaf"
+                                            name="codeNaf"
+                                            formControlName="codeNaf"
+                                            [ngClass]="{'background_alert_recommended': !form.controls.codeNaf.value}"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div class="espace_input">
+                                    <label>Effectif</label>
+                                    <app-effectif-select2
+                                            [form]="form"
+                                            [multiple]="false"
+                                            [value]="personne.effectif"
+                                            (changed)="onChangedSelect2($event, 'effectif')"
+                                    ></app-effectif-select2>
+                                </div>
+                                <div>
+                                    <label >Chiffre d'Affaire</label>
+                                    <app-chiffre-affaire-select2
+                                            [form]="form"
+                                            [multiple]="false"
+                                            [value]="personne.chiffreAffaire"
+                                            (changed)="onChangedSelect2($event, 'chiffreAffaire')"
+                                    ></app-chiffre-affaire-select2>
+                                </div>
+                            </div>
+                            <div class="form_group">
+                                <div>
+                                    <label>Organisation parente</label>
+                                    <app-organisation-parente-select2
+                                            [form]="form"
+                                            [value]="personne.organisationParente"
+                                            [multiple]="false"
+                                            (changed)="onChangedSelect2($event, 'organisationParente')"
+                                    ></app-organisation-parente-select2>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="personne.type === 'lien'">
+                            <div class="form_group identite_personne_lien select2_sans_majuscule">
+                                <div class="espace_input">
+                                    <label>Fonction</label>
+                                    <div class="select2_sans_badge">
+                                        <app-fonction-personne-select2
+                                                id="fonction"
+                                                [form]="form"
+                                                [id]="'fonction'"
+                                                [multiple]="false"
+                                                [value]="personne.fonction"
+                                                (changed)="onChangedSelect2($event, 'fonction')"
+                                        >
+                                        </app-fonction-personne-select2>
+                                    </div>
+                                </div>
+                                <div class="select2_sans_majuscule">
+                                    <label>Origine du contact</label>
+                                    <div class="select2_sans_badge">
+                                        <app-origine-select2
+                                                id="origine"
+                                                [form]="form"
+                                                class="info_commerciales_select2_sans_border"
+                                                [id]="'origine'"
+                                                [disabled]="true"
+                                                [value]="personne.origine"
+                                                (changed)="onChangedSelect2($event, 'origine')"
+                                        >
+                                        </app-origine-select2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_group select2_sans_majuscule">
+                                <div class="espace_input">
+                                    <label for="fonctionPersonnalisee">Fonction personnalisée</label>
+                                    <input
+                                            type="text"
+                                            id="fonctionPersonnalisee"
+                                            name="fonctionPersonnalisee"
+                                            formControlName="fonctionPersonnalisee"
+                                    />
+                                </div>
+                                <div class="select2_sans_majuscule">
+                                    <label>Apporteur d'affaire</label>
+                                    <div class="select2_sans_badge">
+                                        <app-personnnes-physique-select2
+                                                id="apporteur"
+                                                [form]="form"
+                                                class="info_commerciales_select2_sans_border"
+                                                [id]="'apporteur'"
+                                                [multiple]="false"
+                                                [disabled]="true"
+                                                [value]="personne.apporteur"
+                                                (changed)="onChangedSelect2($event, 'apporteur')"
+                                        ></app-personnnes-physique-select2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bloc_info_commerciales">
+                    <div class="bandeau_form">Info commerciales</div>
+                    <div class="input_container" *ngIf="personne.type !== 'lien'">
+                        <div class="form_group">
+                            <div class="espace_input">
+                                <label for="statut">Type</label>
+                                <app-statut-select2
+                                        id="statut"
+                                        [form]="form"
+                                        [id]="'statut'"
+                                        [multiple]="false"
+                                        [value]="personne.statut"
+                                        (changed)="onChangedSelect2($event, 'statut')"
+                                ></app-statut-select2>
+                            </div>
+                            <div class="container_qualite_relation">
+                                <label for="qualite_relation">Qualité relation</label>
+                                <app-note id="qualite_relation" (note)="onChangeNote($event)"></app-note>
+                            </div>
+                        </div>
+                        <div class="form_group">
+                            <div>
+                                <div class="tags">
+                                    <label for="tags">Tags</label>
+                                    <app-tags-select2
+                                            id="tags"
+                                            [personne]="personne"
+                                            [persist]="false"
+                                            (changed)="onChangedSelect2($event, 'tags')"
+                                    >
+                                    </app-tags-select2>
+                                </div>
+                            </div>
+                            <div *ngIf="personne.type === 'physique'">
+                                <label for="apporteur">J'accepte de recevoir des informations commerciales</label>
+                                <input type="checkbox"
+                                       name="{{personne.infoCommerciale}}"
+                                       class="icon"
+                                       [checked]="!!+form.controls.infoCommerciale.value"
+                                       formControlName="{{personne.infoCommerciale}}"
+                                       (change)="onChangeInfoCommerciale($event)"
+                                >
+                            </div>
+                        </div>
+                        <div class="form_group" *ngIf="personne.type === 'physique'">
+                            <div class="espace_input">
+                                <label for="origine">Origine du contact</label>
+                                <app-origine-select2
+                                        id="origine"
+                                        [form]="form"
+                                        [id]="'origine'"
+                                        [multiple]="false"
+                                        [value]="personne.origine"
+                                        (changed)="onChangedSelect2($event, 'origine')"
+                                >
+
+                                </app-origine-select2>
+                            </div>
+                            <div>
+                                <label for="apporteur">Apporteur d'affaire</label>
+                                <app-personnnes-physique-select2
+                                        id="apporteur"
+                                        [form]="form"
+                                        [id]="'apporteur'"
+                                        [multiple]="false"
+                                        [value]="personne.apporteur"
+                                        (changed)="onChangedSelect2($event, 'apporteur')"
+                                ></app-personnnes-physique-select2>
+                            </div>
+                        </div>
+                        <div class="form_group">
+                            <div class="memo">
+                                <label for="memo">Mémo</label>
+                                <app-memos
+                                        id="memo"
+                                        [personne]="personne"
+                                        [persist]="false"
+                                ></app-memos>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input_container" *ngIf="personne.type === 'lien'">
+                        <div class="form_group">
+                            <div class="espace_input">
+                                <!-- status-->
+                                <app-statut-select2
+                                        id="status"
+                                        [form]="form"
+                                        class="info_commerciales_select2_sans_border"
+                                        [id]="'statut'"
+                                        [disabled]="true"
+                                        [value]="personne.statut"
+                                        (changed)="onChangedSelect2($event, 'statut')"
+                                ></app-statut-select2>
+                            </div>
+                            <div class="container_qualite_relation">
+                                <label for="qualite_relation">Qualité relation</label>
+                                <app-note id="qualite_relation" (note)="onChangeNote($event)"></app-note>
+                            </div>
+                        </div>
+                        <div class="form_group">
+                            <div class="tags">
+                                <!-- tags-->
+                                <app-tags-select2
+                                        id="tags"
+                                        class="info_commerciales_select2_sans_border"
+                                        [personne]="personne"
+                                        [persist]="false"
+                                        [disabled]="true"
+                                        (changed)="onChangedSelect2($event, 'tags')"
+                                >
+                                </app-tags-select2>
+                            </div>
+                            <div class="espace_input"></div>
+                        </div>
+                        <div class="form_group info_commerciales_personne_lien" *ngIf="personne.memos.length > 0">
+                            <div class="memo memo_lien">
+                                <label>Mémo</label>
+                                <div class="container_memo">
+                                    <div class="donnee_memo" *ngFor="let memo of personne.memos"
+                                         data-uuid="{{memo.uuid}}">
+                                        <div class="bandeau_fiche">
+                                            <span class="date_memo">&nbsp;Le {{memo.date}} </span>
+                                            <span class="identite_personne_memo">{{memo.creationPrenom}} {{memo.creationNom}}</span>
+                                        </div>
+                                        <div class="memo_fiche">
+                                            {{ memo.texte }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bloc_champs_personalises">
+                    <div class="bandeau_form">Champs personnalisés</div>
+                    <div class="input_container">
+                        <app-champs-personalises
+                                [uuid]="form.controls.uuid.value"
+                                [type]="'physique'"
+                                [editForm]="form"
+                                [formValeurs]="valeursPersonnalises"
+                                (valeursEvent)="onChangePersonnalise($event)"
+                        ></app-champs-personalises>
+                    </div>
+                </div>
+            </div>
+            <div class="container_form form_droit">
+                <div class="bloc_visibilite" *ngIf="personne.type !== 'lien'">
+                    <app-bloc-visibilite [form]="form" [type]="'personne'"></app-bloc-visibilite>
+                </div>
+                <div class="bloc_coordonnees">
+                    <div class="bandeau_form">Coordonnées Personnelles</div>
+                    <app-coordonnees
+                            [uuid]="form.controls.uuid.value"
+                            (valeursEvent)="onChangeCoordonnees($event)"
+                    ></app-coordonnees>
+                </div>
+                <div class="bloc_adresses">
+                    <div class="bandeau_form">Adresses Personnelles</div>
+                    <div class="input_container">
+                        <app-adresses
+                                [uuid]="form.controls.uuid.value"
+                                (valeursEvent)="onChangeAdresses($event)"
+                        ></app-adresses>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_bas">
+            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
+            </button>
+        </div>
+        <div *ngIf="message">
+            {{message.erreur}}
+        </div>
+    </form>
+</div>

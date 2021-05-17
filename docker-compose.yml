@@ -1,0 +1,17 @@
+version: "3.4"
+
+networks:
+  default:
+      external:
+            name: dev
+services:
+
+   front:
+      build:
+        context: docker
+      ports:
+        - 4200:4200
+        - 49153:49153
+      volumes:
+        - .:/app
+      working_dir: /app

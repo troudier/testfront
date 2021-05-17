@@ -1,0 +1,9 @@
+<div class="header">
+    <app-menu [personneConnecte]="personne" [position]="position" *ngIf="personne"></app-menu>
+</div>
+<div class="main_container" (click)="closeVolet()">
+    <div class="volet_parametre" id="voletParametre" *ngIf="personne">
+        <app-volet-parametre [personneConnecte]="personne" [position]="position"></app-volet-parametre>
+    </div>
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,69 @@
+<app-onglet [data]="onglets"
+            [active]="personne.uuid"
+            [personne]="personne"
+            (ongletEvent)="onChangeOnglet($event)"
+            *ngIf="personne.type !=='morale'">
+</app-onglet>
+<notifier-container></notifier-container>
+<div class="fiche {{personne.type}}" *ngIf="personne">
+    <div class="fiche_gauche">
+        <div class="fiche_bloc1 {{personne.type}}" [ngClass]="{incomplete: personne.isComplete === '0'}">
+            <div *ngIf="personne.type !== 'morale'" class="carte_titre bandeau_personne bandeau_personne_physique icon user">
+                {{libelle}}
+            </div>
+            <div *ngIf="personne.type === 'morale'" class="carte_titre bandeau_personne bandeau_personne_morale icon building">
+                <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle |uppercase}})</p>
+            </div>
+            <div *ngIf="personne.type === 'lien'" class="icon carte_sous_titre {{personne.type}}">
+                <div class="info_personne">
+                    <p>{{personne.fonctionLibelle}}</p>
+                    <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle |uppercase}})</p>
+                </div>
+            </div>
+            <div class="carte_information">
+                <app-avatar [personne]="personne"></app-avatar>
+                <div class="information">
+                    <app-fonction-sticker [statut]="personne.statut"></app-fonction-sticker>
+                    <p *ngIf="personne.cp">{{personne.cp}} {{personne.ville}}</p>
+                    <p *ngIf="personne.mail"> {{personne.mail}}</p>
+                    <p *ngIf="personne.telephone"> {{personne.telephone}}</p>
+                    <div class="chiffres_personne">
+                        <p *ngIf="personne.chiffre_affaire">CA : {{personne.chiffreAffaireLibelle}} €</p>
+                        <p *ngIf="personne.effectif">{{personne.effectifLibelle}} salariés</p>
+                      <p *ngIf="personne.civilite">Civilité :  {{personne.civilite}}.</p>
+                      <p *ngIf="personne.titre">Titre : {{personne.titre}}</p>
+                    </div>
+                </div>
+                <div class="btn_border_white">
+                    <button class="btn btn-picto-lg picto-edition" (click)="toModif(personne.uuid)"></button>
+                </div>
+            </div>
+            <div [ngClass]="{carte_alerte: personne.isComplete === '0'}">
+                <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">Fiche incomplète ! Des champs recommandés sont manquants</p>
+            </div>
+        </div>
+        <div class="fiche_bloc2">
+            <div class="content_select2" *ngIf="personne">
+                <app-tags-select2 [personne]="personne" [disabled]="disabled" [persist]="true"></app-tags-select2>
+            </div>
+            <app-memos [personne]="personne" [disabled]="disabled" [persist]="true"></app-memos>
+            <div class="qualite_relation">
+                Qualité relation
+                <app-note></app-note>
+            </div>
+        </div>
+        <div class="fiche_bloc3">
+            <div class="status_personne">
+                <div class="bloc_actif" *ngIf="personne.actif">
+                    <i class="icon actif"></i>
+                    <span>Actif</span>
+                </div>
+            </div>
+            <div class="date_creation_fiche">
+                <p>Crée le {{personne.creationDate | date:'dd/MM/YYYY'}} par {{personne.creationPrenom}} {{personne.creationNom}}</p>
+                <p>Modifié le {{personne.modificationDate | date:'dd/MM/YYYY'}} par {{personne.modificationPrenom}} {{personne.modificationNom}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+

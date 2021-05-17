@@ -1,0 +1,49 @@
+a:before {
+    margin-right: 10px;
+}
+
+a {
+    text-align: left;
+    justify-content: flex-start;
+    padding-left: 15px;
+    width: 80%;
+    margin: 16px auto 16px auto;
+    text-decoration: none;
+}
+
+hr, div {
+    width: 80%;
+    margin: auto;
+}
+
+hr {
+    border: 1px solid var(--unnamed-color-707070);
+    background-color: var(--unnamed-color-707070);
+}
+
+.parametre_menu {
+    font-size: 40px;
+    color: var(--bg-title-blocks);
+    margin-top: 20px;
+}
+
+p {
+    font: normal normal var(--main-font-weight-semibold) 18px/24px var(--main-font-family);
+    color: var(--blanc);
+    margin-top: 10px;
+}
+
+.carte_avatar {
+    height: 100px;
+    width: 100px;
+    font-size: 70px;
+    margin-top: 32px;
+}
+
+.carte_avatar .carte_avatar_inner {
+    font: normal normal var(--main-font-weight-semibold) 11px/27px var(--main-font-family);
+    font-size: 40px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}

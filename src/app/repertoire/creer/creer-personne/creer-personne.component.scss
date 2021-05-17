@@ -1,0 +1,33 @@
+.form_gauche .input_group {
+    display: flex;
+    justify-content: space-between;
+
+    ::ng-deep .select2-container--default {
+        width: 100% !important;
+    }
+}
+
+.form_gauche {
+    .bloc_information_generale .input_container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 0 30px 25px 30px;
+    }
+
+    .bloc_information_generale .input_container, .input_group, .form_area {
+        padding: 0 30px 25px 30px;
+    }
+}
+
+.input_group div .container_indicatif {
+    width: 100%;
+    display: flex;
+}
+
+.input_group div .container_indicatif ng-select2 {
+    margin-right: 24px;
+}
+
+::ng-deep .select2-dropdown.select2-dropdown {
+    width: 200px !important;
+}

@@ -1,0 +1,30 @@
+#login-container {
+  padding: 60px 100px;
+  max-width: 600px;
+  width: 577px;
+  margin: 20px;
+  background: rgba(255, 255, 255, 0.5);
+
+  .login-logo {
+    width: 100%;
+    display: block;
+    margin: auto;
+  }
+}
+
+#login-form form {
+  display: grid;
+
+  .label-login {
+    margin-top: 27px;
+  }
+
+  .form-connexion {
+    margin-bottom: 34px;
+  }
+}
+
+#login-connexion {
+  display: flex;
+  justify-content: flex-end;
+}

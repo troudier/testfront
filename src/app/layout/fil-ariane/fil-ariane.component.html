@@ -1,0 +1,9 @@
+<div id="ariane">
+    <ol class="fil_ariane">
+        <li *ngFor="let filAriane of filArianes; let i = index">
+            <span [routerLink]="filAriane.url" routerLinkActive="router-link-active">
+              {{ i === 1 && isDynamic ? libelle : filAriane.label }}
+            </span>
+        </li>
+    </ol>
+</div>

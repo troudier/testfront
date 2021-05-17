@@ -1,0 +1,19 @@
+<div *ngIf="nbValeurs == 1">
+    <ng-select2 [data]="dataAsync | async"
+                [options]="options"
+                [className]="'typeSelect'"
+                [value]="value"
+                (valueChanged)="onChangedSelect2($event, filtre.value.uuid, 'valeurs')"
+                *ngIf="data"
+    ></ng-select2>
+</div>
+<div *ngIf="nbValeurs == 2"
+     >
+    <input type="text" [value]="intevalle[0]" (change)="onChangeIntervalle($event, filtre.value.uuid, 'valeurs', 0)" />
+    et
+    <input type="text" [value]="intevalle[1]" (change)="onChangeIntervalle($event, filtre.value.uuid, 'valeurs', 1)" />
+</div>
+<div *ngIf="nbValeurs == 0"
+>
+    <input type="text" [value]="value" (change)="onChangeUnique($event, filtre.value.uuid, 'valeurs')" />
+</div>

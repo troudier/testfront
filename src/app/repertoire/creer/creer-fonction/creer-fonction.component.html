@@ -1,0 +1,65 @@
+<div class="form_personne form_ajouter<">
+    <notifier-container></notifier-container>
+    <form name="form"
+          [formGroup]="form"
+          #f="ngForm"
+          novalidate
+    >
+        <div class="icon user bandeau_personne_formulaire bandeau_personne_morale">
+            <span>Nouvelle fonction</span>
+        </div>
+        <div class="formulaire personne_fonction">
+            <div class="container_form">
+                <div class="bloc_information_generale">
+                    <div class="bandeau_form">Informations générales</div>
+                    <div class="input_container">
+                        <label for="physique">Personne Physique</label>
+                        <ng-select2 [data]="dataPhysique | async"
+                                    [options]="optionsPhysique"
+                                    [width]="273"
+                                    [className]="'typeSelect'"
+                                    [value]="valuePhysique"
+                                    id="physique"
+                                    formControlName="physique"
+                                    (valueChanged)="valueChanged($event, 'physique')"
+                                    [disabled]="disabledPhysique"
+                        ></ng-select2>
+                    </div>
+                    <div class="input_container">
+                        <label for="morale">Personne Morale</label>
+                        <div [ngClass]="{'background_alert_required': !form.controls.morale.value}">
+                            <ng-select2 [data]="dataMorale | async"
+                                        [options]="optionsMorale"
+                                        [width]="273"
+                                        [className]="'typeSelect'"
+                                        [value]="valueMorale"
+                                        id="morale"
+                                        formControlName="morale"
+                                        (valueChanged)="valueChanged($event, 'morale')"
+                                        [disabled]="!disabledPhysique"
+                            ></ng-select2>
+                        </div>
+                    </div>
+                    <div class="input_container">
+                        <label>Fonction</label>
+                        <div [ngClass]="{'background_alert_required': !form.controls.fonction.value}">
+                            <app-fonction-personne-select2
+                                    id="fonction_personnalisee"
+                                    [form]="form"
+                                    [id]="'fonction_personnalisee'"
+                                    [multiple]="false"
+                                    (changed)="onChangedSelect2($event, 'fonction')"
+                            >
+                            </app-fonction-personne-select2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_bas">
+            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
+            </button>
+        </div>
+    </form>
+</div>

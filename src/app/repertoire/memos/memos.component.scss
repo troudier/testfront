@@ -1,0 +1,44 @@
+.input_memo {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+
+  .btn-enregistrer.btn_input_memo {
+    position: absolute;
+    margin-right: 9px;
+    height: 32px;
+    width: 32px;
+  }
+}
+
+.container_memo {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.input_memo input {
+  font-weight: 100;
+  font-size: 14px;
+}
+.input_memo input::placeholder {
+  color: var(--placeholder) !important;
+}
+
+::ng-deep .fiche_bloc2 form .input_memo input {
+  margin: 20px auto 20px auto !important;
+}
+
+::ng-deep .fiche_bloc2 {
+  padding: 0 30px 0 30px;
+}
+
+.bandeau_fiche {
+  background-color: var(--fond-de-page);
+  text-align: center;
+  margin: 10px auto 5px auto;
+}
+
+.donnee_memo {
+  font: normal normal var(--main-font-weight-semibold) 14px/27px var(--main-font-family);
+}
