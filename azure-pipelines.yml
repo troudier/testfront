@@ -77,7 +77,7 @@ stages:
       - script: npm run test-ci
         displayName: 'run Karma'
         
-      - script: ls -la
+      - script: ls -la coverage
         displayName: 'show dir'
         condition: succeededOrFailed()  
           
@@ -85,7 +85,13 @@ stages:
         condition: succeededOrFailed()
         inputs:
           testRunner: JUnit
-          testResultsFiles: '**/TEST-*.xml'
+          testResultsFiles: '**/TESTS-*.xml'
+          
+      - task: PublishCodeCoverageResults@1
+        inputs: 
+          codeCoverageTool: Cobertura # or JaCoCo
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+          reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
 
   - job: notify
     dependsOn: []
