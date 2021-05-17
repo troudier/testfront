@@ -74,8 +74,14 @@ stages:
       - script: npm run build
         displayName: 'run build'  
           
-      - script: npm run test-ci
+      - script: npm run test-ci --reporter karma-junit-reporter
         displayName: 'run Karma'
+        
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: '**/TEST-RESULTS.xml'
 
   - job: notify
     dependsOn: []
