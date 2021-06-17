@@ -1,21 +1,21 @@
   
 variables:
-  nodeVersion:
-#  COMPOSER_CACHE_DIR: $(Pipeline.Workspace)/.composer
+#  nodeVersion:
   NODE_MODULES_DIR: $(Build.SourcesDirectory)/node_modules
-#  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
   hasDeploy: $[or(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), eq(variables['Build.SourceBranch'], 'refs/heads/develop') )]
+  isProduction: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/')]
 
 
 trigger:
   branches:
     include:
     - develop
-    - releases/*
+    - release/*
     - feature/*
   tags:
     include:
     - '*'
+pr: none
     
 pool:
   vmImage: ubuntu-latest
@@ -24,27 +24,12 @@ stages:
 - stage: Prepare
   jobs:
   - job: "NpmInstall"
-#    pool:
-#      vmImage: 'Ubuntu 16.04'
-    steps:
-        
-      - script: ls -l $(Build.SourcesDirectory)
-        displayName: show workspace dir content 
-    
-#      - task: Cache@2
-#        inputs:
-#          key: 'composer | "$(Agent.OS)" | "$(Build.SourceBranch)" | composer.lock'
-#          restoreKeys: |
-#            composer | "$(Agent.OS)" | "$(Build.SourceBranch)"
-#            composer | "$(Agent.OS)"
-#            composer
-#          path: $(COMPOSER_CACHE_DIR)
-#        displayName: Cache composer  
-          
+    steps:    
       - task: Cache@2
         inputs:
-          key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"'
+          key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json'
           restoreKeys: |
+            node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json
             node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
             node_modules | "$(Agent.OS)"
             node_modules
@@ -55,21 +40,20 @@ stages:
         displayName: 'npm install'
         
 - stage: QA
+  condition: eq(variables.isProduction, false)
   jobs:
   - job: "Karma"
     steps:
       - task: Cache@2
         inputs:
-          key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"'
+          key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json'
           restoreKeys: |
+            node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json
             node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
             node_modules | "$(Agent.OS)"
             node_modules
           path: $(NODE_MODULES_DIR)
         displayName: Cache node modules
-        
-      - script: npm ci
-        displayName: 'npm ci' 
         
       - script: npm run build
         displayName: 'run build'  
@@ -86,166 +70,125 @@ stages:
       - task: PublishCodeCoverageResults@1
         condition: succeededOrFailed()
         inputs: 
-          codeCoverageTool: Cobertura # or JaCoCo
+          codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
           reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
 
-  - job: notify
-    dependsOn: []
-    condition: succeededOrFailed()
-    steps: []
-#    - task: EmailReport@1
-#      inputs:
-#        sendMailConditionConfig: 'Always'
-#        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
-#        defaultDomain: 'microsoft.com'
-#        includeResultsStr: '1, 2'
-#        groupTestResultsBy: 'run'
-#        includeCommits: true
-#        maxTestFailuresToShow: '15'
-#        includeOthersInTotal: false
-#        usePreviousEnvironment: false
-#        smtpConnectionEndpoint: 'smtpforci'
-
 - stage: Package
-  dependsOn: QA
-  condition: and(succeededOrFailed(), eq(variables.hasDeploy, true))
+  dependsOn: [ 'Prepare', 'QA' ]
+  condition: and(or(and(succeeded('Prepare'), succeeded('QA'), eq(variables.isProduction, false)), and(succeeded('Prepare'), eq(stageDependencies.QA.result,'Skipped'), eq(variables.isProduction, true))), eq(variables.hasDeploy, true))
   jobs:
   
-  
-  - job: ZipPackage
+  - job: PackageTest
+    condition: eq(variables.isProduction, false)
     steps:
     - task: Cache@2
       inputs:
-        key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"'
+        key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json'
         restoreKeys: |
+          node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json
           node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
           node_modules | "$(Agent.OS)"
           node_modules
         path: $(NODE_MODULES_DIR)
       displayName: Cache node modules
-      
-    - script: npm run build --prod
-      displayName: 'run build'  
     
-    - script: ls -la dist
-      displayName: 'show dir' 
+    - script: npm ci 
+      displayName: 'npm install'
+        
+        
+    - script: npm run build -- --configuration=test
+      displayName: 'run build test'  
+    
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'scaleway container registry'
+        repository: 'azko-upsell/crm-ui'
+        command: 'buildAndPush'
+        Dockerfile: './docker/prod/Dockerfile'
+        buildContext: '.'
+        tags: |
+          $(Build.SourceBranchName)-$(Build.BuildNumber)
+          $(Build.BuildId)
+          develop-latest
       
     - task: ArchiveFiles@1
       displayName: Archive files
       inputs:
         rootFolder: dist/front
         includeRootFolder: false
-        archiveType: zip
-
+        archiveType: default
+        archiveFile: $(build.artifactstagingdirectory)/CRM-UI-build.zip
+        replaceExistingArchive: true
+        
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact
       inputs:
         PathtoPublish: $(build.artifactstagingdirectory)
-        artifactName: $(build.Repository.Name)-Build
-      
-  - job: DockerPackage
-    steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
-
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
-      
-  - job: HelmPackage
-    steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
-
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
-      
-      
-#- stage: Deploy
-#  dependsOn: [Package]
-#  condition: eq(variables.hasDeploy, true)
-#  jobs:
-#  - deployment: deployProd     
-#    condition: eq(variables.isMain, true)
-#    pool:
-#      vmImage: ubuntu-latest
-#    environment: prod
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#          - script: echo Hi!
+        artifactName: project-build
+        
+        
           
-#  - deployment: deployTest     
-#    condition: eq(variables.isMain, false)
-#    pool:
-#      vmImage: ubuntu-latest
-#    environment: test
-#    strategy:
-#      runOnce:
-#        deploy:
-#          steps:
-#          - script: echo Hi!
-#  - job: notify
-#    dependsOn: [deployProd, deployTest]
-#    steps:
-#    - script: echo notify
-#      displayName: send notification
+  - job: PackagePreprod
+    condition: eq(variables.isProduction, true)
+    steps: 
+    - task: Cache@2
+      inputs:
+        key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json'
+        restoreKeys: |
+          node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json
+          node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
+          node_modules | "$(Agent.OS)"
+          node_modules
+        path: $(NODE_MODULES_DIR)
+      displayName: Cache node modules
+    
+    - script: npm ci 
+      displayName: 'npm install'
       
-#- stage: FTest
-#  dependsOn: [Deploy]
-#  condition: and(eq(variables.hasDeploy, true),eq(variables.isMain, false))
-#  jobs:
-#  - job: JmeterTest
-#    steps:
-#    - script: echo Hello, world!
-#      displayName: 'Run a one-line script'
+    - script: npm run build -- --configuration=preprod
+      displayName: 'run build preprod'  
 
-#    - script: |
-#        echo Add other tasks to build, test, and deploy your project.
-#        echo See https://aka.ms/yaml
-#      displayName: 'Run a multi-line script'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'scaleway container registry'
+        repository: 'azko-upsell/crm-ui'
+        command: 'buildAndPush'
+        Dockerfile: './docker/prod/Dockerfile'
+        buildContext: '.'
+        tags: |
+          $(Build.SourceBranchName)-rc
+          $(Build.BuildId)
+          preprod-latest
+
+  - job: PackageProd
+    condition: eq(variables.isProduction, true)
+    steps: 
+    - task: Cache@2
+      inputs:
+        key: 'node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json'
+        restoreKeys: |
+          node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)" | package-lock.json
+          node_modules | "$(Agent.OS)" | "$(Build.SourceBranch)"
+          node_modules | "$(Agent.OS)"
+          node_modules
+        path: $(NODE_MODULES_DIR)
+      displayName: Cache node modules
+    
+    - script: npm ci 
+      displayName: 'npm install'
       
-#  - job: SomeOtherTest
-#    steps:
-#    - script: echo Hello, world!
-#      displayName: 'Run a one-line script'
-
-#    - script: |
-#        echo Add other tasks to build, test, and deploy your project.
-#        echo See https://aka.ms/yaml
-#      displayName: 'Run a multi-line script'
-          
-#  - job: notify
-#    dependsOn: [JmeterTest, SomeOtherTest]
-#    steps:
-#    - script: echo notify
-#      displayName: send notification    
-            
-- stage: Document
-  dependsOn: [QA]
-  condition: eq(variables.hasDeploy, true)  
-  jobs:
-  - job: notify
-    dependsOn: []
-    condition: succeededOrFailed()
-    steps: []
-#    - task: EmailReport@1
-#      inputs:
-#        sendMailConditionConfig: 'Always'
-#        subject: '[{environmentStatus}] {passPercentage} tests passed in $(Release.EnvironmentName) stage for $(Build.BuildNumber)'
-#        defaultDomain: 'microsoft.com'
-#        includeResultsStr: '1, 2'
-#        groupTestResultsBy: 'run'
-#        includeCommits: true
-#        maxTestFailuresToShow: '15'
-#        includeOthersInTotal: false
-#        usePreviousEnvironment: false
-#        smtpConnectionEndpoint: 'smtpforci'
-  
-  
+    - script: npm run build -- --configuration=production
+      displayName: 'run build prod'  
        
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'scaleway container registry'
+        repository: 'azko-upsell/crm-ui'
+        command: 'buildAndPush'
+        Dockerfile: './docker/prod/Dockerfile'
+        buildContext: '.'
+        tags: |
+          $(Build.SourceBranchName)
+          $(Build.BuildId)
+          latest
