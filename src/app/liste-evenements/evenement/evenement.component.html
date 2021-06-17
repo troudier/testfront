@@ -1,0 +1,152 @@
+<div *ngFor="let event of events; let i = index">
+    <div class="row_event"
+         [ngClass]="{'group_by_date' : i === 0 ||
+         getFormatFullDate(event.dateEcheance) === getFormatFullDate(events[i-1].dateEcheance)}"
+    >
+        <div class="timeline"
+             [ngClass]="{'first_event_tl' : i === 0 ||
+             getFormatFullDate(event.dateEcheance) !== getFormatFullDate(events[i-1].dateEcheance) }">
+            <div class="tl planifie" *ngIf="event.actif === 1 && event.planifie && event.statut !== 2  && event.actif === 1">
+                <div *ngIf="i === 0 ||
+                getFormatFullDate(event.dateEcheance) !== getFormatFullDate(events[i-1].dateEcheance)">
+                    <h1>{{event.dateEcheance | date : 'dd'}}</h1>
+                    <h3>{{event.moisEcheance}}</h3>
+                    <h3>{{event.dateEcheance | date : 'yyyy'}}</h3>
+                </div>
+            </div>
+            <div class="tl aujourdhui" *ngIf="event.aujourdhui && event.statut !== 2">
+                <div *ngIf="i === 0 ||
+                    getFormatFullDate(event.dateEcheance) !== getFormatFullDate(events[i-1].dateEcheance)">
+                    <h2>Aujourd'hui</h2>
+                </div>
+            </div>
+            <div class="tl retard" *ngIf="event.enRetard && event.statut !== 2">
+                <div *ngIf="i === 0 ||
+                    getFormatFullDate(event.dateEcheance) !== getFormatFullDate(events[i-1].dateEcheance)">
+                    <h1>{{event.dateEcheance | date : 'dd'}}</h1>
+                    <h3>{{event.moisEcheance}}</h3>
+                    <h3>{{event.dateEcheance | date : 'yyyy'}}</h3>
+                </div>
+            </div>
+            <div class="tl fait" *ngIf="event.statut === 2">
+                <div *ngIf="i === 0 ||
+                    getFormatFullDate(event.dateEcheance) !== getFormatFullDate(events[i-1].dateEcheance)">
+                    <h1>{{event.dateEcheance | date : 'dd'}}</h1>
+                    <h3>{{event.moisEcheance}}</h3>
+                    <h3>{{event.dateEcheance | date : 'yyyy'}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="event {{event.etat}}"
+             *ngIf="event.actif === 1"
+             [ngClass]="{
+                 'blue_five_percent border_blue' : event.planifie && event.statut !== 2,
+                 'warning_five_percent border_orange' : event.aujourdhui && event.statut !== 2,
+                 'alert_five_percent border_red' : event.enRetard && event.statut !== 2,
+                 'grey_five_percent border_grey' : event.statut === 2
+            }"
+        >
+            <div class="indication_status icon"
+                 [ngClass]="{
+                         'calendrier' : event.type === 30,
+                         'phone' : event.type === 10,
+                         'mail' : event.type === 20,
+                         'devis' : event.type === 40,
+                         'changement_statut' : event.type === 50,
+                         'icon_blue' : event.planifie && event.statut !== 2,
+                         'icon_orange' : event.aujourdhui === true && event.statut !== 2,
+                         'icon_red' : event.enRetard === true && event.statut !== 2,
+                         'icon_grey' : event.statut === 2
+                        }">
+            </div>
+            <div class="libelle_event">
+                <h2 [ngClass]="{
+                             'haut' : event.statut === 1,
+                             'bas' : event.statut === 2,
+                             'color_blue' : event.planifie && event.statut !== 2,
+                             'color_orange' : event.aujourdhui === true && event.statut !== 2,
+                             'color_red' : event.enRetard === true && event.statut !== 2,
+                             'color_grey' : event.statut === 2
+                           }"
+                    class="libelle icon">
+                    {{event.libelle}}
+                </h2>
+                <p>{{event.description}}</p>
+            </div>
+            <div class="date_event">
+                <div class="icon_statut">
+                    <p class="icon clock"
+                       *ngIf=" event.statut !== 2"
+                       [ngClass]="{
+                        'planifie icon_blue' : event.planifie && event.statut !== 2,
+                        'aujourdhui icon_orange' : event.aujourdhui && event.statut !== 2,
+                        'enRetard icon_red' : event.enRetard && event.statut !== 2
+                    }">
+                    </p>
+                    <p *ngIf="event.statut === 2"
+                       class="icon valider icon_grey">
+                    </p>
+                </div>
+                <div class="date_statut">
+                    <p class="color_blue" *ngIf="event.planifie && event.statut !== 2">Planifié
+                        le {{event.dateEcheance  | date : 'dd/MM/yyyy - HH:mm'}}</p>
+                    <p class="color_orange" *ngIf="event.aujourdhui && event.statut !== 2">Planifié aujourd'hui
+                        à {{event.dateEcheance  | date : 'HH:mm'}}</p>
+                    <p class="color_red" *ngIf="event.enRetard && event.statut !== 2">En retard
+                        depuis {{event.dateEcheanceCalc}}</p>
+                    <p class="color_grey" *ngIf="event.statut === 2">Terminé
+                        le {{event.dateFait  | date : 'dd/MM/yyyy'}}</p>
+                </div>
+            </div>
+            <div class="avatar_event">
+                <app-avatar [personne]="personne"></app-avatar>
+                <div class="info-avatar-event">
+                    <label class="assigned_to">Assigné à :</label>
+                    <p *ngIf="personne.type === 'physique'">{{personne.prenom |titlecase}} {{personne.nom |uppercase}}</p>
+                    <p *ngIf="personne.type === 'morale'">{{personne.raisonSociale}}</p>
+                </div>
+            </div>
+            <div class="action_event" *ngIf="event.statut !== 2">
+                <button class="btn btn-picto-med picto-edition"
+                        (click)="modifierEvenement(this.event.uuid)"></button>
+                <button class="btn btn-picto-med btn-valider"
+                        (click)="openModal('validateModalEvent', this.event.uuid, i)">
+                </button>
+                <button class="btn btn-picto-med btn-supprimer"
+                        (click)="openModal('desactiveModalEvent', this.event, i)">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<jw-modal id="validateModalEvent">
+    <div class="bloc_title_modal">Êtes-vous sûr de vouloir <strong class="action_modal valider">valider</strong>
+        l'evenement ?
+    </div>
+    <hr>
+    <div class="bloc_body_modal">Vous ne pourrez plus annuler cette action par la suite</div>
+    <div class="bloc_footer_modal">
+        <div class="action_bloc_modal">
+            <button type="reset" class="btn btn-med btn-fermer" (click)="closeModal('validateModalEvent')">
+                <span>Fermer</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer" (click)="validerEvenement()"><span>Valider</span>
+            </button>
+        </div>
+    </div>
+</jw-modal>
+<jw-modal id="desactiveModalEvent">
+    <div class="bloc_title_modal">Êtes-vous sûr de vouloir <strong class="action_modal desactiver">supprimer</strong>
+        l'evenement ?
+    </div>
+    <hr>
+    <div class="bloc_body_modal">Vous ne pourrez plus annuler cette action par la suite</div>
+    <div class="bloc_footer_modal">
+        <div class="action_bloc_modal">
+            <button type="reset" class="btn btn-med btn-fermer" (click)="closeModal('desactiveModalEvent')">
+                <span>Fermer</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer" (click)="desactiveEvenement()">
+                <span>Valider</span></button>
+        </div>
+    </div>
+</jw-modal>

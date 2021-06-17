@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EffectifSelect2Component } from './effectif-select2.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('EffectifSelect2Component', () => {
   let component: EffectifSelect2Component;
@@ -8,7 +9,10 @@ describe('EffectifSelect2Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EffectifSelect2Component ]
+      declarations: [ EffectifSelect2Component ],
+      imports: [
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });

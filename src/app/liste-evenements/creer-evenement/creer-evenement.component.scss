@@ -1,0 +1,95 @@
+.form_event {
+    
+    .formulaire {
+        grid-template-columns: 3fr 1fr;
+    }
+    
+    .form_group {
+        margin-top: inherit;
+    }
+    
+    .input_container {
+        padding: 0 30px 25px 30px;
+    }
+    
+    .input_container .container_date_time {
+        display: flex;
+    }
+    
+    .container_contact {
+        padding: 10px 20px 20px 20px;
+    }
+    
+    .container_contact {
+        display: flex;
+        flex-direction: column;
+        
+        .data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            
+            span {
+                font-weight: var(--main-font-weight-semibold);
+                text-align: right;
+            }
+        }
+    }
+    
+    .bloc_contact h2 {
+        font-size: 20px;
+        font-weight: var(--main-font-weight-semibold);
+    }
+    
+    .bloc_contact app-avatar h2 {
+        font-size: 18px;
+        font-weight: var(--main-font-weight-semibold);
+    }
+    
+    ::ng-deep .bandeau_personne_formulaire {
+        font-size: 18px;
+        height: 30px !important;
+    }
+    
+    ::ng-deep .bandeau_personne_formulaire::before {
+        font-size: 19px;
+    }
+    
+    ::ng-deep .sous_bandeau_personne_formulaire {
+        font-size: 17px;
+        height: 39px !important;
+    }
+    
+    ::ng-deep .bandeau_personne {
+        height: 30px;
+    }
+    
+    ::ng-deep .bandeau_personne::before {
+        font-size: 18px;
+    }
+
+    ::ng-deep .bandeau_form::before {
+        font-size: 19px;
+    }
+    
+    ::ng-deep .carte {
+        box-shadow: 0 0 11px 1px #00000052;
+    }
+    
+    hr {
+        background-color: var(--fond-de-page);;
+        border-style: solid;
+        border-color: var(--fond-de-page);
+        margin: 10px 0;
+    }
+
+    .form_gauche {
+        .choix_statut {
+            display: flex;
+            align-items: center;
+            
+            input[type="radio"] {
+                height: 32px;
+            }
+        }
+    }
+}

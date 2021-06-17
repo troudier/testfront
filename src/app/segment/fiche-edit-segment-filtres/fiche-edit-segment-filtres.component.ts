@@ -55,6 +55,8 @@ export class FicheEditSegmentFiltresComponent implements OnInit {
         Object.keys(this.form.controls.filtres.value).map((key) => {
             if (this.form.controls.filtres.value[key].uuid === id) {
                 if (this.form.controls.filtres && this.form.controls.filtres.value[key][type].uuid !== $event.uuid) {
+                    this.form.controls.filtres.value[key].valeurs = [];
+
                     this.showCalculer = true;
                     this.showResultat.emit();
                     this.showDeprecie(index);
@@ -131,6 +133,7 @@ export class FicheEditSegmentFiltresComponent implements OnInit {
     }
 
     ajouterChamp(): void {
+        console.log(this.filtres);
         const squelette = {
             uuid: Date.now(),
             champ: {
@@ -148,11 +151,12 @@ export class FicheEditSegmentFiltresComponent implements OnInit {
             this.form.addControl('filtres', this.formBuilder.control({}));
             this.form.controls.filtres.value = {};
             this.form.controls.filtres.value[1] = squelette;
-            this.filtres[0] = squelette;
+            this.filtres[1] = squelette;
             this.toRecalculer.push(false);
             this.afficheValeur.push(false);
         } else {
             const index = Object.keys(this.filtres).length + 1;
+            this.form.controls.filtres.value[index] = squelette;
             this.filtres[index] = squelette;
         }
     }

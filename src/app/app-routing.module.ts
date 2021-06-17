@@ -18,6 +18,8 @@ import {CreerFonctionComponent} from './repertoire/creer/creer-fonction/creer-fo
 import {ListeCartesSegmentComponent} from './segment/liste-cartes-segment/liste-cartes-segment.component';
 import {FicheSegmentComponent} from './segment/fiche-segment/fiche-segment.component';
 import {FicheEditSegmentComponent} from './segment/fiche-edit-segment/fiche-edit-segment.component';
+import {CreerEvenementComponent} from './liste-evenements/creer-evenement/creer-evenement.component';
+import {ModifierEvenementComponent} from './liste-evenements/modifier-evenement/modifier-evenement.component';
 
 const routes: Routes = [
     // Routes avec layout
@@ -26,9 +28,14 @@ const routes: Routes = [
         component: LayoutComponent,
         canActivate: [AuthGuard],
         children: [
+            // {
+            //     path: '',
+            //     redirectTo: 'home',
+            //     pathMatch: 'full'
+            // },
             {
                 path: '',
-                redirectTo: 'home',
+                redirectTo: 'repertoire',
                 pathMatch: 'full'
             },
             {
@@ -99,6 +106,20 @@ const routes: Routes = [
                         component: FicheComponent,
                         data: {
                             ariane: ''
+                        }
+                    },
+                    {
+                        path: 'creer/evenement/:id',
+                        component: CreerEvenementComponent,
+                        data: {
+                            ariane: 'Nouveau evenement',
+                        }
+                    },
+                    {
+                        path: 'modifier/evenement/:id/:idPersonne',
+                        component: ModifierEvenementComponent,
+                        data: {
+                            ariane: 'Modification de l\'évenement',
                         }
                     },
                 ]

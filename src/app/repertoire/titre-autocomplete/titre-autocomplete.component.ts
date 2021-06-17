@@ -20,7 +20,7 @@ export class TitreAutocompleteComponent implements OnInit {
   ngOnInit(): void {
     this.titre = {
         id: '',
-        name: this.form.controls.titre.value
+        name: this.form ? this.form.controls.titre.value : null
     };
     this.personneService.getListeTitres().subscribe(
       data => {

@@ -101,7 +101,7 @@ export class OutilsComponent implements OnInit {
 
   }
   creerSegment(): void{
-    this.router.navigate(['segment/creer' ]);
+    this.router.navigate(['segment/modifier/nouveau' ]);
   }
 
 }

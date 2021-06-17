@@ -80,25 +80,29 @@ export class ChampsPersonalisesComponent implements OnInit {
                             textAreaUuids.push(item);
                         }
                         if (item.type === 'checkbox') {
-                            const checkBoxValues = item.valeurs.map(val => {
-                                checkBoxUuids.push(item);
-                                const obj = {};
-                                obj[val.id] = false;
-                                if (this.valeurs.length > 0) {
-                                    this.valeurs.map((valeur) => {
-                                        if (valeur.uuid === item.uuid) {
-                                            valeur.valeur.map((valItem) => {
-                                                if (valItem === val.id) {
-                                                    obj[val.id] = true;
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                                return this.formBuilder.group(obj);
-                            });
-                            const formArray = this.formBuilder.array(checkBoxValues);
-                            this.form.addControl(item.uuid, formArray);
+                            if (item.valeurs) {
+                                const checkBoxValues = item.valeurs.map(val => {
+                                    checkBoxUuids.push(item);
+                                    const obj = {};
+                                    obj[val.id] = false;
+                                    if (this.valeurs.length > 0) {
+                                        this.valeurs.map((valeur) => {
+                                            if (valeur.uuid === item.uuid) {
+                                                valeur.valeur.map((valItem) => {
+                                                    if (valItem === val.id) {
+                                                        obj[val.id] = true;
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                    return this.formBuilder.group(obj);
+                                });
+
+                                const formArray = this.formBuilder.array(checkBoxValues);
+                                this.form.addControl(item.uuid, formArray);
+                            }
+
                         } else {
                             this.form.addControl(item.uuid, this.formBuilder.control({}));
                         }

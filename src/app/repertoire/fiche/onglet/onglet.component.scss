@@ -1,5 +1,6 @@
 span {
-  font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+  font-size: 16px;
+  font-weight: var(--main-font-weight-semibold);
 }
 
 .container_onglet {
@@ -24,13 +25,12 @@ span {
   padding-right: 15px;
   background-color: var(--bg-title-blocks);
   color: var(--blanc);
-  font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
 }
 
 .onglet.active {
   color: var(--gris-foncé);
-  font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-  padding-bottom: 4px;}
+  padding-bottom: 4px;
+}
 
 .onglet:hover {
   color: var(--gris-foncé);

@@ -1,5 +1,6 @@
-<div class="form_personne form_ajouter<">
+<div class="form_personne form_ajouter<" *ngIf="form">
     <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
     <form
             name="form"
             (ngSubmit)="f.form.valid && onSubmit()"
@@ -8,7 +9,7 @@
             novalidate
     >
         <div class="icon user bandeau_personne_formulaire bandeau_personne_{{typePersonne}}">
-            <span>Nouvelle personne {{typePersonne}}</span>
+            <h1>Nouvelle personne {{typePersonne}}</h1>
         </div>
         <div class="formulaire">
             <div class="container_form form_gauche">
@@ -23,6 +24,7 @@
                                     [id]="'statut'"
                                     [multiple]="false"
                                     (changed)="onChangedSelect2($event, 'statut')"
+                                    [ngClass]="{'background_alert_required': !form.controls.statut.value}"
                             ></app-statut-select2>
                         </div>
                         <div class="container_civilite" *ngIf="typePersonne === 'physique'">
@@ -63,13 +65,16 @@
                         </div>
                         <div class="input_lg">
                             <label for="formeJuridique">Forme juridique</label>
-                            <app-form-juridique-select2
-                                    id="formeJuridique"
-                                    [form]="form"
-                                    [id]="'formeJuridique'"
-                                    [multiple]="false"
-                                    (changed)="onChangedSelect2($event, 'formeJuridique')"
-                            ></app-form-juridique-select2>
+                            <div class="select2_sans_badge">
+                                <app-form-juridique-select2
+                                        id="formeJuridique"
+                                        [form]="form"
+                                        [id]="'formeJuridique'"
+                                        [multiple]="false"
+                                        (changed)="onChangedSelect2($event, 'formeJuridique')"
+                                        [ngClass]="{'background_alert_required': !form.controls.formeJuridique.value}"
+                                ></app-form-juridique-select2>
+                            </div>
                         </div>
                     </div>
                     <div class="input_container" *ngIf="typePersonne === 'physique'">
@@ -143,8 +148,8 @@
             </div>
         </div>
         <div class="form_bas">
-            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
-            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer"><span>Enregistrer</span></button>
         </div>
         <div *ngIf="message">
             {{message.erreur}}

@@ -1,0 +1,9 @@
+<div class="container_event" *ngIf="events">
+    <div class="information_event">
+        <app-evenement [events]="events"
+                       [personne]="personne"
+                       [uuid]="uuid"
+                       (reload)="reload()">
+        </app-evenement>
+    </div>
+</div>

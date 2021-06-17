@@ -1,25 +1,25 @@
-<div class="carte_avatar morale" *ngIf="personne.type === 'morale'"
+<div class="carte_avatar morale" *ngIf="personne && personne.type === 'morale'"
      [ngClass]="  {
                   'incomplete': personne.isComplete !== '1'
                  }"
 >
-  <div class="carte_avatar_inner cercle_lg texte_personne_{{personne.type}}">
-    {{personne.raisonSociale.substring(0, 1) | uppercase}}
-  </div>
+    <div class="carte_avatar_inner cercle_lg texte_personne_{{personne.type}}">
+        {{personne.raisonSociale.substring(0, 1) | uppercase}}
+    </div>
 </div>
-<div class="carte_avatar" *ngIf="personne.type !== 'morale'"
+<div class="carte_avatar" *ngIf="personne && personne.type !== 'morale'"
      [ngClass]="  {
                   'lien': personne.type === 'lien',
                   'incomplete': personne.isComplete !== '1'
                  }"
 >
-  <div class="carte_avatar_inner cercle_lg cercle_sm texte_personne_{{personne.type}}">
-    {{personne.prenom.substring(0, 1) | uppercase}}{{personne.nom.substring(0, 1) | uppercase}}
-  </div>
-  <div class="carte_avatar morale small" *ngIf="personne.type === 'lien'">
-    <div class="carte_avatar_inner texte_personne_morale">
-      {{personne.raisonSociale.substring(0, 1) | uppercase}}
+    <div class="carte_avatar_inner cercle_lg cercle_sm texte_personne_{{personne.type}}">
+        {{personne.prenom.substring(0, 1) | uppercase}}{{personne.nom.substring(0, 1) | uppercase}}
     </div>
-  </div>
+    <div class="carte_avatar morale small" *ngIf="personne.type === 'lien'">
+        <div class="carte_avatar_inner texte_personne_morale">
+            {{personne.raisonSociale.substring(0, 1) | uppercase}}
+        </div>
+    </div>
 </div>
 

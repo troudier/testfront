@@ -1,14 +1,36 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreerPersonneComponent } from './creer-personne.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {NotifierService, NotifierModule} from 'angular-notifier';
 
-describe('CreerPersonnePhysiqueComponent', () => {
+describe('CreerPersonneComponent', () => {
   let component: CreerPersonneComponent;
   let fixture: ComponentFixture<CreerPersonneComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreerPersonneComponent ]
+      declarations: [ CreerPersonneComponent ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        NotifierModule
+      ],
+      providers:
+          [
+            NotifierService,
+            {
+              provide: ActivatedRoute,
+              useValue: {
+                snapshot: {params: {}}
+              }
+            }
+          ]
     })
     .compileComponents();
   });

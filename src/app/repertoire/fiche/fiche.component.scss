@@ -1,27 +1,35 @@
 .fiche {
     
+    .information.carte_texte a {
+        display: flex;
+    }
+    
+    .icon:before {
+        margin-right: 5px;
+    }
+    
     .bandeau_personne_morale {
         background-color: var(--repertoire-pm);
         color: white;
     }
-
+    
     .bandeau_personne_physique {
         background-color: var(--repertoire-et-pp);
     }
-
+    
     .bandeau_personne_lien {
         background-color: var(--repertoire-et-pp);
         height: 30px;
         display: flex;
         align-items: center;
     }
-
+    
     ::ng-deep .carte_avatar {
         height: 146px;
         width: 146px;
         font-size: 70px;
     }
-
+    
     ::ng-deep .carte_avatar.morale.small {
         height: 63px;
         width: 63px;
@@ -30,63 +38,109 @@
         justify-content: center;
         display: flex;
         align-items: center;
-        top: 50px !important;
+        top: 55px !important;
         left: 50px;
     }
-
+    
     ::ng-deep .carte_avatar.morale.small .carte_avatar_inner {
         padding-top: unset !important;
     }
-
+    
     ::ng-deep .cercle_lg {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
     }
-
+    
+    .info_personne p {
+        font-size: 16px;
+        font-weight: var(--main-font-weight-medium);
+    }
+    
+    .info_personne {
+        line-height: 22px;
+        
+        h3 {
+            font-weight: var(--main-font-weight-regular);
+        }
+    }
+    
 }
 
 .fiche_gauche {
-    width: 25%;
+    width: 475px;
     margin-right: 30px;
     display: grid;
     grid-template-rows: 0fr 1fr 0fr;
-
+    
     .fiche_bloc1.incomplete {
         border: 5px solid var(--incomplete-bg);
-
+        
         ::ng-deep .carte_alerte {
             margin-bottom: -5px !important;
         }
     }
-
+    
     .fiche_bloc1 {
         background-color: var(--blanc);
-
+        
         .carte_sous_titre.lien {
             display: grid;
             grid-template-columns: 1fr 10fr;
         }
-
+        
         .carte_sous_titre:before {
             font-size: 24px;
+            display: flex;
+            align-items: center;
         }
-
+        
         .carte_information {
             display: grid;
             grid-template-columns: 3fr 6fr 0;
             padding: 10px 25px 10px;
         }
-
+        
         .information {
             padding: 0 0 0 25px;
-
+            
             .chiffres_personne {
                 display: grid;
                 grid-template-columns: 2fr 1fr;
             }
         }
-
+        
+        .information {
+            padding: 0 0 0 25px;
+            line-height: 27px;
+            display: grid;
+            flex-direction: column;
+            
+            * {
+                font-weight: var(--main-font-weight-medium);
+            }
+            
+            a {
+                color: var(--gris-fonce);
+                font-weight: var(--main-font-weight-semibold);
+            }
+            
+            a:hover {
+                color: var(--bleu-azko);
+            }
+            
+            a::before {
+                font-size: 14px;
+            }
+            
+            .chiffres_personne {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: end;
+                margin-bottom: 5px;
+            }
+        }
+        
         .btn_border_white {
             height: 46px;
             width: 46px;
@@ -95,29 +149,32 @@
             top: -42px;
             right: 30px;
         }
-
+        
         .btn_border_white .btn {
             height: 42px;
             width: 42px;
         }
     }
-
+    
     .fiche_bloc2 {
         background-color: var(--blanc);
         position: relative;
         margin-top: 3px;
         padding-top: 20px;
-    
+        
+        ::ng-deep .bandeau_fiche span {
+            font-weight: var(--main-font-weight-regular);
+        }
+        
         .qualite_relation {
             position: absolute;
             bottom: 10px;
-            width: 90%;
-            display: grid;
-            grid-template-columns: 4fr 1fr;
-            font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+            width: 88%;
+            display: flex;
+            justify-content: space-between;
         }
     }
-
+    
     .fiche_bloc3 {
         background-color: var(--blanc);
         padding: 0 30px 0 30px;
@@ -125,18 +182,18 @@
         text-align: right;
         grid-template-columns: 1fr 3fr;
         margin-top: 3px;
-
+        
         .bloc_actif {
             display: flex;
             align-items: center;
             height: 100%;
-
+            
             span {
                 color: var(--repertoire-et-pp);
                 font-size: 16px;
             }
         }
-
+        
         .icon.actif {
             margin-right: 5px;
             background-color: var(--repertoire-et-pp);
@@ -147,23 +204,75 @@
             align-items: center;
             width: 18px;
             height: 18px;
-            padding-right: 1px;
+            padding-left: 2px;
+            font-size: 12px;
         }
-
+        
         .icon.inactif {
             background-color: var(--alert);
         }
-
+        
         .date_creation_fiche {
             margin-top: 10px;
             margin-bottom: 10px;
         }
-
+        
         .date_creation_fiche p {
             color: var(--gris-clair);
             line-height: 16px;
         }
     }
+}
+
+.fiche_droite {
+    width: 75%;
+    background-color: var(--blanc);
+    
+    .carte_information {
+        padding: 30px 15px 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        
+        .container_information {
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .container_action {
+            display: flex;
+            justify-content: flex-end;
+            
+            .btn {
+                margin-right: 10px;
+            }
+        }
+    }
+    
+    .information {
+        padding: 10px 25px 10px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .info_fiche_evenement h3 {
+        margin-right: 10px;
+    }
+    
+    .info_fiche_evenement, .action_fiche_evenement {
+        display: flex;
+        font-size: 18px;
+        font-weight: 600;
+        
+        app-filtre-evenement {
+            width: 273px;
+        }
+    }
+    
+    .bloc_evenement {
+        height: 80%;
+        overflow-y: auto;
+    }
+    
 }
 
 

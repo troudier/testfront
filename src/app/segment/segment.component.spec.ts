@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SegmentComponent } from './segment.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('SegmentComponent', () => {
   let component: SegmentComponent;
@@ -8,7 +9,10 @@ describe('SegmentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SegmentComponent ]
+      declarations: [ SegmentComponent ],
+      imports: [
+        RouterTestingModule,
+      ]
     })
     .compileComponents();
   });

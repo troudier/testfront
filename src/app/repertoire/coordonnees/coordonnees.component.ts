@@ -10,9 +10,11 @@ import {ModalService} from '../../_modal';
 export class CoordonneesComponent implements OnInit {
     @Input() uuid;
     @Output() valeursEvent = new EventEmitter<object>();
-    public coordonnees;
+    public coordonnees = {};
     public objetCourant;
     public typeCourant;
+    @Input() emailPrincipal;
+    @Input() telPrincipal;
 
     constructor(
         private personneService: PersonneService,
@@ -23,7 +25,7 @@ export class CoordonneesComponent implements OnInit {
     ngOnInit(): void {
         this.personneService.getCoordonnees(this.uuid).subscribe(
             data => {
-                this.coordonnees = data;
+                this.coordonnees = data.length  === undefined || data.length > 0 ? data : {};
                 this.valeursEvent.emit(this.coordonnees);
             },
             err => {
@@ -55,11 +57,16 @@ export class CoordonneesComponent implements OnInit {
     }
 
     addCoordonnee($event): void {
+
         if (this.coordonnees[$event.type]) {
             this.coordonnees[$event.type].push($event.data);
         } else {
             this.coordonnees[$event.type] = [$event.data];
-
         }
+        this.valeursEvent.emit(this.coordonnees);
+    }
+
+    hasProperty(coordonnees, property): boolean {
+        return property in coordonnees && coordonnees[property].length > 0;
     }
 }

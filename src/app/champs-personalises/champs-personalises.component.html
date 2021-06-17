@@ -11,7 +11,7 @@
                         [disabled]="champ.requis"
             ></ng-select2>
         </div>
-        <div class="custom_data espace_input" [ngSwitch]="champ.type">
+        <div class="custom_data espace_input select2_sans_badge" [ngSwitch]="champ.type">
             <div *ngSwitchCase="'telephone'" class="input_lg">
                 <input
                         type="tel"

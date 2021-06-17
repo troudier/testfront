@@ -31,7 +31,7 @@ export class UpsellLastEntitesService {
                 libelle = entity.prenom + ' ' + entity.nom;
                 break;
             case 'morale' :
-                libelle = entity.raisonSociale;
+                libelle = entity.raisonSociale + ' (' + entity.formeJuridiqueLibelle + ') ';
                 break;
             case 'lien' :
                 libelle = entity.prenom + ' ' + entity.nom + ' (' + entity.raisonSociale + ') ';

@@ -12,6 +12,7 @@ export class AdressesComponent implements OnInit {
     @Output() valeursEvent = new EventEmitter<object>();
     public adresses;
     public objetCourant;
+    @Input() adressesPrincipal;
 
     constructor(
         private personneService: PersonneService,
@@ -90,5 +91,12 @@ export class AdressesComponent implements OnInit {
             uuid: new Date().getTime()
         };
         this.modalService.open(idModal);
+    }
+
+    hasAdresse(adresses): boolean {
+        if (adresses === undefined || adresses.length === 0) {
+            return false;
+        }
+        return true;
     }
 }

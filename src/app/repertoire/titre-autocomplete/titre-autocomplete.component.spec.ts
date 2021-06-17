@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TitreAutocompleteComponent } from './titre-autocomplete.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('TitreAutocompleteComponent', () => {
   let component: TitreAutocompleteComponent;
@@ -8,7 +9,10 @@ describe('TitreAutocompleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TitreAutocompleteComponent ]
+      declarations: [ TitreAutocompleteComponent ],
+      imports: [
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });

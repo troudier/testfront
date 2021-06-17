@@ -1,0 +1,156 @@
+<div class="form_event form_ajouter">
+    <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
+    <form
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        [formGroup]="form"
+        novalidate
+    >
+        <div class="bandeau_evenement icon calendrier">
+            <h1>Nouvel évenement</h1>
+        </div>
+        <div class="formulaire">
+            <div class="container_form form_gauche">
+                <div class="bloc_event">
+                    <div class="bloc_information_generale">
+                        <div class="bandeau_form">Informations générales</div>
+                        <div class="input_container">
+                            <div>
+                                <div class="form_group">
+                                    <div class="input_lg">
+                                        <label for="libelle">Titre</label>
+                                        <input type="text" formControlName="libelle" id="libelle"
+                                               [ngClass]="{'background_alert_required': !form.controls.libelle.value}">
+                                    </div>
+                                </div>
+                                <div class="form_group">
+                                    <div class="espace_input input_lg">
+                                        <label for="type">Type d'évenement</label>
+                                        <div class="select2_sans_badge">
+                                            <app-filtre-type-select2
+                                                id="type"
+                                                [form]="form"
+                                                [id]="'type'"
+                                                [multiple]="false"
+                                                (changed)="onChangedSelect2($event, 'type')"
+                                                [ngClass]="{'background_alert_required': !form.controls.type.value}"
+                                            ></app-filtre-type-select2>
+                                        </div>
+                                    </div>
+                                    <div class="container_statut">
+                                        <label>Statut</label>
+                                        <div class="choix_statut">
+                                            <input type="radio"
+                                                   name="statut"
+                                                   id="statut_a_faire"
+                                                   value="2"
+                                                   formControlName="statut"
+                                                   [ngClass]="{'background_alert_required': !form.controls.statut.value}"
+                                            >
+                                            <label for="statut_a_faire">A faire</label>
+                                            <input type="radio"
+                                                   name="statut"
+                                                   id="statut_termine"
+                                                   value="3"
+                                                   checked
+                                                   formControlName="statut"
+                                                   [ngClass]="{'background_alert_required': !form.controls.statut.value}"
+                                            >
+                                            <label for="statut_termine">Terminé</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form_group">
+                                    <div class="form_group">
+                                        <div class="espace_input input_lg select2_sans_badge">
+                                            <label>Assigné à</label>
+                                            <app-users-select2 [form]="form"
+                                                               [id]="'assignedTo'"
+                                                               [uuidReferent]="uuidReferent"
+                                                               [formCreation]="formCreation"
+                                                               [multiple]="false"
+                                                               [ngClass]="{'background_alert_required':
+                                                                    !form.controls.assignedTo.value
+                                                               }"
+                                            >
+                                            </app-users-select2>
+                                        </div>
+                                        <div class="input_lg">
+                                            <label>Echéance</label>
+                                            <div class="container_date_time">
+                                                <input
+                                                    type="date"
+                                                    formControlName="dateEcheance"
+                                                    name="dateEcheance"
+                                                    id="dateEcheance"
+                                                    class="input_date"
+                                                    [ngClass]="{'background_alert_required': !form.controls.dateEcheance.value}"
+                                                />
+                                                <input
+                                                    type="time"
+                                                    formControlName="timeEcheance"
+                                                    name="timeEcheance"
+                                                    id="timeEcheance"
+                                                    class="input_time"
+                                                    [ngClass]="{'background_alert_required': !form.controls.timeEcheance.value}"
+                                                />
+                                            </div>
+<!--                                            <input type="datetime-local" formControlName="echeance"-->
+<!--                                                   [ngClass]="{'background_alert_required': !form.controls.echeance.value}"-->
+<!--                                            />-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form_area">
+                                    <label for="description">Description</label>
+                                    <textarea formControlName="description" id="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container_form from_droit" *ngIf="personne">
+                <div class="bloc_contact">
+                    <div class="bandeau_form bandeau_personne_{{personne.type}} icon addresse_card"><h2>Contact</h2>
+                    </div>
+                    <div class="container_contact">
+                        <app-repertoire-carte [personne]="personne"></app-repertoire-carte>
+                    </div>
+                    <div class="container_contact">
+                        <div class="data">
+                            <h3>E-mail</h3>
+                            <span> {{personne.mail}}</span>
+                        </div>
+                        <hr>
+                        <div class="data">
+                            <h3>Tél.</h3>
+                            <span> {{personne.telephone}}</span>
+                        </div>
+                        <hr>
+                        <div class="data">
+                            <h3>Fax</h3>
+                            <span> {{personne.fax}}</span>
+                        </div>
+                        <hr>
+                        <div class="data">
+                            <h3>Correspondance</h3>
+                            <span> {{personne.adresse}}</span>
+                        </div>
+                        <hr>
+                        <div class="data">
+                            <h3>Domicile</h3>
+                            <span> {{personne.adresse}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_bas">
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
+        </div>
+    </form>
+</div>

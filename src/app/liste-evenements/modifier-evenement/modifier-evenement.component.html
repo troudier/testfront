@@ -1,0 +1,144 @@
+<div class="form_event form_ajouter" *ngIf="event">
+    <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
+    <form
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        [formGroup]="form"
+        novalidate
+    >
+        <div class="bandeau_evenement icon calendrier">
+            <h1>Evénement : {{event.libelle}}</h1>
+        </div>
+        <div class="formulaire">
+            <div class="container_form form_gauche">
+                <div class="bloc_event">
+                    <div class="bloc_information_generale">
+                        <div class="bandeau_form">Informations générales</div>
+                        <div class="input_container">
+                            <div>
+                                <div class="form_group">
+                                    <div class="input_lg">
+                                        <label for="libelle">Titre</label>
+                                        <input type="text" formControlName="libelle" name="libelle" id="libelle"
+                                               [ngClass]="{'background_alert_required': !form.controls.libelle.value}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form_group">
+                                    <div class="espace_input input_lg">
+                                        <label for="type">Type d'évenement</label>
+                                        <div class="select2_sans_badge">
+                                            <app-filtre-type-select2
+                                                id="type"
+                                                [form]="form"
+                                                [value]="event.type"
+                                                [id]="'type'"
+                                                [multiple]="false"
+                                                (changed)="onChangedSelect2($event, 'type')"
+                                            ></app-filtre-type-select2>
+                                        </div>
+                                    </div>
+                                    <div class="container_statut">
+                                        <label>Statut</label>
+                                        <div class="choix_statut">
+                                            <input type="radio"
+                                                   id="statut_afaire"
+                                                   name="statut"
+                                                   value="1"
+                                                   formControlName="statut"
+                                            >
+                                            <label for="statut_afaire">A faire</label>
+                                            <input type="radio"
+                                                   id="statut_termine"
+                                                   name="statut"
+                                                   value="2"
+                                                   formControlName="statut"
+                                            >
+                                            <label for="statut_termine">Terminé</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form_group">
+                                    <div class="espace_input input_lg select2_sans_badge">
+                                        <label>Assigné à</label>
+                                        <app-users-select2 [form]="form"
+                                                           [id]="'assignedTo'"
+                                                           [uuidReferent]="uuidReferent"
+                                                           [formCreation]="formCreation"
+                                                           [multiple]="false"
+                                        >
+                                        </app-users-select2>
+                                    </div>
+                                    <div class="input_lg">
+                                        <label>Echéance</label>
+                                        <div class="container_date_time">
+                                            <input
+                                                type="date"
+                                                formControlName="dateEcheance"
+                                                name="dateEcheance"
+                                                id="dateEcheance"
+                                                class="input_date"
+                                            />
+                                            <input
+                                                type="time"
+                                                formControlName="timeEcheance"
+                                                name="timeEcheance"
+                                                id="timeEcheance"
+                                                class="input_time"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form_area">
+                                    <label for="description">Description</label>
+                                    <textarea formControlName="description" id="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container_form from_droit" *ngIf="dataPersonne">
+                <div class="bloc_contact">
+                    <div class="bandeau_form bandeau_personne_{{dataPersonne.type}} icon addresse_card"><h2>Contact</h2>
+                    </div>
+                    <div class="container_contact">
+                        <app-repertoire-carte [personne]="dataPersonne"></app-repertoire-carte>
+                    </div>
+                    <div class="container_contact">
+                        <div class="data" *ngIf="dataPersonne.mail">
+                            <h3>E-mail</h3>
+                            <span> {{dataPersonne.mail}}</span>
+                        </div>
+                        <hr *ngIf="dataPersonne.mail">
+                        <div class="data" *ngIf="dataPersonne.telephone">
+                            <h3>Tél.</h3>
+                            <span>{{dataPersonne.indicatifTelephone}}{{dataPersonne.telephone}}</span>
+                        </div>
+                        <hr *ngIf="dataPersonne.telephone">
+                        <div class="data" *ngIf="dataPersonne.fax">
+                            <h3>Fax</h3>
+                            <span> {{dataPersonne.fax}}</span>
+                        </div>
+                        <hr *ngIf="dataPersonne.fax">
+                        <div class="data" *ngIf="dataPersonne.adrLigne1 || dataPersonne.ville">
+                            <h3>Domicile</h3>
+                            <span>{{dataPersonne.adrLigne1}},
+                                {{dataPersonne.cp}}
+                                {{dataPersonne.ville |titlecase}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_bas">
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button type="submit" class="btn btn-med btn-enregistrer"><span>Enregistrer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmitCancel()"><span>Enregistrer et fermer</span>
+            </button>
+        </div>
+    </form>
+</div>

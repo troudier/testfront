@@ -41,9 +41,11 @@ export class TagsSelect2Component implements OnInit, OnChanges {
     ngOnInit(): void {
         this.initTags();
         this.value = [];
-        this.personne.tags.map((item) => {
-            this.value.push(item.uuid);
-        });
+        if (this.personne) {
+            this.personne.tags.map((item) => {
+                this.value.push(item.uuid);
+            });
+        }
     }
 
     ngOnChanges(): void {

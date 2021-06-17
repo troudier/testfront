@@ -1,13 +1,15 @@
 <div class="form_segment form_modifier" *ngIf="segment">
     <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
     <form
             name="form"
             [formGroup]="form"
             #f="ngForm"
             novalidate
     >
-        <div class="bandeau_segment_formulaire bandeau_segment icon user">
-            {{segment.titre}}
+        <div class="bandeau_segment_formulaire bandeau_segment icon search">
+            <h1 *ngIf="segment.titre">{{segment.titre}}</h1>
+            <h1 *ngIf="!segment.titre">Nouveau segment</h1>
         </div>
         <div class="formulaire">
             <div class="container_form form_gauche">
@@ -22,8 +24,10 @@
                                     id="intitule"
                                     name="titre"
                                     formControlName="titre"
+                                    [ngClass]="{'background_alert_required': !form.controls.titre.value}"
                                 />
                             </div>
+                            {{form.controls.intitule | json}}
                         </div>
                     </div>
                 </div>
@@ -47,7 +51,7 @@
             </div>
             <div class="container_form form_droit">
                 <div class="bloc_visibilite">
-                    <app-bloc-visibilite [form]="form" [type]="'segment'"></app-bloc-visibilite>
+                    <app-bloc-visibilite [form]="form" [type]="'segment'" [creation]="creation"></app-bloc-visibilite>
                 </div>
                 <div class="bloc_coordonnees">
                     <div class="bandeau_form">Prévisualisation</div>
@@ -67,9 +71,9 @@
             </div>
         </div>
         <div class="form_bas">
-            <button type="reset" class="btn btn-med btn-annuler"><span>Annuler</span></button>
-            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
-            </button>
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmitCancel()"><span>Enregistrer et fermer</span></button>
         </div>
         <div *ngIf="message">
             {{message.erreur}}

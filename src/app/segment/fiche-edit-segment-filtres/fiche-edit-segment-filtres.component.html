@@ -1,12 +1,13 @@
 <div class="edit_segment" *ngFor="let filtre of filtres | keyvalue; index as i ">
     <div>
-         <label *ngIf="i === 0" class="label_form_group">
+        <label *ngIf="i === 0" class="label_form_group">
             Extraire la liste des contacts dont...
-         </label>
-        <span *ngIf="i > 0">
-            et...
-        </span>
-        
+        </label>
+        <div class="form_group">
+            <span *ngIf="i > 0">
+                et...
+            </span>
+        </div>
         <div class="form_group">
             <div class="espace_input select2_sans_badge input_lg">
                 <app-champs-requetables-select2
@@ -55,5 +56,6 @@
 </div>
 <div class="action_filtre_segment">
     <button class="btn btn-med btn-ajouter" (click)="ajouterChamp()"><span>Ajouter un filtre</span></button>
-    <button class="btn btn-med btn_reload_filtre btn-actualiser" (click)="calculate(uuid)" *ngIf="showCalculer"></button>
+    <button class="btn btn-med btn_reload_filtre btn-actualiser" (click)="calculate(uuid)"
+            *ngIf="showCalculer"></button>
 </div>

@@ -1,7 +1,3 @@
-.carte_alerte p {
-    font: normal normal var(--main-font-weight-semibold) 14px/27px var(--main-font-family);
-}
-
 ::ng-deep .form_personne.form_modifier app-memos .bandeau_fiche {
     background-color: transparent;
     text-align: inherit;
@@ -10,17 +6,22 @@
     
     span {
         justify-content: flex-end;
+        font-weight: var(--main-font-weight-regular);
     }
 
     span.identite_personne_memo {
         display: flex;
         order: 1;
+        font-size: 16px;
+        font-weight: var(--main-font-weight-semibold);
     }
 
     span.date_memo {
         display: flex;
         order: 2;
         margin-left: 10px;
+        font-size: 16px;
+        font-weight: var(--main-font-weight-semibold);
     }
 }
 
@@ -35,18 +36,12 @@
         display: flex;
         align-items: center;
     }
-
-    ::ng-deep .memo_fiche {
-        color: var(--gris-foncé);
-        font: normal normal var(--main-font-weight-semibold) 14px/27px var(--main-font-family);
-    }
 }
 
 ::ng-deep .form_personne.form_modifier app-memos .donnee_memo {
     display: flex;
     flex-direction: row-reverse;
     place-content: space-between;
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
 }
 
 ::ng-deep .form_personne.form_modifier app-memos .donnee_memo:not(:last-child) {
@@ -104,7 +99,6 @@
     width: 146px;
     height: 146px;
     justify-content: center;
-    font: normal normal var(--main-font-weight-semibold) 11px/27px var(--main-font-family);
 
     .carte_avatar_inner.cercle_lg {
         font-size: 60px;
@@ -121,7 +115,7 @@
         justify-content: center;
         display: flex;
         align-items: center;
-        top: 50px !important;
+        top: 0 !important;
         left: 50px;
     }
 }

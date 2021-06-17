@@ -57,6 +57,10 @@ export class MenuComponent implements OnInit {
     }
 
     onClickUpsellLastEntities(lastItem): void {
-        this.router.navigate(['/repertoire/' + lastItem]);
+        // this.router.navigate(['/repertoire/' + lastItem]);
+        // TODO : ne marche pas sans le reload à voir
+        this.router.navigate(['/repertoire/' + lastItem]).then(() => {
+            window.location.reload();
+        });
     }
 }

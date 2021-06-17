@@ -1,0 +1,309 @@
+.row_event {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 110px 1fr;
+}
+
+.row_event .timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    h3 {
+        font-weight: var(--main-font-weight-semibold);
+    }
+
+    .tl.planifie {
+        line-height: 19px;
+        color: var(--bleu-azko);
+    }
+
+    .tl.aujourdhui {
+        line-height: 19px;
+        color: var(--warning);
+    }
+
+    .tl.retard {
+        line-height: 19px;
+        color: var(--alert);
+    }
+
+    .tl.fait {
+        line-height: 19px;
+
+        .fait {
+            color: var(--gris-fonce);
+            font-weight: var(--main-font-weight-semibold);
+            line-height: 19px;
+        }
+    }
+
+    .tl.fait:after {
+        height: 15px;
+    }
+}
+
+.row_event .timeline::after {
+    content: "";
+    width: 2px;
+    background-color: var(--gris-fonce);
+    margin-top: -3px;
+    height: -webkit-fill-available;
+}
+
+.row_event .first_event_tl::after {
+    margin-top: 3px;
+}
+
+.row_event .event {
+    display: grid;
+    align-items: center;
+    height: 68px;
+
+    p {
+        font-size: 16px;
+        font-weight: var(--main-font-weight-medium);
+    }
+
+    .indication_status {
+        grid-area: st;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .indication_status::before {
+        font-size: 28px;
+        margin: auto;
+    }
+
+    .libelle_event {
+        grid-area: lib;
+        margin-right: 20px;
+        white-space: nowrap;
+
+        .libelle.icon.haut::before, .libelle.icon.bas::before {
+            display: inline-block;
+            transform: rotate(45deg);
+        }
+    }
+
+    .date_event {
+        grid-area: dat;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        overflow: hidden;
+        margin-right: 20px;
+
+        .icon.icon_blue.planifie {
+            background-color: var(--bleu-azko);
+        }
+
+        .icon.icon_orange.aujourdhui {
+            background-color: var(--warning);
+        }
+
+        .icon.icon_red.enRetard {
+            background-color: var(--alert);
+        }
+
+        .icon_statut {
+            grid-area: ico_s;
+        }
+
+        .date_statut {
+            grid-area: dat_s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .avatar_event {
+        grid-area: ava;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        overflow: hidden;
+        margin-right: 20px;
+
+        .info-avatar-event {
+            white-space: nowrap;
+            overflow: hidden;
+            align-items: center;
+
+            p {
+                color: var(--bg-title-blocks);
+                font-weight: var(--main-font-weight-semibold);
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+
+        ::ng-deep app-avatar {
+            .carte_avatar {
+                height: 48px;
+                width: 48px;
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .carte_avatar_inner {
+                font-weight: var(--main-font-weight-bold);
+            }
+        }
+    }
+
+    .action_event {
+        grid-area: act;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        button {
+            margin-right: 10px;
+        }
+    }
+
+    .action_event_fait {
+        grid-area: act_f;
+    }
+}
+
+.row_event .event.retard_false, .row_event .event:not(event.fait) {
+    grid-template-areas: "st lib dat ava act";
+    grid-template-columns: 60px 0fr 1fr 1fr 1fr;
+}
+
+.row_event .event.fait {
+    grid-template-columns: 60px 0fr 1fr 1fr 1fr;
+}
+
+@media (max-width: 1280px) {
+    .row_event .event .assigned_to {
+        display: none;
+    }
+
+    .row_event .event {
+        grid-template-columns: 60px 1fr 1fr !important;
+        grid-template-areas: "lib lib lib"
+                             "st ava act"
+                             "dat dat dat"
+    }
+
+    .row_event .event {
+        padding: 15px 0 15px 0;
+        height: inherit;
+    }
+
+    .row_event .event .indication_status {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .row_event .event .libelle_event {
+        grid-column: 2;
+        grid-row: 1;
+        margin-left: 5px;
+    }
+
+    .row_event .event .date_event {
+        grid-column: 2;
+        grid-row: 3;
+        margin-top: 15px;
+        margin-left: 3px;
+    }
+
+    .row_event .event .avatar_event {
+        grid-column: 2;
+        grid-row: 2;
+        margin-top: 10px;
+        grid-template-columns: 40px 2fr;
+    }
+
+    .row_event .event .action_event {
+        grid-column: 3;
+        grid-row: 2;
+    }
+
+    ::ng-deep .row_event .event .avatar_event app-avatar .carte_avatar {
+        height: 35px !important;
+        width: 35px !important;
+        font-size: 16px;
+        margin: inherit;
+    }
+}
+
+@media (max-width: 376px) {
+
+    ::ng-deep .container_event {
+        padding: inherit !important;
+    }
+
+    ::ng-deep .information_event {
+        margin-right: 15px !important;
+        margin-left: 15px !important;
+    }
+
+    .info-avatar-event, .row_event .timeline {
+        display: none;
+    }
+
+    .row_event {
+        grid-template-columns: 1fr;
+    }
+
+    .row_event .event {
+        padding: 10px;
+        grid-template-areas: "st lib"
+                             "dat dat"
+                             "ava act" !important;
+        grid-template-columns: 30px 1fr !important;
+    }
+
+    .row_event .event .indication_status {
+        grid-column: 1;
+        grid-row: 1;
+        margin-right: 10px;
+    }
+
+    .row_event .event .libelle_event {
+        grid-column: 2;
+        grid-row: 1;
+        margin-left: 15px;
+    }
+
+    .row_event .event .date_event {
+        grid-column: inherit;
+        grid-row: inherit;
+    }
+
+    .row_event .date_event .icon_statut {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .row_event .date_event .date_statut {
+        grid-column: 2;
+        grid-row: 2;
+        margin-left: 10px;
+    }
+
+    .row_event .event .avatar_event {
+        grid-column: 1;
+        grid-row: 3;
+        grid-template-columns: 40px;
+    }
+
+    .row_event .event .action_event {
+        grid-column: 2;
+        grid-row: 3;
+    }
+}

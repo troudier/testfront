@@ -5,6 +5,8 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NotifierService} from 'angular-notifier';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {ExceptionService} from '../../../_services/exception.service';
 
 @Component({
     selector: 'app-creer-personne',
@@ -23,6 +25,7 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
     public indicatifFrance;
     public typePersonne;
     private notifier: NotifierService;
+    public uuidFormData;
 
     constructor(
         private personneService: PersonneService,
@@ -30,13 +33,15 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
         private router: Router,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
+        private ngxService: NgxUiLoaderService,
+        private exceptionService: ExceptionService,
         notifier: NotifierService
     ) {
         this.notifier = notifier;
     }
 
     ngOnInit(): void {
-        this.typePersonne = this.route.snapshot.data.type;
+        this.typePersonne = this.route.snapshot.data ? this.route.snapshot.data.type : null;
         if (this.typePersonne === 'physique') {
             this.form = this.formBuilder.group({
                 statut: ['', Validators.required],
@@ -76,14 +81,16 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
         this.indicatifOptions = {
             multiple: false
         };
-        this.form.controls.actif.setValue(true);
+        if (this.form) {
+            this.form.controls.actif.setValue(true);
+        }
         this.personneService.getListeIndicatifs().subscribe(
             data => {
                 const indicatifs = [];
                 data.map((item) => indicatifs.push(
                     {
                         id: item.uuid,
-                        text: item.indicatif + ' (' + item.pays + ')',
+                        text: item.indicatif + ' (' + item.pays + ')'
                     }
                 ));
                 this.indicatifFrance = indicatifs[2].id;
@@ -93,19 +100,25 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
                 });
             },
             err => {
-                console.log(err);
+                this.showNotification('error', this.exceptionService.statutErreur(err));
             }
         );
         if (this.typePersonne === 'physique') {
             this.personneService.getListeChampsCreationPP().subscribe(
                 data => {
                     this.champs = data;
-                });
+                }, err => {
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
+                }
+            );
         } else {
             this.personneService.getListeChampsCreationPM().subscribe(
                 data => {
                     this.champs = data;
-                });
+                }, err => {
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
+                }
+            );
         }
     }
 
@@ -117,6 +130,7 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
     }
 
     public onSubmit(): void {
+        this.ngxService.start();
         const formData = {
             raisonSociale: this.form.controls.raisonSociale.value,
             formeJuridique: this.form.controls.formeJuridique.value,
@@ -128,26 +142,25 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
             telephone: this.form.controls.telephone.value,
             visibilite: this.form.controls.visibilite.value,
             actif: this.form.controls.actif.value,
-            referent: this.form['referent'],
-            intervenants: this.form['intervenants'],
+            referent: this.form.controls.referent.value,
+            intervenants: this.form.controls.intervenants.value,
             statut: this.form.controls.statut.value,
             memo: this.form.controls.memo.value,
             type: this.typePersonne
         };
-
         if (this.form.valid) {
-            console.log('valid');
             this.personneService.createPersonne(formData).subscribe(
                 data => {
                     this.router.navigate(['/repertoire/modifier/' + data.content.uuid]);
+                    this.ngxService.stop();
                 },
                 err => {
-                    this.message = err.error;
+                    this.ngxService.stop();
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
                 }
             );
         } else {
-            console.log('invalid');
-            this.verificationChamps();
+            this.showNotification('error', 'Veuillez remplir les champs requis avant de soumettre le formulaire s\'il vous plait');
         }
     }
 
@@ -160,13 +173,8 @@ export class CreerPersonneComponent implements OnInit, AfterViewChecked {
     }
 
     public showNotification(type: string, message: string): void {
-        this.notifier.notify(type, message);
-    }
-
-    public verificationChamps(): void {
-        if (!this.form.valid) {
-            console.log(this.form);
-            this.showNotification('error', 'Veuillez remplir les champs requis avant de soumettre le formulaire s\'il vous plait');
-        }
+        setTimeout(() => {
+            this.notifier.notify(type, message);
+        }, 1000);
     }
 }

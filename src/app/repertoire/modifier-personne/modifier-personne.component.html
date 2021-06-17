@@ -1,9 +1,11 @@
 <div [ngClass]="{carte_alerte: personne.isComplete === '0'}" *ngIf="personne">
-    <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">Fiche incomplète ! Des champs recommandés sont
-        manquants</p>
+    <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">
+        <span>Fiche incomplète ! Des champs recommandés sont manquant</span>
+    </p>
 </div>
 <div class="form_personne form_modifier" *ngIf="personne">
     <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
     <form
         name="form"
         [formGroup]="form"
@@ -12,20 +14,20 @@
     >
         <div class="bandeau_personne_formulaire bandeau_personne_physique icon user"
              *ngIf="personne.type === 'physique'">
-            {{personne.prenom}} {{personne.nom}}
+            <h1>{{personne.prenom}} {{personne.nom}}</h1>
         </div>
         <div class="bandeau_personne_formulaire bandeau_personne_morale icon building"
              *ngIf="personne.type === 'morale'">
-            {{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})
+            <h1>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</h1>
         </div>
         <div class="bandeau_personne_lien_multi" *ngIf="personne.type === 'lien'">
             <div class="bandeau_personne_formulaire bandeau_personne_physique icon user">
-                {{personne.prenom}} {{personne.nom}}
+                <h1>{{personne.prenom}} {{personne.nom}}</h1>
             </div>
             <div class="bandeau_personne_formulaire bandeau_personne_morale icon building">
                 <div>
-                    <p>{{personne.fonctionLibelle}}</p>
-                    <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</p>
+                    <h3>{{personne.fonctionLibelle}}</h3>
+                    <h2>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</h2>
                 </div>
             </div>
         </div>
@@ -36,10 +38,11 @@
                     <div class="input_container">
                         <div class="form_group bloc_avatar">
                             <app-avatar [personne]="personne"></app-avatar>
-                            <div class="container_bouton_edition" *ngIf="personne.type !== 'lien'">
-                                <button class="btn btn-picto-lg btn-editer"></button>
-                                <button class="btn btn-picto-lg btn-supprimer"></button>
-                            </div>
+<!--                            TODO : temporaire : edition de l'avatar-->
+<!--                            <div class="container_bouton_edition" *ngIf="personne.type !== 'lien'">-->
+<!--                                <button class="btn btn-picto-lg btn-editer"></button>-->
+<!--                                <button class="btn btn-picto-lg btn-supprimer"></button>-->
+<!--                            </div>-->
                         </div>
                         <div *ngIf="personne.type === 'physique'">
                             <div class="form_group identite_personne_physique">
@@ -54,14 +57,23 @@
                                     />
                                 </div>
                                 <div class="container_civilite">
-                                    <label for="civilite" class="test_label">Civilité</label>
-                                    <input id="civilite" type="text" style="display: none">
+                                    <label>Civilité</label>
                                     <div>
-                                        <input type="radio" id="civilite_mr" name="civilite" value="M"
-                                               formControlName="civilite">
+                                        <input type="radio"
+                                               id="civilite_mr"
+                                               name="civilite"
+                                               value="M"
+                                               formControlName="civilite"
+                                               [ngClass]="{'background_alert_required': !form.controls.civilite.value}"
+                                        >
                                         <label for="civilite_mr">M.</label>
-                                        <input type="radio" id="civilite_mme" name="civilite" value="Mme"
-                                               formControlName="civilite">
+                                        <input type="radio"
+                                               id="civilite_mme"
+                                               name="civilite"
+                                               value="Mme"
+                                               formControlName="civilite"
+                                               [ngClass]="{'background_alert_required': !form.controls.civilite.value}"
+                                        >
                                         <label for="civilite_mme">Mme.</label>
                                     </div>
                                 </div>
@@ -122,6 +134,7 @@
                                 <div class="espace_input input_lg">
                                     <label for="siret">N° SIRET</label>
                                     <input
+                                        title="SIRET = SIREN + NIC"
                                         type="text"
                                         id="siret"
                                         name="siret"
@@ -237,9 +250,7 @@
                     <div class="bandeau_form">Info commerciales</div>
                     <div class="input_container" *ngIf="personne.type !== 'lien'">
                         <div class="form_group">
-                            <div [ngClass]="{'background_alert_required': !form.controls.statut.value}"
-                                 class="espace_input input_lg"
-                            >
+                            <div class="espace_input input_lg">
                                 <label for="statut">Type</label>
                                 <app-statut-select2
                                     id="statut"
@@ -248,15 +259,16 @@
                                     [multiple]="false"
                                     [value]="personne.statut"
                                     (changed)="onChangedSelect2($event, 'statut')"
+                                    [ngClass]="{'background_alert_required': !form.controls.statut.value}"
                                 ></app-statut-select2>
                             </div>
                             <div class="container_qualite_relation">
-                                <label for="qualite_relation">Qualité relation</label>
+                                <h3 for="qualite_relation">Qualité relation</h3>
                                 <app-note id="qualite_relation" (note)="onChangeNote($event)"></app-note>
                             </div>
                         </div>
                         <div class="form_group">
-                            <div class="espace_input">
+                            <div [ngClass]="{'espace_input': personne.type === 'physique'}">
                                 <div class="tags input_lg">
                                     <label for="tags">Tags</label>
                                     <app-tags-select2
@@ -269,7 +281,7 @@
                                 </div>
                             </div>
                             <div *ngIf="personne.type === 'physique'">
-                                <label for="apporteur">J'accepte de recevoir des informations commerciales</label>
+                                <label for="apporteur">Accepter de recevoir des informations commerciales</label>
                                 <input type="checkbox"
                                        name="{{personne.infoCommerciale}}"
                                        class="icon"
@@ -318,7 +330,6 @@
                     <div class="input_container" *ngIf="personne.type === 'lien'">
                         <div class="form_group">
                             <div class="espace_input input_lg">
-                                <!-- status-->
                                 <app-statut-select2
                                     id="status"
                                     [form]="form"
@@ -330,7 +341,7 @@
                                 ></app-statut-select2>
                             </div>
                             <div class="container_qualite_relation">
-                                <label for="qualite_relation">Qualité relation</label>
+                                <h3 for="qualite_relation">Qualité relation</h3>
                                 <app-note id="qualite_relation" (note)="onChangeNote($event)"></app-note>
                             </div>
                         </div>
@@ -356,9 +367,11 @@
                                     <div class="donnee_memo" *ngFor="let memo of personne.memos"
                                          data-uuid="{{memo.uuid}}">
                                         <div class="bandeau_fiche">
-                                            <span class="date_memo">&nbsp;Le {{memo.date}} </span>
+                                            <span class="date_memo">&nbsp;Le {{memo.date | date:'shortDate'}} </span>
                                             <span
-                                                class="identite_personne_memo">{{memo.creationPrenom}} {{memo.creationNom}}</span>
+                                                class="identite_personne_memo">
+                                                {{memo.creationPrenom}} {{memo.creationNom}}
+                                            </span>
                                         </div>
                                         <div class="memo_fiche">
                                             {{ memo.texte }}
@@ -387,16 +400,24 @@
                     <app-bloc-visibilite [form]="form" [type]="'personne'"></app-bloc-visibilite>
                 </div>
                 <div class="bloc_coordonnees">
-                    <div class="bandeau_form">Coordonnées Personnelles</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'physique'">Coordonnées Personnelles</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'morale'">Coordonnées</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'lien'">Coordonnées professionnelles</div>
                     <app-coordonnees
+                        [emailPrincipal]="emailPrincipal"
+                        [telPrincipal]="telPrincipal"
                         [uuid]="form.controls.uuid.value"
                         (valeursEvent)="onChangeCoordonnees($event)"
                     ></app-coordonnees>
                 </div>
-                <div class="bloc_adresses">
-                    <div class="bandeau_form">Adresses Personnelles</div>
+                <div class="bloc_adresses"
+                     [ngClass]="{'background_alert_recommended': adressePrincipal === 0}">
+                    <div class="bandeau_form" *ngIf="personne.type === 'physique'">Adresses Personnelles</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'morale'">Adresses</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'lien'">Adresses professionnelles</div>
                     <div class="input_container">
                         <app-adresses
+                            [adressesPrincipal]="adressePrincipal"
                             [uuid]="form.controls.uuid.value"
                             (valeursEvent)="onChangeAdresses($event)"
                         ></app-adresses>
@@ -405,9 +426,9 @@
             </div>
         </div>
         <div class="form_bas">
-            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
-            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
-            </button>
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmitCancel()"><span>Enregistrer et fermer</span></button>
         </div>
         <div *ngIf="message">
             {{message.erreur}}

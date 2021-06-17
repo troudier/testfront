@@ -39,7 +39,7 @@ export class SegmentEditValeursComponent implements OnInit {
             observer.complete();
         });
 
-        if (this.filtre.value.champ.type === 'select2') {
+        if (this.filtre && this.filtre.value.champ.type === 'select2') {
 
             this.helperService.getDictionnaire(this.filtre.value.champ.libelle).subscribe(
                 data => {
@@ -66,7 +66,7 @@ export class SegmentEditValeursComponent implements OnInit {
                             });
                         });
                         Object.keys(this.form.controls.filtres.value).map((key) => {
-                            if(this.filtre.value.uuid === this.form.controls.filtres.value[key].uuid){
+                            if (this.filtre.value.uuid === this.form.controls.filtres.value[key].uuid) {
                                 this.form.controls.filtres.value[key].valeurs[0] = this.value;
                             }
                         });
@@ -80,39 +80,41 @@ export class SegmentEditValeursComponent implements OnInit {
                 multiple: true,
             };
         } else {
-            this.data =  [];
+            this.data = [];
             this.options = {
                 multiple: true,
                 tags: true
             };
         }
-        this.valeurs.map((item) => {
-            if (typeof item[0] === 'string') {
-                if (this.filtre.value.operateur.nbValeurs === 0) {
-                    this.value = item;
-                } else {
-                    const tmp = [];
-                    item.map((value, index) => {
-                        tmp.push({
-                            id: index,
-                            text: value
+        if (this.valeurs) {
+            this.valeurs.map((item) => {
+                if (typeof item[0] === 'string') {
+                    if (this.filtre.value.operateur.nbValeurs === 0) {
+                        this.value = item;
+                    } else {
+                        const tmp = [];
+                        item.map((value, index) => {
+                            tmp.push({
+                                id: index,
+                                text: value
+                            });
+                            if (this.filtre.value.champ.type !== 'select2') {
+                                this.value.push(String(index));
+                            }
                         });
                         if (this.filtre.value.champ.type !== 'select2') {
-                            this.value.push(String(index));
+                            this.data = tmp;
+                            this.dataAsync = new Observable(observer => {
+                                observer.next(tmp);
+                                observer.complete();
+                            });
                         }
-                    });
-                    if (this.filtre.value.champ.type !== 'select2') {
-                        this.data = tmp;
-                        this.dataAsync = new Observable(observer => {
-                            observer.next(tmp);
-                            observer.complete();
-                        });
                     }
+                } else {
+                    this.intevalle = item[0];
                 }
-            } else {
-                this.intevalle = item[0];
-            }
-        });
+            });
+        }
     }
 
     onChangedSelect2($event, id, type): void {

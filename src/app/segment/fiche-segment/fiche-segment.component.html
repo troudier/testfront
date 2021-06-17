@@ -1,8 +1,10 @@
+<notifier-container></notifier-container>
+<ngx-ui-loader></ngx-ui-loader>
 <div class="fiche segment" *ngIf="segment">
     <div class="fiche_gauche">
         <div class="fiche_bloc1">
             <div class="carte_titre bandeau_personne bandeau_segment icon user">
-                {{segment.titre}}
+                <h1>{{segment.titre}}</h1>
             </div>
             <div class="carte_information">
                 <div class="information">
@@ -84,13 +86,13 @@
     </div>
     <div class="fiche_droite" *ngIf="resultats">
         <div class="onglet segment">
-            <div class="onglet icon list">Résultat</div>
+            <div class="onglet_segment icon list">Résultat</div>
         </div>
         <div class="carte_information">
             <div class="container_information">
                 <div class="info_fiche_segment">
-                    <p>Dernière exécution : {{segment.derniereDate | date : 'dd/MM/YYYY'  }}</p>
-                    <p>{{nbResultats.public}} + {{nbResultats.prive}} contacts trouvés</p>
+                    <h2>Dernière exécution : {{segment.derniereDate | date : 'dd/MM/YYYY'}}</h2>
+                    <h2>{{nbResultats.public}} + {{nbResultats.prive}} contacts trouvés</h2>
                 </div>
             </div>
             <div class="container_action">

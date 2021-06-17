@@ -1,20 +1,25 @@
 .carte_avatar.small {
-  height: 40px;
-  width: 40px;
-  font-size: 23px;
-  bottom: -12px;
-  right: -10px;
+    height: 40px;
+    width: 40px;
+    font-size: 23px;
+    bottom: -12px;
+    right: -10px;
 }
 
 .carte_avatar.morale {
-  background: var(--gris-clair-2);
-  border: 3px solid var(--blanc);
+    background: var(--gris-clair-2);
+    border: 3px solid var(--blanc);
 }
 
 .carte_avatar.small, .carte_avatar.small.morale {
-  top: 15px;
+    top: 15px;
 }
 
 .carte_avatar_inner.small {
-  top: 5px;
+    top: 5px;
+}
+
+// cache les initials de la PM sur les evenements quand l'evenement est sur une personne lien
+::ng-deep .avatar_event app-avatar .carte_avatar .carte_avatar.morale.small {
+    display: none;
 }

@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FicheSegmentComponent } from './fiche-segment.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ActivatedRoute} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('FicheComponent', () => {
   let component: FicheSegmentComponent;
@@ -8,7 +11,20 @@ describe('FicheComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FicheSegmentComponent ]
+      declarations: [ FicheSegmentComponent ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers:
+          [
+            {
+              provide: ActivatedRoute,
+              useValue: {
+                snapshot: {params: {}}
+              }
+            }
+          ]
     })
     .compileComponents();
   });

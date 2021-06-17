@@ -1,12 +1,13 @@
 <div class="form_personne form_ajouter<">
     <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
     <form name="form"
           [formGroup]="form"
           #f="ngForm"
           novalidate
     >
         <div class="icon user bandeau_personne_formulaire bandeau_personne_morale">
-            <span>Nouvelle fonction</span>
+            <h1>Nouvelle fonction</h1>
         </div>
         <div class="formulaire personne_fonction">
             <div class="container_form">
@@ -18,10 +19,10 @@
                                     [options]="optionsPhysique"
                                     [className]="'typeSelect'"
                                     [value]="valuePhysique"
+                                    ngDefaultControl
                                     id="physique"
                                     formControlName="physique"
                                     (valueChanged)="valueChanged($event, 'physique')"
-                                    [disabled]="disabledPhysique"
                         ></ng-select2>
                     </div>
                     <div class="input_container input_lg">
@@ -31,10 +32,10 @@
                                         [options]="optionsMorale"
                                         [className]="'typeSelect'"
                                         [value]="valueMorale"
+                                        ngDefaultControl
                                         id="morale"
                                         formControlName="morale"
                                         (valueChanged)="valueChanged($event, 'morale')"
-                                        [disabled]="!disabledPhysique"
                             ></ng-select2>
                         </div>
                     </div>
@@ -57,9 +58,8 @@
             </div>
         </div>
         <div class="form_bas">
-            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
-            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
-            </button>
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
         </div>
     </form>
 </div>

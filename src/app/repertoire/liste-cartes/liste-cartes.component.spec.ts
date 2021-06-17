@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListeCartesComponent } from './liste-cartes.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {NotifierModule} from 'angular-notifier';
 
 describe('ListeCartesComponent', () => {
   let component: ListeCartesComponent;
@@ -8,7 +10,11 @@ describe('ListeCartesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ListeCartesComponent ]
+      declarations: [ ListeCartesComponent ],
+      imports: [
+        HttpClientTestingModule,
+        NotifierModule
+      ]
     })
     .compileComponents();
   });

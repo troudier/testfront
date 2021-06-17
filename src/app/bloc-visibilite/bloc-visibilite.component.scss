@@ -5,19 +5,22 @@
     input[type="radio"] {
         height: 32px;
     }
-
-    input[type="radio"] + label {
-        font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-        color: #3D3D3D;
-    }
 }
 
 .container_visibilite .input_container {
     padding: 0 30px 25px 30px;
 }
 
+.container_visibilite .input_container .info_visibilite {
+    margin-top: 5px;
+}
+
 .container_visibilite .form_group {
     display: block;
+}
+
+.container_visibilite .bandeau_form {
+    justify-content: space-between;
 }
 
 .input_visibilite {

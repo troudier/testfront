@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { environment } from 'src/environments/environment';
 
-const API_URL = 'http://localhost:8083/api/v1/';
-
+const API_URL = environment.apiURL;
 const httpOptions = {
     headers: new HttpHeaders(
         {
@@ -30,4 +30,9 @@ export class HelperService {
         return this.http.get(API_URL + 'dictionnaire/' + type);
     }
 
+    importFile(form): Observable<any> {
+        return this.http.post(API_URL + 'import',
+            form
+        );
+    }
 }

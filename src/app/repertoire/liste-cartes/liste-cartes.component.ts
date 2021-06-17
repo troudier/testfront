@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PersonneService} from '../../_services/personne.service';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {NotifierService} from 'angular-notifier';
+import {ExceptionService} from '../../_services/exception.service';
 
 @Component({
     selector: 'app-liste-cartes',
@@ -18,9 +21,15 @@ export class ListeCartesComponent implements OnInit {
     typeFiltre = '';
     private finListe = false;
     private rechercheEnCours = false;
+    private notifier: NotifierService;
+
     constructor(
-        private personneService: PersonneService
+        private personneService: PersonneService,
+        private exceptionService: ExceptionService,
+        private ngxService: NgxUiLoaderService,
+        notifier: NotifierService
     ) {
+        this.notifier = notifier;
     }
 
     ngOnInit(): void {
@@ -35,7 +44,7 @@ export class ListeCartesComponent implements OnInit {
                 this.personnes = data;
             },
             err => {
-                this.errorMessage = err.error.message;
+                this.showNotification('error', this.exceptionService.statutErreur(err));
             }
         );
     }
@@ -57,12 +66,14 @@ export class ListeCartesComponent implements OnInit {
                 },
                 err => {
                     this.errorMessage = err.error.message;
+                    this.showNotification('error', this.errorMessage);
                 }
             );
         }
     }
 
     onStatutFiltre(filtre): void {
+        this.ngxService.start();
         this.statutFiltre = filtre.join(',');
         this.offset = 0;
         this.personneService.getPersonnesListe(
@@ -74,14 +85,18 @@ export class ListeCartesComponent implements OnInit {
         ).subscribe(data => {
                 this.personnes = [];
                 data.map((item) => this.personnes.push(item));
+                this.ngxService.stop();
             },
             err => {
                 this.errorMessage = err.error.message;
+                this.ngxService.stop();
+                this.showNotification('error', this.errorMessage);
             }
         );
     }
 
     onTypeFiltre(filtre): void {
+        this.ngxService.start();
         this.typeFiltre = filtre.join(',');
         this.offset = 0;
         this.personneService.getPersonnesListe(
@@ -94,14 +109,18 @@ export class ListeCartesComponent implements OnInit {
                 this.personnes = [];
                 data.map((item) => this.personnes.push(item));
                 this.offset = this.offset + this.limit;
+                this.ngxService.stop();
             },
             err => {
                 this.errorMessage = err.error.message;
+                this.ngxService.stop();
+                this.showNotification('error', this.errorMessage);
             }
         );
     }
 
     onRecherche(recherche): void {
+        this.ngxService.start();
         this.recherche = recherche;
         this.offset = 0;
         this.personneService.getPersonnesListe(
@@ -114,10 +133,19 @@ export class ListeCartesComponent implements OnInit {
                 this.personnes = [];
                 data.map((item) => this.personnes.push(item));
                 this.offset = this.offset + this.limit;
+                this.ngxService.stop();
             },
             err => {
                 this.errorMessage = err.error.message;
+                this.ngxService.stop();
+                this.showNotification('error', this.errorMessage);
             }
         );
+    }
+
+    public showNotification(type: string, message: string): void {
+        setTimeout(() => {
+            this.notifier.notify(type, message);
+        }, 1000);
     }
 }

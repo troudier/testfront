@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonnnesPhysiqueSelect2Component } from './personnnes-physique-select2.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('PersonnnesPhysiqueSelect2Component', () => {
   let component: PersonnnesPhysiqueSelect2Component;
@@ -8,7 +9,10 @@ describe('PersonnnesPhysiqueSelect2Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PersonnnesPhysiqueSelect2Component ]
+      declarations: [ PersonnnesPhysiqueSelect2Component ],
+      imports: [
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });

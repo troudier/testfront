@@ -5,6 +5,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NotifierService} from 'angular-notifier';
 import {FilArianeService} from '../../_services/fil-ariane.service';
 import {Subscription} from 'rxjs';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {ExceptionService} from '../../_services/exception.service';
 
 @Component({
     selector: 'app-modifier-personne',
@@ -18,11 +20,15 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
     public personne;
     private qualite;
     public valeursPersonnalises = [];
-    public coordonnees = [];
+    public coordonnees = {};
     public adresses = [];
     private notifier: NotifierService;
     public libelle: string;
     private subscription: Subscription;
+    public emailPrincipal = 0;
+    public telPrincipal = 0;
+    public adressePrincipal = 0;
+    public formValid = false;
 
     constructor(
         private personneService: PersonneService,
@@ -31,6 +37,8 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private filArianeService: FilArianeService,
+        private ngxService: NgxUiLoaderService,
+        private exceptionService: ExceptionService,
         notifier: NotifierService
     ) {
         this.notifier = notifier;
@@ -43,7 +51,6 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
 
     ngOnInit(): void {
         this.subscription = this.filArianeService.libelleCourrant.subscribe(libelle => this.libelle = libelle);
-
         this.personneService.getPersonne(this.route.snapshot.params.id).subscribe(
             data => {
                 this.personne = data;
@@ -71,9 +78,11 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
                         });
                     this.formPersonneLien();
                 }
-                console.log(this.personne)
                 this.form.patchValue(data);
-            });
+            }, err => {
+                this.showNotification('error', this.exceptionService.statutErreur(err));
+            }
+        );
     }
 
     formPersonneMorale(): void {
@@ -82,7 +91,7 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
             visibilite: ['', Validators.required],
             raisonSociale: ['', Validators.required],
             formeJuridique: ['', Validators.required],
-            civilite: [''],
+            civilite: ['', Validators.required],
             prenom: [''],
             nom: [''],
             actif: [''],
@@ -149,7 +158,7 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
             raisonSociale: [''],
             formeJuridique: [''],
             titre: [''],
-            civilite: [''],
+            civilite: ['', Validators.required],
             prenom: [''],
             nom: [''],
             actif: [''],
@@ -175,7 +184,9 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
     }
 
     public showNotification(type: string, message: string): void {
-        this.notifier.notify(type, message);
+        setTimeout(() => {
+            this.notifier.notify(type, message);
+        }, 1000);
     }
 
     onChangeNote($event): void {
@@ -192,58 +203,102 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
     }
 
     public onSubmit(): void {
-        const formData = {
-            apporteur: this.form.controls.apporteur.value,
-            civilite: this.form.controls.civilite.value,
-            nom: this.form.controls.nom.value,
-            origine: this.form.controls.origine.value,
-            prenom: this.form.controls.prenom.value,
-            statut: this.form.controls.statut.value,
-            titre: this.form.controls.titre.value,
-            qualite: this.qualite ? this.qualite : 0,
-            uuid: this.personne.uuid,
-            visibilite: this.form.controls.visibilite.value,
-            actif: this.form.controls.actif.value,
-            referent: this.form.controls.referent.value,
-            infoCommerciale: this.form.controls.infoCommerciale.value,
-            intervenants: this.form.controls.intervenants.value,
-            tags: this.form.controls.tags.value,
-            memos: this.form.controls.memos.value,
-            personnalises: this.valeursPersonnalises,
-            coordonnees: this.coordonnees,
-            adresses: this.adresses,
-            raisonSociale: this.form.controls.raisonSociale.value,
-            formeJuridique: this.form.controls.formeJuridique.value,
-            capital: this.form.controls.capital.value,
-            siret: this.form.controls.siret.value,
-            codeNaf: this.form.controls.codeNaf.value,
-            effectif: this.form.controls.effectif.value,
-            chiffreAffaire: this.form.controls.chiffreAffaire.value,
-            organisationParente: this.form.controls.organisationParente.value,
-            fonction: this.form.controls.fonction.value,
-            fonctionPersonnalisee: this.form.controls.fonctionPersonnalisee.value,
-        };
+        this.ngxService.start();
+        let formData = null;
+        if (this.personne.type === 'physique') {
+            formData = {
+                apporteur: this.form.controls.apporteur.value,
+                civilite: this.form.controls.civilite.value,
+                nom: this.form.controls.nom.value,
+                origine: this.form.controls.origine.value,
+                prenom: this.form.controls.prenom.value,
+                statut: this.form.controls.statut.value,
+                titre: this.form.controls.titre.value,
+                qualite: this.qualite ? this.qualite : 0,
+                uuid: this.personne.uuid,
+                visibilite: this.form.controls.visibilite.value,
+                actif: this.form.controls.actif.value,
+                referent: this.form.controls.referent.value,
+                infoCommerciale: this.form.controls.infoCommerciale.value,
+                intervenants: this.form.controls.intervenants.value,
+                tags: this.form.controls.tags.value,
+                memos: this.form.controls.memos.value,
+                personnalises: this.valeursPersonnalises,
+                coordonnees: this.coordonnees,
+                adresses: this.adresses,
+                raisonSociale: this.form.controls.raisonSociale.value,
+                formeJuridique: this.form.controls.formeJuridique.value,
+                capital: this.form.controls.capital.value,
+                siret: this.form.controls.siret.value,
+                codeNaf: this.form.controls.codeNaf.value,
+                effectif: this.form.controls.effectif.value,
+                chiffreAffaire: this.form.controls.chiffreAffaire.value,
+                organisationParente: this.form.controls.organisationParente.value,
+                fonction: this.form.controls.fonction.value,
+                fonctionPersonnalisee: this.form.controls.fonctionPersonnalisee.value,
+            };
+        } else {
+            formData = {
+                apporteur: this.form.controls.apporteur.value,
+                civilite: this.form.controls.civilite.value,
+                nom: this.form.controls.nom.value,
+                origine: this.form.controls.origine.value,
+                prenom: this.form.controls.prenom.value,
+                statut: this.form.controls.statut.value,
+                titre: this.form.controls.titre.value,
+                qualite: this.qualite ? this.qualite : 0,
+                uuid: this.personne.uuid,
+                visibilite: this.form.controls.visibilite.value,
+                actif: this.form.controls.actif.value,
+                referent: this.form.controls.referent.value,
+                intervenants: this.form.controls.intervenants.value,
+                tags: this.form.controls.tags.value,
+                memos: this.form.controls.memos.value,
+                personnalises: this.valeursPersonnalises,
+                coordonnees: this.coordonnees,
+                adresses: this.adresses,
+                raisonSociale: this.form.controls.raisonSociale.value,
+                formeJuridique: this.form.controls.formeJuridique.value,
+                capital: this.form.controls.capital.value,
+                siret: this.form.controls.siret.value,
+                codeNaf: this.form.controls.codeNaf.value,
+                effectif: this.form.controls.effectif.value,
+                chiffreAffaire: this.form.controls.chiffreAffaire.value,
+                organisationParente: this.form.controls.organisationParente.value,
+                fonction: this.form.controls.fonction.value,
+                fonctionPersonnalisee: this.form.controls.fonctionPersonnalisee.value,
+            };
+        }
         if (this.form.valid) {
-            this.personneService.updatePersonnePhysique(this.personne.uuid, formData).subscribe(
+            this.personneService.updatePersonne(this.personne.uuid, formData).subscribe(
                 data => {
                     if (this.personne.type === 'physique') {
                         this.showNotification('success', 'La personne ' + this.personne.nom + ' a bien été mise à jour');
-                    } else {
+                    }
+
+                    if (this.personne.type === 'morale'){
                         this.showNotification('success', 'La société ' + this.personne.raisonSociale + ' a bien été mise à jour');
                     }
+
+                    if (this.personne.type === 'lien'){
+                        this.showNotification('success', 'La fonction a bien été mise à jour');
+                    }
+                    this.ngxService.stop();
                 },
                 err => {
-                    this.message = err.error;
-                    this.showNotification('error', this.message);
+                    this.ngxService.stop();
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
                 }
             );
+            this.formValid = true;
         } else {
-            this.showNotification('error', 'Veuillez remplir les champs requis');
+            this.ngxService.stop();
+            this.showNotification('error', 'Veuillez remplir les champs requis avant de soumettre le formulaire s\'il vous plait');
         }
     }
 
     public onCancel(): void {
-        this.router.navigate(['/repertoire']);
+        this.router.navigate(['repertoire/' + this.route.snapshot.params.id]);
     }
 
     onChangedSelect2($event, id): void {
@@ -255,11 +310,48 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
     }
 
     onChangeCoordonnees($event): void {
+        let foundEmail = false;
+        let foundTel = false;
         this.coordonnees = $event;
+        if ($event.emails) {
+            $event.emails.forEach(email => {
+                if (email.principal === true) {
+                    this.emailPrincipal = 1;
+                    foundEmail = true;
+                }
+            });
+            if (foundEmail === false) {
+                this.emailPrincipal = 0;
+            }
+        }
+
+        if ($event.telephones) {
+            $event.telephones.forEach(telephone => {
+                if (telephone.principal === true) {
+                    this.telPrincipal = 1;
+                    foundTel = true;
+                }
+            });
+            if (foundTel === false) {
+                this.telPrincipal = 0;
+            }
+        }
     }
 
     onChangeAdresses($event): void {
         this.adresses = $event;
+        let foundAdresse = false;
+        if (this.adresses) {
+            this.adresses.forEach(adresse => {
+                if (adresse.principal === true) {
+                    this.adressePrincipal = 1;
+                    foundAdresse = true;
+                }
+            });
+            if (foundAdresse === false) {
+                this.adressePrincipal = 0;
+            }
+        }
     }
 
     /* Récupère le libellé, pour construire le fil d'ariane */
@@ -279,5 +371,14 @@ export class ModifierPersonneComponent implements OnInit, AfterViewChecked, OnDe
         } else {
             this.form.controls.infoCommerciale.setValue('0');
         }
+    }
+
+    onSubmitCancel(): void {
+        this.onSubmit();
+        setTimeout(() => {
+            if (this.formValid === true) {
+                this.router.navigate(['repertoire/' + this.route.snapshot.params.id]);
+            }
+        }, 1000);
     }
 }
