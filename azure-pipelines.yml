@@ -103,7 +103,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'scaleway container registry'
-        repository: 'azko-upsell/crm-ui'
+        repository: 'azko-upsell/test-ui'
         command: 'buildAndPush'
         Dockerfile: './docker/prod/Dockerfile'
         buildContext: '.'
@@ -152,7 +152,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'scaleway container registry'
-        repository: 'azko-upsell/crm-ui'
+        repository: 'azko-upsell/test-ui'
         command: 'buildAndPush'
         Dockerfile: './docker/prod/Dockerfile'
         buildContext: '.'
@@ -184,7 +184,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'scaleway container registry'
-        repository: 'azko-upsell/crm-ui'
+        repository: 'azko-upsell/test-ui'
         command: 'buildAndPush'
         Dockerfile: './docker/prod/Dockerfile'
         buildContext: '.'
