@@ -1,4 +1,4 @@
-<div class="container_onglet">
+<div class="container_onglet" *ngIf="data">
   <div *ngFor="let onglet of data" (click)="changeOnglet(onglet.uuid)" class="div_onglet" [ngClass]="{'active': active === onglet.uuid}">
     <span *ngIf="onglet.type === 'physique'" id="{{onglet.uuid}}" class="onglet {{onglet.type}}" [ngClass]="{'active': active === onglet.uuid}">
       {{onglet.prenom}} {{onglet.nom}}

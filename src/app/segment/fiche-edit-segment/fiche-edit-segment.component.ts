@@ -1,8 +1,10 @@
 import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SegmentService} from '../../_services/segment.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {ExceptionService} from '../../_services/exception.service';
 
 @Component({
     selector: 'app-fiche-edit-segment',
@@ -18,12 +20,16 @@ export class FicheEditSegmentComponent implements OnInit, AfterViewChecked {
     private notifier: NotifierService;
     public nbContacts;
     public showCalculer = false;
-
+    public creation = false;
+    public formValid = false;
     constructor(
+        private router: Router,
         private segmentService: SegmentService,
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private ref: ChangeDetectorRef,
+        private ngxService: NgxUiLoaderService,
+        private exceptionService: ExceptionService,
         notifier: NotifierService
     ) {
         this.notifier = notifier;
@@ -42,7 +48,9 @@ export class FicheEditSegmentComponent implements OnInit, AfterViewChecked {
         if (this.route.snapshot.params.id !== 'nouveau') {
             this.getData(this.route.snapshot.params.id);
         }else{
-            this.segment = {uuid: 'nouveau',
+            this.creation = true;
+            this.segment = {
+                uuid: 'nouveau',
                 titre: '',
                 intervenants: [],
                 referent: [],
@@ -110,24 +118,30 @@ export class FicheEditSegmentComponent implements OnInit, AfterViewChecked {
     }
 
     onSubmit(): void {
+        this.ngxService.start();
         const formData = this.creerForm();
         if (this.form.valid) {
             this.segmentService.updateSegment(this.segment.uuid, formData).subscribe(
                 data => {
-                    this.showNotification('success', 'La segment ' + this.segment.titre + ' a bien été mise à jour');
+                    this.ngxService.stop();
+                    this.showNotification('success', 'Le segment ' + this.segment.titre + ' a bien été mis à jour');
                 },
                 err => {
-                    this.message = err.error;
-                    this.showNotification('error', this.message);
+                    this.ngxService.stop();
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
                 }
             );
+            this.formValid = true;
         } else {
+            this.ngxService.stop();
             this.showNotification('error', 'Veuillez remplir les champs requis');
         }
     }
 
     public showNotification(type: string, message: string): void {
-        this.notifier.notify(type, message);
+        setTimeout(() => {
+            this.notifier.notify(type, message);
+        }, 1000);
     }
 
     calculateFiltres(): void {
@@ -160,5 +174,18 @@ export class FicheEditSegmentComponent implements OnInit, AfterViewChecked {
 
     showResultats(): void {
         this.resultats = null;
+    }
+
+    public onSubmitCancel(): void {
+        this.onSubmit();
+        setTimeout(() => {
+            if (this.formValid === true) {
+                this.router.navigate(['/segment/' + this.segment.uuid]);
+            }
+        }, 1000);
+    }
+
+    public onCancel(): void {
+        this.router.navigate(['/segment/']);
     }
 }

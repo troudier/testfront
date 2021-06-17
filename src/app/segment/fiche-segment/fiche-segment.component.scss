@@ -1,7 +1,5 @@
 .fiche.segment {
-    
     .fiche_gauche {
-        width: 25%;
         margin-right: 30px;
         display: grid;
         grid-template-rows: 1fr;
@@ -52,7 +50,7 @@
                 font-size: 16px;
             }
             
-            .information p.valeur_champ {
+            .information p.valeur_champ, span {
                 font-size: 20px;
                 font-weight: 600;
             }
@@ -88,7 +86,7 @@
             .content_select2 {
                 ::ng-deep .select2-selection.select2-selection--multiple {
                     min-height: 48px;
-                    padding-right: 45px;
+                    padding-right: 5px;
                     caret-color: transparent;
                 }
                 
@@ -99,7 +97,6 @@
                 }
                 
                 ::ng-deep .select2-search__field {
-                    height: 20px;
                     margin-top: 9px !important;
                 }
                 
@@ -108,7 +105,6 @@
             .qualite_relation {
                 display: grid;
                 grid-template-columns: 4fr 1fr;
-                font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
                 margin-top: 120px;
                 padding-bottom: 20px;
             }
@@ -181,6 +177,8 @@
                 
                 .btn {
                     margin-right: 10px;
+                    display: flex;
+                    white-space: nowrap;
                 }
             }
         }
@@ -189,7 +187,7 @@
             padding: 10px 25px 10px;
             overflow-y: auto;
             overflow-x: hidden;
-            height: 99%;
+            height: 79%;
     
             .contacts_find.icon::before {
                 font-size: 18px;
@@ -228,9 +226,4 @@
             font-weight: 600;
         }
     }
-    
-    .bandeau_segment {
-        background-color: var(--segments);
-    }
-
 }

@@ -32,9 +32,7 @@ export class BlocVisibiliteComponent implements OnInit, AfterViewChecked {
         this.personneService.getPersonneCourante().subscribe(
             data => {
                 this.uuidReferent = data.uuid;
-                if(this.form.controls.referent.value){
-                    this.form.controls.referent.value.push(data.uuid);
-                }else{
+                if(!this.form.controls.referent.value || this.form.controls.referent.value.length === 0){
                     this.form.controls.referent.value = [data.uuid];
                 }
             },
@@ -54,7 +52,7 @@ export class BlocVisibiliteComponent implements OnInit, AfterViewChecked {
             this.form.controls.visibilite.setValue('3');
         }
 
-        if (this.form.controls.uuid) {
+        if (this.form && this.form.controls.uuid) {
             this.helperService.getIntervenants(this.form.controls.uuid.value, this.type).subscribe(
                 data => {
                     const intervenants = [];

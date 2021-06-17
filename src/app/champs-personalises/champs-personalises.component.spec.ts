@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChampsPersonalisesComponent } from './champs-personalises.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ChampsPersonalisesComponent', () => {
   let component: ChampsPersonalisesComponent;
@@ -8,7 +10,12 @@ describe('ChampsPersonalisesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChampsPersonalisesComponent ]
+      declarations: [ ChampsPersonalisesComponent ],
+      imports : [
+        ReactiveFormsModule,
+        FormsModule,
+          HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });

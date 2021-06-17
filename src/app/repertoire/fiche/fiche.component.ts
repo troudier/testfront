@@ -1,9 +1,14 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PersonneService} from '../../_services/personne.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FilArianeService} from '../../_services/fil-ariane.service';
 import {UpsellLastEntitesService} from '../../_services/upsell-last-entites.service';
+import {EvenementService} from '../../_services/evenement.service';
+import {NotifierService} from 'angular-notifier';
+import {count} from 'rxjs/operators';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {ExceptionService} from '../../_services/exception.service';
 
 @Component({
     selector: 'app-fiche',
@@ -20,6 +25,11 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
     public tags;
     public disabled = false;
     private lastItems: string;
+    private events: any;
+    public nbEventATraiter = 0;
+    public nbEvent = 0;
+    public noteDisabled;
+    private notifier: NotifierService;
 
 
     constructor(
@@ -28,8 +38,13 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
         private filArianeService: FilArianeService,
         private router: Router,
         private cd: ChangeDetectorRef,
-        private upsellLastEntity: UpsellLastEntitesService
+        private upsellLastEntity: UpsellLastEntitesService,
+        private evenementService: EvenementService,
+        private ngxService: NgxUiLoaderService,
+        private exceptionService: ExceptionService,
+        notifier: NotifierService
     ) {
+        this.notifier = notifier;
         this.subscription = this.filArianeService.libelleCourrant.subscribe(libelle => this.libelle = libelle);
         if (this.router.getCurrentNavigation() && this.router.getCurrentNavigation().extras.state) {
             this.libelle = this.getLibelle(this.router.getCurrentNavigation().extras.state);
@@ -51,6 +66,9 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     /* Récupère les données d'une fiche */
+
+    /* Récupère le libellé, pour construire le fil d'ariane */
+
     getData(uuid): void {
         this.personneService.getPersonne(
             uuid
@@ -58,7 +76,6 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
             data => {
                 if (this.libelle === ' ') {
                     this.libelle = this.getLibelle(data);
-
                     this.filArianeService.changeLibelle(this.libelle);
                 }
                 this.personne = data;
@@ -70,12 +87,18 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.disabled = this.personne.type === 'lien';
             },
             err => {
-                this.errorMessage = err.error.message;
+                this.showNotification('error', this.exceptionService.statutErreur(err));
             }
         );
+        this.countNbEventATraiter(uuid);
     }
 
-    /* Récupère le libellé, pour construire le fil d'ariane */
+    public showNotification(type: string, message: string): void {
+        setTimeout(() => {
+            this.notifier.notify(type, message);
+        }, 1000);
+    }
+
     getLibelle(personne): string {
         let libelle = '';
         if (personne.type === 'morale') {
@@ -93,11 +116,10 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
             uuid
         ).subscribe(
             data => {
-                data.map((item) => this.onglets.push(item)
-                );
+                data.map((item) => this.onglets.push(item));
             },
             err => {
-                this.errorMessage = err.error.message;
+                this.showNotification('error', this.exceptionService.statutErreur(err));
             }
         );
     }
@@ -109,7 +131,26 @@ export class FicheComponent implements OnInit, OnDestroy, AfterViewInit {
     toModif(uuid): void {
         this.router.navigate(['/repertoire/modifier/' + uuid]);
     }
+
     ngAfterViewInit(): void {
         this.cd.detectChanges();
+    }
+
+    creerEvenement(): void {
+        this.router.navigate(['repertoire/creer/evenement/' + this.route.snapshot.params.id]);
+    }
+
+    countNbEventATraiter(uuid): void {
+        this.evenementService.getListeEvenements(uuid).subscribe(
+            events => {
+                this.events = events;
+                this.events.map(evts => {
+                    this.nbEvent++;
+                    if (evts.statut === 1) {
+                        this.nbEventATraiter++;
+                    }
+                });
+            }
+        );
     }
 }

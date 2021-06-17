@@ -1,9 +1,8 @@
-<div class="select2_sans_badge">
-    <ng-select2 [data]="data | async"
-                [options]="options"
-                [className]="'typeSelect'"
-                id="{{id}}"
-                [value]="value"
-                (valueChanged)="valueChanged($event)"
-    ></ng-select2>
-</div>
+<ng-select2 [data]="data | async"
+            [options]="options"
+            [className]="'typeSelect'"
+            id="{{id}}"
+            [value]="value"
+            (valueChanged)="valueChanged($event)"
+></ng-select2>
+

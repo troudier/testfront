@@ -1,30 +1,33 @@
 <div [ngClass]="{carte_alerte: personne.isComplete === '0'}" *ngIf="personne">
-    <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">Fiche incomplète ! Des champs recommandés sont manquants</p>
+    <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">
+        <span>Fiche incomplète ! Des champs recommandés sont manquant</span>
+    </p>
 </div>
 <div class="form_personne form_modifier" *ngIf="personne">
     <notifier-container></notifier-container>
+    <ngx-ui-loader></ngx-ui-loader>
     <form
-            name="form"
-            [formGroup]="form"
-            #f="ngForm"
-            novalidate
+        name="form"
+        [formGroup]="form"
+        #f="ngForm"
+        novalidate
     >
         <div class="bandeau_personne_formulaire bandeau_personne_physique icon user"
              *ngIf="personne.type === 'physique'">
-            {{personne.prenom}} {{personne.nom}}
+            <h1>{{personne.prenom}} {{personne.nom}}</h1>
         </div>
         <div class="bandeau_personne_formulaire bandeau_personne_morale icon building"
              *ngIf="personne.type === 'morale'">
-            {{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})
+            <h1>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</h1>
         </div>
         <div class="bandeau_personne_lien_multi" *ngIf="personne.type === 'lien'">
             <div class="bandeau_personne_formulaire bandeau_personne_physique icon user">
-                {{personne.prenom}} {{personne.nom}}
+                <h1>{{personne.prenom}} {{personne.nom}}</h1>
             </div>
             <div class="bandeau_personne_formulaire bandeau_personne_morale icon building">
                 <div>
-                    <p>{{personne.fonctionLibelle}}</p>
-                    <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</p>
+                    <h3>{{personne.fonctionLibelle}}</h3>
+                    <h2>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle}})</h2>
                 </div>
             </div>
         </div>
@@ -35,134 +38,149 @@
                     <div class="input_container">
                         <div class="form_group bloc_avatar">
                             <app-avatar [personne]="personne"></app-avatar>
-                            <div class="container_bouton_edition" *ngIf="personne.type !== 'lien'">
-                                <button class="btn btn-picto-lg btn-editer"></button>
-                                <button class="btn btn-picto-lg btn-supprimer"></button>
-                            </div>
+<!--                            TODO : temporaire : edition de l'avatar-->
+<!--                            <div class="container_bouton_edition" *ngIf="personne.type !== 'lien'">-->
+<!--                                <button class="btn btn-picto-lg btn-editer"></button>-->
+<!--                                <button class="btn btn-picto-lg btn-supprimer"></button>-->
+<!--                            </div>-->
                         </div>
                         <div *ngIf="personne.type === 'physique'">
                             <div class="form_group identite_personne_physique">
-                                <div class="espace_input">
+                                <div class="espace_input input_lg">
                                     <label for="prenom">Prénom</label>
                                     <input
-                                            type="text"
-                                            id="prenom"
-                                            name="prenom"
-                                            formControlName="prenom"
-                                            [ngClass]="{'background_alert_required': !form.controls.prenom.value}"
+                                        type="text"
+                                        id="prenom"
+                                        name="prenom"
+                                        formControlName="prenom"
+                                        [ngClass]="{'background_alert_required': !form.controls.prenom.value}"
                                     />
                                 </div>
                                 <div class="container_civilite">
-                                    <label for="civilite" class="test_label">Civilité</label>
-                                    <input id="civilite" type="text" style="display: none">
+                                    <label>Civilité</label>
                                     <div>
-                                        <input type="radio" id="civilite_mr" name="civilite" value="M"
-                                               formControlName="civilite">
+                                        <input type="radio"
+                                               id="civilite_mr"
+                                               name="civilite"
+                                               value="M"
+                                               formControlName="civilite"
+                                               [ngClass]="{'background_alert_required': !form.controls.civilite.value}"
+                                        >
                                         <label for="civilite_mr">M.</label>
-                                        <input type="radio" id="civilite_mme" name="civilite" value="Mme"
-                                               formControlName="civilite">
+                                        <input type="radio"
+                                               id="civilite_mme"
+                                               name="civilite"
+                                               value="Mme"
+                                               formControlName="civilite"
+                                               [ngClass]="{'background_alert_required': !form.controls.civilite.value}"
+                                        >
                                         <label for="civilite_mme">Mme.</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form_group">
-                                <div class="espace_input">
+                                <div class="espace_input input_lg">
                                     <label for="nom">Nom</label>
                                     <input
-                                            type="text"
-                                            id="nom"
-                                            name="nom"
-                                            formControlName="nom"
-                                            [ngClass]="{'background_alert_required': !form.controls.nom.value}"
+                                        type="text"
+                                        id="nom"
+                                        name="nom"
+                                        formControlName="nom"
+                                        [ngClass]="{'background_alert_required': !form.controls.nom.value}"
                                     />
                                 </div>
-                                <div>
+                                <div id="titre" class="ng-autocomplete input_lg">
+                                    <label for="titre">Titre</label>
                                     <app-titre-autocomplete
-                                            [value]="personne.titre"
-                                            (changed)="onChangedSelect2($event, 'titre')"
-                                            [form]="form"
+                                        [value]="personne.titre"
+                                        (changed)="onChangedSelect2($event, 'titre')"
+                                        [form]="form"
                                     ></app-titre-autocomplete>
                                 </div>
                             </div>
                         </div>
                         <div *ngIf="personne.type === 'morale'">
                             <div class="form_group">
-                                <div>
+                                <div class="input_lg">
                                     <label>Raison sociale</label>
                                     <input
-                                            type="text"
-                                            formControlName="raisonSociale"
-                                            [ngClass]="{'background_alert_required': !form.controls.raisonSociale.value}"
+                                        type="text"
+                                        formControlName="raisonSociale"
+                                        [ngClass]="{'background_alert_required': !form.controls.raisonSociale.value}"
                                     />
                                 </div>
                             </div>
                             <div class="form_group">
-                                <div class="espace_input">
+                                <div class="select2_sans_badge input_lg espace_input"
+                                     [ngClass]="{'background_alert_required': !form.controls.formeJuridique.value}"
+                                >
                                     <label for="formeJuridique">Forme juridique</label>
                                     <app-form-juridique-select2
-                                            id="formeJuridique"
-                                            [form]="form"
-                                            [id]="'formeJuridique'"
-                                            [multiple]="false"
-                                            [value]="personne.formeJuridique"
-                                            (changed)="onChangedSelect2($event, 'formeJuridique')"
+                                        id="formeJuridique"
+                                        [form]="form"
+                                        [id]="'formeJuridique'"
+                                        [multiple]="false"
+                                        [value]="personne.formeJuridique"
+                                        (changed)="onChangedSelect2($event, 'formeJuridique')"
                                     ></app-form-juridique-select2>
                                 </div>
-                                <div>
+                                <div class="input_lg">
                                     <label for="capital">Capital</label>
-                                    <input type="text" class="icon " id="capital" name="capital" formControlName="capital"/>
+                                    <input type="text" class="icon " id="capital" name="capital"
+                                           formControlName="capital"/>
                                 </div>
                             </div>
                             <div class="form_group">
-                                <div class="espace_input">
+                                <div class="espace_input input_lg">
                                     <label for="siret">N° SIRET</label>
                                     <input
-                                            type="text"
-                                            id="siret"
-                                            name="siret"
-                                            formControlName="siret"
-                                            [ngClass]="{'background_alert_recommended': !form.controls.siret.value}"
+                                        title="SIRET = SIREN + NIC"
+                                        type="text"
+                                        id="siret"
+                                        name="siret"
+                                        formControlName="siret"
+                                        [ngClass]="{'background_alert_recommended': !form.controls.siret.value}"
                                     />
                                 </div>
-                                <div>
+                                <div class="input_lg">
                                     <label for="codeNaf">Code activité (NAF)</label>
                                     <input
-                                            type="text"
-                                            id="codeNaf"
-                                            name="codeNaf"
-                                            formControlName="codeNaf"
-                                            [ngClass]="{'background_alert_recommended': !form.controls.codeNaf.value}"
+                                        type="text"
+                                        id="codeNaf"
+                                        name="codeNaf"
+                                        formControlName="codeNaf"
+                                        [ngClass]="{'background_alert_recommended': !form.controls.codeNaf.value}"
                                     />
                                 </div>
                             </div>
                             <div class="form_group">
-                                <div class="espace_input">
+                                <div class="espace_input select2_sans_badge input_lg">
                                     <label>Effectif</label>
                                     <app-effectif-select2
-                                            [form]="form"
-                                            [multiple]="false"
-                                            [value]="personne.effectif"
-                                            (changed)="onChangedSelect2($event, 'effectif')"
+                                        [form]="form"
+                                        [multiple]="false"
+                                        [value]="personne.effectif"
+                                        (changed)="onChangedSelect2($event, 'effectif')"
                                     ></app-effectif-select2>
                                 </div>
-                                <div>
-                                    <label >Chiffre d'Affaire</label>
+                                <div class="select2_sans_badge input_lg">
+                                    <label>Chiffre d'Affaire</label>
                                     <app-chiffre-affaire-select2
-                                            [form]="form"
-                                            [multiple]="false"
-                                            [value]="personne.chiffreAffaire"
-                                            (changed)="onChangedSelect2($event, 'chiffreAffaire')"
+                                        [form]="form"
+                                        [multiple]="false"
+                                        [value]="personne.chiffreAffaire"
+                                        (changed)="onChangedSelect2($event, 'chiffreAffaire')"
                                     ></app-chiffre-affaire-select2>
                                 </div>
                             </div>
                             <div class="form_group">
-                                <div>
+                                <div class="select2_sans_badge input_lg">
                                     <label>Organisation parente</label>
                                     <app-organisation-parente-select2
-                                            [form]="form"
-                                            [value]="personne.organisationParente"
-                                            [multiple]="false"
-                                            (changed)="onChangedSelect2($event, 'organisationParente')"
+                                        [form]="form"
+                                        [value]="personne.organisationParente"
+                                        [multiple]="false"
+                                        (changed)="onChangedSelect2($event, 'organisationParente')"
                                     ></app-organisation-parente-select2>
                                 </div>
                             </div>
@@ -171,56 +189,56 @@
                             <div class="form_group identite_personne_lien select2_sans_majuscule">
                                 <div class="espace_input">
                                     <label>Fonction</label>
-                                    <div class="select2_sans_badge">
+                                    <div class="select2_sans_badge input_lg">
                                         <app-fonction-personne-select2
-                                                id="fonction"
-                                                [form]="form"
-                                                [id]="'fonction'"
-                                                [multiple]="false"
-                                                [value]="personne.fonction"
-                                                (changed)="onChangedSelect2($event, 'fonction')"
+                                            id="fonction"
+                                            [form]="form"
+                                            [id]="'fonction'"
+                                            [multiple]="false"
+                                            [value]="personne.fonction"
+                                            (changed)="onChangedSelect2($event, 'fonction')"
                                         >
                                         </app-fonction-personne-select2>
                                     </div>
                                 </div>
                                 <div class="select2_sans_majuscule">
                                     <label>Origine du contact</label>
-                                    <div class="select2_sans_badge">
+                                    <div class="select2_sans_badge input_lg">
                                         <app-origine-select2
-                                                id="origine"
-                                                [form]="form"
-                                                class="info_commerciales_select2_sans_border"
-                                                [id]="'origine'"
-                                                [disabled]="true"
-                                                [value]="personne.origine"
-                                                (changed)="onChangedSelect2($event, 'origine')"
+                                            id="origine"
+                                            [form]="form"
+                                            class="info_commerciales_select2_sans_border"
+                                            [id]="'origine'"
+                                            [disabled]="true"
+                                            [value]="personne.origine"
+                                            (changed)="onChangedSelect2($event, 'origine')"
                                         >
                                         </app-origine-select2>
                                     </div>
                                 </div>
                             </div>
                             <div class="form_group select2_sans_majuscule">
-                                <div class="espace_input">
+                                <div class="espace_input input_lg">
                                     <label for="fonctionPersonnalisee">Fonction personnalisée</label>
                                     <input
-                                            type="text"
-                                            id="fonctionPersonnalisee"
-                                            name="fonctionPersonnalisee"
-                                            formControlName="fonctionPersonnalisee"
+                                        type="text"
+                                        id="fonctionPersonnalisee"
+                                        name="fonctionPersonnalisee"
+                                        formControlName="fonctionPersonnalisee"
                                     />
                                 </div>
                                 <div class="select2_sans_majuscule">
                                     <label>Apporteur d'affaire</label>
-                                    <div class="select2_sans_badge">
+                                    <div class="select2_sans_badge input_lg">
                                         <app-personnnes-physique-select2
-                                                id="apporteur"
-                                                [form]="form"
-                                                class="info_commerciales_select2_sans_border"
-                                                [id]="'apporteur'"
-                                                [multiple]="false"
-                                                [disabled]="true"
-                                                [value]="personne.apporteur"
-                                                (changed)="onChangedSelect2($event, 'apporteur')"
+                                            id="apporteur"
+                                            [form]="form"
+                                            class="info_commerciales_select2_sans_border"
+                                            [id]="'apporteur'"
+                                            [multiple]="false"
+                                            [disabled]="true"
+                                            [value]="personne.apporteur"
+                                            (changed)="onChangedSelect2($event, 'apporteur')"
                                         ></app-personnnes-physique-select2>
                                     </div>
                                 </div>
@@ -232,37 +250,38 @@
                     <div class="bandeau_form">Info commerciales</div>
                     <div class="input_container" *ngIf="personne.type !== 'lien'">
                         <div class="form_group">
-                            <div class="espace_input">
+                            <div class="espace_input input_lg">
                                 <label for="statut">Type</label>
                                 <app-statut-select2
-                                        id="statut"
-                                        [form]="form"
-                                        [id]="'statut'"
-                                        [multiple]="false"
-                                        [value]="personne.statut"
-                                        (changed)="onChangedSelect2($event, 'statut')"
+                                    id="statut"
+                                    [form]="form"
+                                    [id]="'statut'"
+                                    [multiple]="false"
+                                    [value]="personne.statut"
+                                    (changed)="onChangedSelect2($event, 'statut')"
+                                    [ngClass]="{'background_alert_required': !form.controls.statut.value}"
                                 ></app-statut-select2>
                             </div>
                             <div class="container_qualite_relation">
-                                <label for="qualite_relation">Qualité relation</label>
+                                <h3 for="qualite_relation">Qualité relation</h3>
                                 <app-note id="qualite_relation" (note)="onChangeNote($event)"></app-note>
                             </div>
                         </div>
                         <div class="form_group">
-                            <div>
-                                <div class="tags">
+                            <div [ngClass]="{'espace_input': personne.type === 'physique'}">
+                                <div class="tags input_lg">
                                     <label for="tags">Tags</label>
                                     <app-tags-select2
-                                            id="tags"
-                                            [personne]="personne"
-                                            [persist]="false"
-                                            (changed)="onChangedSelect2($event, 'tags')"
+                                        id="tags"
+                                        [personne]="personne"
+                                        [persist]="false"
+                                        (changed)="onChangedSelect2($event, 'tags')"
                                     >
                                     </app-tags-select2>
                                 </div>
                             </div>
                             <div *ngIf="personne.type === 'physique'">
-                                <label for="apporteur">J'accepte de recevoir des informations commerciales</label>
+                                <label for="apporteur">Accepter de recevoir des informations commerciales</label>
                                 <input type="checkbox"
                                        name="{{personne.infoCommerciale}}"
                                        class="icon"
@@ -273,28 +292,27 @@
                             </div>
                         </div>
                         <div class="form_group" *ngIf="personne.type === 'physique'">
-                            <div class="espace_input">
+                            <div class="espace_input input_lg">
                                 <label for="origine">Origine du contact</label>
                                 <app-origine-select2
-                                        id="origine"
-                                        [form]="form"
-                                        [id]="'origine'"
-                                        [multiple]="false"
-                                        [value]="personne.origine"
-                                        (changed)="onChangedSelect2($event, 'origine')"
+                                    id="origine"
+                                    [form]="form"
+                                    [id]="'origine'"
+                                    [multiple]="false"
+                                    [value]="personne.origine"
+                                    (changed)="onChangedSelect2($event, 'origine')"
                                 >
-
                                 </app-origine-select2>
                             </div>
-                            <div>
+                            <div class="input_lg">
                                 <label for="apporteur">Apporteur d'affaire</label>
                                 <app-personnnes-physique-select2
-                                        id="apporteur"
-                                        [form]="form"
-                                        [id]="'apporteur'"
-                                        [multiple]="false"
-                                        [value]="personne.apporteur"
-                                        (changed)="onChangedSelect2($event, 'apporteur')"
+                                    id="apporteur"
+                                    [form]="form"
+                                    [id]="'apporteur'"
+                                    [multiple]="false"
+                                    [value]="personne.apporteur"
+                                    (changed)="onChangedSelect2($event, 'apporteur')"
                                 ></app-personnnes-physique-select2>
                             </div>
                         </div>
@@ -302,42 +320,41 @@
                             <div class="memo">
                                 <label for="memo">Mémo</label>
                                 <app-memos
-                                        id="memo"
-                                        [personne]="personne"
-                                        [persist]="false"
+                                    id="memo"
+                                    [personne]="personne"
+                                    [persist]="false"
                                 ></app-memos>
                             </div>
                         </div>
                     </div>
                     <div class="input_container" *ngIf="personne.type === 'lien'">
                         <div class="form_group">
-                            <div class="espace_input">
-                                <!-- status-->
+                            <div class="espace_input input_lg">
                                 <app-statut-select2
-                                        id="status"
-                                        [form]="form"
-                                        class="info_commerciales_select2_sans_border"
-                                        [id]="'statut'"
-                                        [disabled]="true"
-                                        [value]="personne.statut"
-                                        (changed)="onChangedSelect2($event, 'statut')"
+                                    id="status"
+                                    [form]="form"
+                                    class="info_commerciales_select2_sans_border"
+                                    [id]="'statut'"
+                                    [disabled]="true"
+                                    [value]="personne.statut"
+                                    (changed)="onChangedSelect2($event, 'statut')"
                                 ></app-statut-select2>
                             </div>
                             <div class="container_qualite_relation">
-                                <label for="qualite_relation">Qualité relation</label>
+                                <h3 for="qualite_relation">Qualité relation</h3>
                                 <app-note id="qualite_relation" (note)="onChangeNote($event)"></app-note>
                             </div>
                         </div>
                         <div class="form_group">
-                            <div class="tags">
+                            <div class="tags input_lg">
                                 <!-- tags-->
                                 <app-tags-select2
-                                        id="tags"
-                                        class="info_commerciales_select2_sans_border"
-                                        [personne]="personne"
-                                        [persist]="false"
-                                        [disabled]="true"
-                                        (changed)="onChangedSelect2($event, 'tags')"
+                                    id="tags"
+                                    class="info_commerciales_select2_sans_border"
+                                    [personne]="personne"
+                                    [persist]="false"
+                                    [disabled]="true"
+                                    (changed)="onChangedSelect2($event, 'tags')"
                                 >
                                 </app-tags-select2>
                             </div>
@@ -350,8 +367,11 @@
                                     <div class="donnee_memo" *ngFor="let memo of personne.memos"
                                          data-uuid="{{memo.uuid}}">
                                         <div class="bandeau_fiche">
-                                            <span class="date_memo">&nbsp;Le {{memo.date}} </span>
-                                            <span class="identite_personne_memo">{{memo.creationPrenom}} {{memo.creationNom}}</span>
+                                            <span class="date_memo">&nbsp;Le {{memo.date | date:'shortDate'}} </span>
+                                            <span
+                                                class="identite_personne_memo">
+                                                {{memo.creationPrenom}} {{memo.creationNom}}
+                                            </span>
                                         </div>
                                         <div class="memo_fiche">
                                             {{ memo.texte }}
@@ -366,11 +386,11 @@
                     <div class="bandeau_form">Champs personnalisés</div>
                     <div class="input_container">
                         <app-champs-personalises
-                                [uuid]="form.controls.uuid.value"
-                                [type]="'physique'"
-                                [editForm]="form"
-                                [formValeurs]="valeursPersonnalises"
-                                (valeursEvent)="onChangePersonnalise($event)"
+                            [uuid]="form.controls.uuid.value"
+                            [type]="'physique'"
+                            [editForm]="form"
+                            [formValeurs]="valeursPersonnalises"
+                            (valeursEvent)="onChangePersonnalise($event)"
                         ></app-champs-personalises>
                     </div>
                 </div>
@@ -380,27 +400,35 @@
                     <app-bloc-visibilite [form]="form" [type]="'personne'"></app-bloc-visibilite>
                 </div>
                 <div class="bloc_coordonnees">
-                    <div class="bandeau_form">Coordonnées Personnelles</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'physique'">Coordonnées Personnelles</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'morale'">Coordonnées</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'lien'">Coordonnées professionnelles</div>
                     <app-coordonnees
-                            [uuid]="form.controls.uuid.value"
-                            (valeursEvent)="onChangeCoordonnees($event)"
+                        [emailPrincipal]="emailPrincipal"
+                        [telPrincipal]="telPrincipal"
+                        [uuid]="form.controls.uuid.value"
+                        (valeursEvent)="onChangeCoordonnees($event)"
                     ></app-coordonnees>
                 </div>
-                <div class="bloc_adresses">
-                    <div class="bandeau_form">Adresses Personnelles</div>
+                <div class="bloc_adresses"
+                     [ngClass]="{'background_alert_recommended': adressePrincipal === 0}">
+                    <div class="bandeau_form" *ngIf="personne.type === 'physique'">Adresses Personnelles</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'morale'">Adresses</div>
+                    <div class="bandeau_form" *ngIf="personne.type === 'lien'">Adresses professionnelles</div>
                     <div class="input_container">
                         <app-adresses
-                                [uuid]="form.controls.uuid.value"
-                                (valeursEvent)="onChangeAdresses($event)"
+                            [adressesPrincipal]="adressePrincipal"
+                            [uuid]="form.controls.uuid.value"
+                            (valeursEvent)="onChangeAdresses($event)"
                         ></app-adresses>
                     </div>
                 </div>
             </div>
         </div>
         <div class="form_bas">
-            <button class="btn btn-med btn-annuler" (click)="onCancel()"><span>Annuler</span></button>
-            <button type="submit" class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span>
-            </button>
+            <button class="btn btn-med btn-fermer" (click)="onCancel()"><span>Fermer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmit()"><span>Enregistrer</span></button>
+            <button class="btn btn-med btn-enregistrer" (click)="onSubmitCancel()"><span>Enregistrer et fermer</span></button>
         </div>
         <div *ngIf="message">
             {{message.erreur}}

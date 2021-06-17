@@ -1,6 +1,4 @@
-<label for="titre">Titre</label>
-<div id="titre" class="ng-autocomplete">
-  <ng-autocomplete
+<ng-autocomplete
     id="ng-autocomplete"
     [data]="data"
     [searchKeyword]="keyword"
@@ -10,13 +8,13 @@
     (inputFocused)='onFocused($event)'
     [itemTemplate]="itemTemplate"
     [notFoundTemplate]="notFoundTemplate">
-  </ng-autocomplete>
+</ng-autocomplete>
 
-  <ng-template #itemTemplate let-item>
-    <a [innerHTML]="item.name"></a>
-  </ng-template>
+<ng-template #itemTemplate let-item>
+  <a [innerHTML]="item.name"></a>
+</ng-template>
 
-  <ng-template #notFoundTemplate let-notFound>
-    <div [innerHTML]="notFound"></div>
-  </ng-template>
-</div>
+<ng-template #notFoundTemplate let-notFound>
+  <div [innerHTML]="notFound"></div>
+</ng-template>
+

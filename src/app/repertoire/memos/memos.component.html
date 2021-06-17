@@ -1,17 +1,17 @@
 <form>
   <div class="input_memo" *ngIf="!disabled">
-    <input type="text" name="memo" placeholder="Ajouter un mémo" size="50" [(ngModel)]="memoTerme"/>
+    <input type="text" name="memo" id="memo" placeholder="Ajouter un mémo" size="50" [(ngModel)]="memoTerme"/>
     <button class="btn btn-picto-med btn-enregistrer btn_input_memo" (click)="addMemo()"></button>
   </div>
 </form>
-<div class="container_memo">
+<div class="container_memo" *ngIf="personne">
     <div class="donnee_memo" *ngFor="let memo of personne.memos" data-uuid="{{memo.uuid}}">
-        <div class="bandeau_fiche">
-            <span class="date_memo">&nbsp;Le {{memo.date}} </span>
+        <div class="bandeau_fiche bandeau_memo">
+            <span class="date_memo">&nbsp;Le {{memo.date | date:'dd/mm/yyyy'}} </span>
             <span class="identite_personne_memo">{{memo.creationPrenom}} {{memo.creationNom}}</span>
         </div>
         <div class="memo_fiche">
-            {{ memo.texte }}
+            <span>{{ memo.texte }}</span>
         </div>
     </div>
 </div>

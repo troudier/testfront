@@ -6,6 +6,8 @@ import {Select2OptionData} from 'ng-select2';
 import {PersonneService} from '../../../_services/personne.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NotifierService} from 'angular-notifier';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
+import {ExceptionService} from '../../../_services/exception.service';
 
 @Component({
     selector: 'app-creer-fonction',
@@ -15,7 +17,7 @@ import {NotifierService} from 'angular-notifier';
 export class CreerFonctionComponent implements OnInit {
 
     public uuid = this.route.snapshot.params.id;
-    public type = this.route.snapshot.data.type;
+    public type = this.route.snapshot.data ? this.route.snapshot.data.type : null;
     public libelle = window.sessionStorage.getItem(this.uuid);
     public optionsPhysique: Options;
     public optionsMorale: Options;
@@ -33,29 +35,29 @@ export class CreerFonctionComponent implements OnInit {
     public valueMorale;
     public form: FormGroup;
     public message;
-    public fonctionLibelle;
 
     constructor(
         private personneService: PersonneService,
         private route: ActivatedRoute,
         private formBuilder: FormBuilder,
         private notifier: NotifierService,
-        private router: Router
+        private router: Router,
+        private ngxService: NgxUiLoaderService,
+        private exceptionService: ExceptionService
     ) {
     }
 
     ngOnInit(): void {
-        this.form = this.formBuilder.group({
-            physique: ['', Validators.required],
-            morale: ['', Validators.required],
-            fonction: ['', Validators.required]
-        }, {});
         const valeur = {
             id: this.uuid,
             text: this.libelle
         };
         if (this.type === 'physique') {
-            this.form.controls.physique.setValue(this.uuid);
+            this.form = this.formBuilder.group({
+                morale: ['', Validators.required],
+                physique: {value: this.uuid, disabled: true},
+                fonction: ['', Validators.required]
+            }, {});
             this.disabledPhysique = true;
             this.optionsMorale = {
                 multiple: false
@@ -85,10 +87,15 @@ export class CreerFonctionComponent implements OnInit {
                     });
                 },
                 err => {
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
                 }
             );
         } else {
-            this.form.controls.morale.setValue(this.uuid);
+            this.form = this.formBuilder.group({
+                morale: {value: this.uuid, disabled: true},
+                physique: ['', Validators.required],
+                fonction: ['', Validators.required]
+            }, {});
             this.disabledPhysique = false;
             this.optionsPhysique = {
                 multiple: false
@@ -109,6 +116,7 @@ export class CreerFonctionComponent implements OnInit {
     }
 
     public onSubmit(): void {
+        this.ngxService.start();
         const formData = {
             physique: this.form.controls.physique.value,
             morale: this.form.controls.morale.value,
@@ -117,23 +125,24 @@ export class CreerFonctionComponent implements OnInit {
         if (this.form.valid) {
             this.personneService.createPersonneFonction(formData).subscribe(
                 data => {
-                    this.showNotification('success', 'La fonction ' + this.fonctionLibelle + ' a bien été mise à jour');
+                    this.ngxService.stop();
                     this.router.navigate(['/repertoire/modifier/' + data.content.uuid]);
                 },
                 err => {
-                    console.log(err);
-                    this.message = err.error;
-                    this.showNotification('error', this.message);
+                    this.ngxService.stop();
+                    this.showNotification('error', this.exceptionService.statutErreur(err));
                 }
             );
         } else {
-            this.verificationChamps();
+            this.showNotification('error', 'Veuillez remplir les champs requis avant de soumettre le formulaire s\'il vous plait');
         }
 
     }
 
     public showNotification(type: string, message: string): void {
-        this.notifier.notify(type, message);
+        setTimeout(() => {
+            this.notifier.notify(type, message);
+        }, 1000);
     }
 
     public onCancel(): void {
@@ -146,12 +155,4 @@ export class CreerFonctionComponent implements OnInit {
 
     public valueChanged($event, id): void {
     }
-
-    public verificationChamps(): void {
-        if (!this.form.valid) {
-            console.log(this.form);
-            this.showNotification('error', 'Veuillez remplir les champs requis avant de soumettre le formulaire s\'il vous plait');
-        }
-    }
-
 }

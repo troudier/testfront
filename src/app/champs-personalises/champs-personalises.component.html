@@ -1,6 +1,6 @@
 <div *ngIf="chargementComplet">
     <div [formGroup]="form" *ngFor="let champ of listeChampsVisibles" class="form_group select2_sans_majuscule">
-        <div class="custom_title espace_input select2_sans_badge">
+        <div class="custom_title espace_input select2_sans_badge input_lg">
             <ng-select2 [data]="data | async"
                         [options]="options"
                         [value]="champ.uuid"
@@ -11,15 +11,15 @@
                         [disabled]="champ.requis"
             ></ng-select2>
         </div>
-        <div class="custom_data espace_input" [ngSwitch]="champ.type">
-            <div *ngSwitchCase="'telephone'">
+        <div class="custom_data espace_input select2_sans_badge" [ngSwitch]="champ.type">
+            <div *ngSwitchCase="'telephone'" class="input_lg">
                 <input
                         type="tel"
                         formControlName="{{champ.uuid}}"
                         (change)="onChange($event, champ.uuid)"
                 />
             </div>
-            <div *ngSwitchCase="'mail'">
+            <div *ngSwitchCase="'mail'" class="input_lg">
                 <input
                         type="email"
                         formControlName="{{champ.uuid}}"
@@ -34,21 +34,21 @@
                         (change)="onChange($event, champ.uuid)"
                 ></textarea>
             </div>
-            <div *ngSwitchCase="'text'">
+            <div *ngSwitchCase="'text'" class="input_lg">
                 <input
                         type="text"
                         formControlName="{{champ.uuid}}"
                         (change)="onChange($event, champ.uuid)"
                 />
             </div>
-            <div *ngSwitchCase="'date'">
+            <div *ngSwitchCase="'date'" class="input_lg">
                 <input
                         type="date"
                         formControlName="{{champ.uuid}}"
                         (change)="onChange($event, champ.uuid)"
                 />
             </div>
-            <div *ngSwitchCase="'select'" class="select2_sans_badge">
+            <div *ngSwitchCase="'select'" class="select2_sans_badg input_lg">
                 <ng-select2
                         [data]="champ.valeurs"
                         [options]="options"

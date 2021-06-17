@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoordonneesEditModalComponent } from './coordonnees-edit-modal.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('CoordonneesEditModalComponent', () => {
   let component: CoordonneesEditModalComponent;
@@ -8,7 +9,10 @@ describe('CoordonneesEditModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoordonneesEditModalComponent ]
+      declarations: [ CoordonneesEditModalComponent ],
+      imports: [
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });

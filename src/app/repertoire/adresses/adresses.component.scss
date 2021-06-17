@@ -1,10 +1,24 @@
 ::ng-deep .adresses .form_group {
     display: grid;
-    grid-template-columns: 2fr 8fr 3fr;
+    grid-template-columns: 1fr 6fr 122px;
+}
+
+::ng-deep .adresses.warning .form_group {
+    grid-template-columns: 30px 1fr;
+}
+
+.adresses.warning .icon.i_alerte {
+    color: var(--alert);
+}
+
+.adresses span {
+    font-weight: var(--main-font-weight-semibold);
+    font-size: 16px;
 }
 
 .adresses .container_bouton_adresses {
     display: flex;
+    justify-content: flex-end;
 
     button {
         margin-left: 10px;
@@ -12,8 +26,8 @@
 }
 
 .adresses .data_adresses {
-    margin-left: 25px;
-    margin-right: 15px;
+    padding-left: 25px;
+    padding-right: 15px;
 }
 
 .bloc_adresses .input_container {

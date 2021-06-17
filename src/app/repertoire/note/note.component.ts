@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PersonneService} from '../../_services/personne.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -13,6 +13,7 @@ export class NoteComponent implements OnInit {
   qualite: number;
   @Output() note = new EventEmitter<number>();
   stars: Array<any>;
+  @Input() noteDisabled;
 
   constructor(
     private personneService: PersonneService,
@@ -38,8 +39,10 @@ export class NoteComponent implements OnInit {
   }
 
   public changeQualite(qualite): void {
-    this.qualite = qualite;
-    this.note.emit(qualite);
+    if (this.noteDisabled !== false) {
+      this.qualite = qualite;
+      this.note.emit(qualite);
+    }
   }
 
   public getStars(nbEtoile: number): void {

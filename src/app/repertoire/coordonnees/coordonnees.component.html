@@ -1,17 +1,44 @@
+<div class="coordonnees warning" *ngIf="!hasProperty(coordonnees, 'emails')">
+    <div class="container_coordonnee">
+        <div class="border_icon_coordonnee icon mail"></div>
+        <div class="data_coordonnee"
+             [ngClass]="{'background_alert_recommended': emailPrincipal === 0}">
+            <div class="form_group">
+                <div class="icon i_alerte"></div>
+                <div>
+                    <label class="type_coordonnee">Veuillez saisir au moins une adresse mail</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="coordonnees warning" *ngIf="!hasProperty(coordonnees, 'telephones')">
+    <div class="container_coordonnee">
+        <div class="border_icon_coordonnee icon phone"></div>
+        <div class="data_coordonnee"
+             [ngClass]="{'background_alert_recommended': telPrincipal === 0}">
+            <div class="form_group">
+                <div class="icon i_alerte"></div>
+                <div>
+                    <label class="type_coordonnee">Veuillez saisir au moins un numéro de téléphone</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="coordonnees" *ngIf="coordonnees">
-    <div class="container_coordonnee" *ngIf="coordonnees.emails">
+    <div class="container_coordonnee" *ngIf="hasProperty(coordonnees, 'emails')">
         <div class="border_icon_coordonnee icon mail"></div>
         <div class="data_coordonnee">
             <div *ngFor="let email of coordonnees.emails" class="form_group">
                 <input
-                        name="'email'"
-                        (change)="onChangeRadio(email.uuid, 'emails')"
-                        type="radio"
-                        [checked]="email.principal"
+                    name="'email'"
+                    (change)="onChangeRadio(email.uuid, 'emails')"
+                    type="radio"
+                    [checked]="email.principal"
                 />
-                <div>
-                    <span class="type_coordonnee">{{email.type}}</span>
-                    <br>
+                <div class="container_radio">
+                    <label class="type_coordonnee">{{email.type}}</label>
                     <span>{{email.valeur}}</span>
                 </div>
                 <div class="container_bouton_coordonees">
@@ -22,19 +49,18 @@
             </div>
         </div>
     </div>
-    <div class="container_coordonnee" *ngIf="coordonnees.telephones">
+    <div class="container_coordonnee" *ngIf="hasProperty(coordonnees, 'telephones')">
         <div class="border_icon_coordonnee icon phone"></div>
         <div class="data_coordonnee">
             <div *ngFor="let telephone of coordonnees.telephones" class="form_group">
                 <input
-                        name="'telephone'"
-                        (change)="onChangeRadio(telephone.uuid, 'telephones')"
-                        type="radio"
-                        [checked]="telephone.principal"
+                    name="'telephone'"
+                    (change)="onChangeRadio(telephone.uuid, 'telephones')"
+                    type="radio"
+                    [checked]="telephone.principal"
                 />
-                <div>
-                    <span class="type_coordonnee">{{telephone.type}}</span>
-                    <br>
+                <div class="container_radio">
+                    <label class="type_coordonnee">{{telephone.type}}</label>
                     <span *ngIf="telephone.indicatif">{{telephone.indicatif.valeur}}</span>
                     <span>{{telephone.valeur}}</span>
                 </div>
@@ -52,14 +78,13 @@
         <div class="data_coordonnee">
             <div *ngFor="let fax of coordonnees.faxes" class="form_group">
                 <input
-                        name="'fax'"
-                        (change)="onChangeRadio(fax.uuid, 'faxes')"
-                        type="radio"
-                        [checked]="fax.principal"
+                    name="'fax'"
+                    (change)="onChangeRadio(fax.uuid, 'faxes')"
+                    type="radio"
+                    [checked]="fax.principal"
                 />
-                <div>
-                    <span class="type_coordonnee">{{fax.type}}</span>
-                    <br>
+                <div class="container_radio">
+                    <label class="type_coordonnee">{{fax.type}}</label>
                     <span *ngIf="fax.indicatif">{{fax.indicatif.valeur}}</span>
                     <span>{{fax.valeur}}</span>
                 </div>
@@ -75,14 +100,13 @@
         <div class="data_coordonnee">
             <div *ngFor="let site of coordonnees.sites" class="form_group">
                 <input
-                        name="'site'"
-                        (change)="onChangeRadio(site.uuid, 'sites')"
-                        type="radio"
-                        [checked]="site.principal"
+                    name="'site'"
+                    (change)="onChangeRadio(site.uuid, 'sites')"
+                    type="radio"
+                    [checked]="site.principal"
                 />
-                <div>
-                    <span class="type_coordonnee">{{site.type}}</span>
-                    <br>
+                <div class="container_radio">
+                    <label class="type_coordonnee">{{site.type}}</label>
                     <span>{{site.valeur}}</span>
                 </div>
                 <div class="container_bouton_coordonees">
@@ -101,17 +125,17 @@
 <jw-modal id="editModal">
     <div class="bandeau_form_modal">Edition des coordonnées</div>
     <app-coordonnees-edit-modal
-            [data]="objetCourant"
-            [type]="typeCourant"
-            [idModal]="'editModal'"
-            [edit]="false"
+        [data]="objetCourant"
+        [type]="typeCourant"
+        [idModal]="'editModal'"
+        [edit]="false"
     ></app-coordonnees-edit-modal>
 
 </jw-modal>
 
 <jw-modal id="addModal">
     <app-coordonnees-add-modal
-            [idModal]="'addModal'"
-            (added)="addCoordonnee($event)"
+        [idModal]="'addModal'"
+        (added)="addCoordonnee($event)"
     ></app-coordonnees-add-modal>
 </jw-modal>

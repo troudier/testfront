@@ -1,4 +1,12 @@
 <div id="menu">
+<!--    <div class="block_menu_gauche">-->
+<!--        <app-navigation-item [faIconName]=faHome disabled [route]="'/home'" class="navigation_item "></app-navigation-item>-->
+<!--        <app-navigation-item [faIconName]=faAddressCard  [route]="'/repertoire'" class="navigation_item"></app-navigation-item>-->
+<!--        <app-navigation-item [faIconName]=faFilter  [route]="'/segment'" class="navigation_item"></app-navigation-item>-->
+<!--        <app-navigation-item [faIconName]=faEnvelope [route]="'/campagne'" class="navigation_item"></app-navigation-item>-->
+<!--        <app-navigation-item [faIconName]=faFileSignature  [route]="'/offre'" class="navigation_item"></app-navigation-item>-->
+<!--        <app-navigation-item [faIconName]=faChartLine  [route]="'/statistique'" class="navigation_item"></app-navigation-item>-->
+<!--    </div>-->
     <div class="block_menu_gauche">
         <app-navigation-item [faIconName]=faHome [route]="'/home'" class="navigation_item"></app-navigation-item>
         <app-navigation-item [faIconName]=faAddressCard  [route]="'/repertoire'" class="navigation_item"></app-navigation-item>
@@ -33,7 +41,7 @@
     <div class="block_menu_droite">
         <app-navigation-item [faIconName]=faExclamationCircle class="navigation_item"></app-navigation-item>
         <app-navigation-item [faIconName]=faBell class="navigation_item"></app-navigation-item>
-        <button class="btn btn-picto-lg bouton_volet" (click)="actionVolet()">
+        <button class="btn btn-picto-lg bouton_volet" (click)="actionVolet()" *ngIf="personneConnecte">
             {{personneConnecte.prenom.substring(0, 1) | uppercase}}{{personneConnecte.nom.substring(0, 1) | uppercase}}
         </button>
     </div>

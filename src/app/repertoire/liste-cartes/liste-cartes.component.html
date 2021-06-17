@@ -1,21 +1,23 @@
 <div class="main">
     <app-repertoire-outils
-            (statutFiltreEvent)="onStatutFiltre($event)"
-            (typeFiltreEvent)="onTypeFiltre($event)"
-            (rechercheEvent)="onRecherche($event)"
-            [type]="'personnes'"
+        (statutFiltreEvent)="onStatutFiltre($event)"
+        (typeFiltreEvent)="onTypeFiltre($event)"
+        (rechercheEvent)="onRecherche($event)"
+        [type]="'personnes'"
     >
     </app-repertoire-outils>
-
-    <div class="content_cartes"
+    <div class="content_cartes cartes_personnes"
          infiniteScroll
          [infiniteScrollDistance]="2"
          [infiniteScrollThrottle]="50"
          (scroll)="onScroll()">
+        <div *ngIf="personnes === undefined || personnes.length === 0" class="message_information"><h1>Aucun résultat trouvé</h1></div>
         <ul class="cartes">
-            <li class="cartes_item" *ngFor="let personne of personnes">
+            <li class="cartes_item" *ngFor="let personne of personnes; let i = index">
                 <app-repertoire-carte [personne]="personne"></app-repertoire-carte>
             </li>
         </ul>
+        <notifier-container></notifier-container>
+        <ngx-ui-loader></ngx-ui-loader>
     </div>
 </div>

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { environment } from 'src/environments/environment';
 
-const API_URL = 'http://localhost:8083/api/v1/';
+const API_URL = environment.apiURL;
 
 const httpOptions = {
     headers: new HttpHeaders(

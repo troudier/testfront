@@ -42,7 +42,7 @@ import {StatutSelect2Component} from './repertoire/statut-select2/statut-select2
 import {TitreAutocompleteComponent} from './repertoire/titre-autocomplete/titre-autocomplete.component';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {MemosComponent} from './repertoire/memos/memos.component';
-import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import {NotifierModule, NotifierOptions, NotifierService} from 'angular-notifier';
 import {ChampsPersonalisesComponent} from './champs-personalises/champs-personalises.component';
 import {CoordonneesComponent} from './repertoire/coordonnees/coordonnees.component';
 import {ModalModule} from './_modal';
@@ -61,13 +61,26 @@ import {FonctionPersonneSelect2Component} from './repertoire/fonction-personne-s
 import {CarteSegmentComponent} from './segment/carte-segment/carte-segment.component';
 import {ListeCartesSegmentComponent} from './segment/liste-cartes-segment/liste-cartes-segment.component';
 import {FicheSegmentComponent} from './segment/fiche-segment/fiche-segment.component';
-import { FicheEditSegmentComponent } from './segment/fiche-edit-segment/fiche-edit-segment.component';
-import { FicheEditSegmentFiltresComponent } from './segment/fiche-edit-segment-filtres/fiche-edit-segment-filtres.component';
-import { ChampsRequetablesSelect2Component } from './segment/champs-requetables-select2/champs-requetables-select2.component';
-import { OperateursSelect2Component } from './segment/operateurs-select2/operateurs-select2.component';
-import { SegmentEditValeursComponent } from './segment/segment-edit-valeurs/segment-edit-valeurs.component';
-import { SelectDynamiqueComponent } from './helper/select-dynamique/select-dynamique.component';
-import { SegmentEditFiltreElementComponent } from './segment/segment-edit-filtre-element/segment-edit-filtre-element.component';
+import {FicheEditSegmentComponent} from './segment/fiche-edit-segment/fiche-edit-segment.component';
+import {FicheEditSegmentFiltresComponent} from './segment/fiche-edit-segment-filtres/fiche-edit-segment-filtres.component';
+import {ChampsRequetablesSelect2Component} from './segment/champs-requetables-select2/champs-requetables-select2.component';
+import {OperateursSelect2Component} from './segment/operateurs-select2/operateurs-select2.component';
+import {SegmentEditValeursComponent} from './segment/segment-edit-valeurs/segment-edit-valeurs.component';
+import {SelectDynamiqueComponent} from './helper/select-dynamique/select-dynamique.component';
+import {SegmentEditFiltreElementComponent} from './segment/segment-edit-filtre-element/segment-edit-filtre-element.component';
+import {ListeEvenementsComponent} from './liste-evenements/liste-evenements.component';
+import {CreerEvenementComponent} from './liste-evenements/creer-evenement/creer-evenement.component';
+import {ModifierEvenementComponent} from './liste-evenements/modifier-evenement/modifier-evenement.component';
+import {FiltreEvenementComponent} from './liste-evenements/filtre-evenement/filtre-evenement.component';
+import {FiltreTypeSelect2Component} from './liste-evenements/filtre-type-select2/filtre-type-select2.component';
+import {EvenementComponent} from './liste-evenements/evenement/evenement.component';
+import {
+    NgxUiLoaderModule,
+    NgxUiLoaderConfig,
+    SPINNER,
+    POSITION,
+    PB_DIRECTION,
+} from 'ngx-ui-loader';
 
 /**
  * Custom angular notifier options
@@ -110,6 +123,17 @@ const customNotifierOptions: NotifierOptions = {
         },
         overlap: 150
     }
+};
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+    bgsPosition: POSITION.bottomCenter,
+    bgsSize: 40,
+    blur: 2,
+    overlayColor: 'rgba(40,40,40,0.5)',
+    bgsType: SPINNER.rectangleBounce, // background spinner type
+    fgsType: SPINNER.rectangleBounce, // foreground spinner type
+    pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+    pbThickness: 0, // progress bar thickness
 };
 
 @NgModule({
@@ -170,7 +194,13 @@ const customNotifierOptions: NotifierOptions = {
         OperateursSelect2Component,
         SegmentEditValeursComponent,
         SelectDynamiqueComponent,
-        SegmentEditFiltreElementComponent
+        SegmentEditFiltreElementComponent,
+        ListeEvenementsComponent,
+        CreerEvenementComponent,
+        ModifierEvenementComponent,
+        FiltreEvenementComponent,
+        FiltreTypeSelect2Component,
+        EvenementComponent
     ],
     imports: [
         BrowserModule,
@@ -184,9 +214,10 @@ const customNotifierOptions: NotifierOptions = {
         NgSelect2Module,
         AutocompleteLibModule,
         NotifierModule.withConfig(customNotifierOptions),
-        ModalModule
+        ModalModule,
+        NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
     ],
-    providers: [authInterceptorProviders],
+    providers: [authInterceptorProviders, NotifierService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

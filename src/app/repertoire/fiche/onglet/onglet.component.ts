@@ -22,21 +22,24 @@ export class OngletComponent implements OnInit {
 
     ngOnInit(): void {
         this.libelles = [];
-        this.data.forEach((value) => {
-            console.log(value.type);
-        });
-        this.data.map((item) => {
-            let donnee = '';
-            if (item.type === 'physique') {
-                donnee = item.prenom + ' ' + item.nom;
-            } else {
-                donnee = item.fonction + ' (' + item.raisonSociale + ')';
-            }
-            this.libelles.push({
-                uuid: item.uuid,
-                libelle: donnee
+        if (this.data) {
+            this.data.forEach((value) => {
+                console.log(value.type);
             });
-        });
+            this.data.map((item) => {
+                let donnee = '';
+                if (item.type === 'physique') {
+                    donnee = item.prenom + ' ' + item.nom;
+                } else {
+                    donnee = item.fonction + ' (' + item.raisonSociale + ')';
+                }
+                this.libelles.push({
+                    uuid: item.uuid,
+                    libelle: donnee
+                });
+            });
+        }
+
     }
 
     public changeOnglet(uuid: string): void {

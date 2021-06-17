@@ -45,7 +45,7 @@ export class UsersSelect2Component implements OnInit {
                 data.map((item) => {
                         referents.push({
                             id: item.uuid,
-                            text: item.civilite + ' ' + item.prenom + ' ' + item.nom
+                            text: item.prenom + ' ' + item.nom
                         });
                         // on regarde si le select2 fait partie du composant en mode edition ou pas
                         if (this.id === 'referent' && this.formCreation === true) {

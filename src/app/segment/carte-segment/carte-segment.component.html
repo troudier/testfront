@@ -1,4 +1,4 @@
-<div class="carte carte_segment">
+<div class="carte carte_segment" *ngIf="segment">
     <div class="action_carte_segment">
         <div class="btn_border_white">
             <button class="btn btn-picto-med btn-actualiser" (click)="calculate(segment.uuid)"></button>
@@ -8,23 +8,19 @@
         </div>
     </div>
     <div class="carte_content" (click)="openFiche(segment.uuid)">
-        <div class="carte_titre bandeau_segment">
-            <fa-icon
-                [icon]="faSearch"
-                [classes]="['menu_' + faSearch.iconName]"
-                size="sm"
-            >
-            </fa-icon>
-            {{ segment.titre }}
+        <div class="carte_titre bandeau_segment icon search">
+            <h2>{{ segment.titre }}</h2>
         </div>
         <div class="carte_texte">
-            Dernière exécution : {{segment.derniereDate | date : 'dd/LL/YYYY'}}<br/>
-            <fa-icon
-                [icon]="faArrowRight"
-                [classes]="['menu_' + faArrowRight.iconName]"
-                size="sm"
-            ></fa-icon>
-            {{segment.nbContactsPublics}} + {{segment.nbContactsPrives}} contacts trouvés
+            <span>Dernière exécution : {{segment.derniereDate | date : 'dd/LL/YYYY'}}</span>
+            <div class="container_contact_find">
+                <fa-icon
+                    [icon]="faArrowRight"
+                    [classes]="['menu_' + faArrowRight.iconName]"
+                    size="lg"
+                ></fa-icon>
+                <span>{{segment.nbContactsPublics}} + {{segment.nbContactsPrives}} contacts trouvés</span>
+            </div>
         </div>
         <app-avatar [personne]="segment"></app-avatar>
     </div>

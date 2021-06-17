@@ -1,37 +1,40 @@
 <app-onglet [data]="onglets"
             [active]="personne.uuid"
-            [personne]="personne"
             (ongletEvent)="onChangeOnglet($event)"
             *ngIf="personne.type !=='morale'">
 </app-onglet>
 <notifier-container></notifier-container>
+<ngx-ui-loader></ngx-ui-loader>
 <div class="fiche {{personne.type}}" *ngIf="personne">
     <div class="fiche_gauche">
         <div class="fiche_bloc1 {{personne.type}}" [ngClass]="{incomplete: personne.isComplete === '0'}">
-            <div *ngIf="personne.type !== 'morale'" class="carte_titre bandeau_personne bandeau_personne_physique icon user">
-                {{libelle}}
+            <div *ngIf="personne.type !== 'morale'"
+                 class="carte_titre bandeau_personne bandeau_personne_physique icon user">
+                <h1>{{personne.prenom  |titlecase}} {{personne.nom |uppercase}}</h1>
             </div>
-            <div *ngIf="personne.type === 'morale'" class="carte_titre bandeau_personne bandeau_personne_morale icon building">
-                <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle |uppercase}})</p>
+            <div *ngIf="personne.type === 'morale'"
+                 class="carte_titre bandeau_personne bandeau_personne_morale icon building">
+                <h1>{{personne.raisonSociale |uppercase}} ({{personne.formeJuridiqueLibelle |uppercase}})</h1>
             </div>
             <div *ngIf="personne.type === 'lien'" class="icon carte_sous_titre {{personne.type}}">
                 <div class="info_personne">
-                    <p>{{personne.fonctionLibelle}}</p>
-                    <p>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle |uppercase}})</p>
+                    <h3>{{personne.fonctionLibelle}}</h3>
+                    <h2>{{personne.raisonSociale}} ({{personne.formeJuridiqueLibelle |uppercase}})</h2>
                 </div>
             </div>
             <div class="carte_information">
                 <app-avatar [personne]="personne"></app-avatar>
-                <div class="information">
+                <div class="information carte_texte">
                     <app-fonction-sticker [statut]="personne.statut"></app-fonction-sticker>
-                    <p *ngIf="personne.cp">{{personne.cp}} {{personne.ville}}</p>
-                    <p *ngIf="personne.mail"> {{personne.mail}}</p>
-                    <p *ngIf="personne.telephone"> {{personne.telephone}}</p>
+                    <h3 *ngIf="personne.cp">{{personne.cp}} {{personne.ville |uppercase}}</h3>
+                    <a href="mailto:{{personne.mail}}" *ngIf="personne.mail" class="icon mail"> {{personne.mail}}</a>
+                    <a href="tel:{{personne.telephone}}" *ngIf="personne.telephone"
+                       class="icon phone">{{personne.indicatifTelephone}}{{personne.telephone}}</a>
                     <div class="chiffres_personne">
-                        <p *ngIf="personne.chiffre_affaire">CA : {{personne.chiffreAffaireLibelle}} €</p>
-                        <p *ngIf="personne.effectif">{{personne.effectifLibelle}} salariés</p>
-                      <p *ngIf="personne.civilite">Civilité :  {{personne.civilite}}.</p>
-                      <p *ngIf="personne.titre">Titre : {{personne.titre}}</p>
+                        <span *ngIf="personne.capital">Cap. {{personne.capital}} €</span>
+                        <span *ngIf="personne.effectif">{{personne.effectifLibelle}} salariés</span>
+                        <span *ngIf="personne.civilite">Civilité :  {{personne.civilite}}.</span>
+                        <span *ngIf="personne.titre">Titre : {{personne.titre}}</span>
                     </div>
                 </div>
                 <div class="btn_border_white">
@@ -39,17 +42,19 @@
                 </div>
             </div>
             <div [ngClass]="{carte_alerte: personne.isComplete === '0'}">
-                <p *ngIf="personne.isComplete === '0'" class="icon i_alerte">Fiche incomplète ! Des champs recommandés sont manquants</p>
+                <span *ngIf="personne.isComplete === '0'" class="icon i_alerte">
+                    <span>Fiche incomplète ! Des champs recommandés sont manquants</span>
+                </span>
             </div>
         </div>
         <div class="fiche_bloc2">
-            <div class="content_select2" *ngIf="personne">
+            <div class="content_select2 input_lg" *ngIf="personne">
                 <app-tags-select2 [personne]="personne" [disabled]="disabled" [persist]="true"></app-tags-select2>
             </div>
             <app-memos [personne]="personne" [disabled]="disabled" [persist]="true"></app-memos>
             <div class="qualite_relation">
-                Qualité relation
-                <app-note></app-note>
+                <h3>Qualité relation</h3>
+                <app-note [noteDisabled]="false"></app-note>
             </div>
         </div>
         <div class="fiche_bloc3">
@@ -60,10 +65,35 @@
                 </div>
             </div>
             <div class="date_creation_fiche">
-                <p>Crée le {{personne.creationDate | date:'dd/MM/YYYY'}} par {{personne.creationPrenom}} {{personne.creationNom}}</p>
-                <p>Modifié le {{personne.modificationDate | date:'dd/MM/YYYY'}} par {{personne.modificationPrenom}} {{personne.modificationNom}}</p>
+                <p>Crée le {{personne.creationDate | date:'shortDate'}}
+                    par {{personne.creationPrenom}} {{personne.creationNom}}</p>
+                <p>Modifié le {{personne.modificationDate | date:'shortDate'}}
+                    par {{personne.modificationPrenom}} {{personne.modificationNom}}</p>
             </div>
         </div>
     </div>
+    <div class="fiche_droite">
+        <div class="onglet evenement">
+            <div class="onglet_evenement icon calendrier">Evénements ({{nbEventATraiter}}/{{nbEvent}})</div>
+        </div>
+        <div class="carte_information">
+            <div class="container_information">
+<!--                filtre-->
+<!--                <div class="info_fiche_evenement">-->
+<!--                    <h3>Evénements de : </h3>-->
+<!--                    <app-filtre-evenement></app-filtre-evenement>-->
+<!--                </div>-->
+            </div>
+            <div class="container_action">
+                <div class="action_fiche_evenement">
+                    <button class="btn btn-med btn-ajouter" (click)="creerEvenement()">
+                        <span>Ajouter un événement</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="bloc_evenement">
+            <app-liste-evenements [uuid]="personne.uuid" [personne]="personne"></app-liste-evenements>
+        </div>
+    </div>
 </div>
-

@@ -1,15 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Select2OptionData} from 'ng-select2';
 import {Options} from 'select2';
-import {PersonneService} from '../../_services/personne.service';
+import {Select2OptionData} from 'ng-select2';
+import {EvenementService} from '../../_services/evenement.service';
 
 @Component({
-    selector: 'app-code-activite-select2',
-    templateUrl: './code-activite-select2.component.html',
-    styleUrls: ['./code-activite-select2.component.scss']
+    selector: 'app-filtre-type-select2',
+    templateUrl: './filtre-type-select2.component.html',
+    styleUrls: ['./filtre-type-select2.component.scss']
 })
-export class CodeActiviteSelect2Component implements OnInit {
+export class FiltreTypeSelect2Component implements OnInit {
     @Input() form;
     @Input() id;
     @Input() multiple;
@@ -19,35 +19,31 @@ export class CodeActiviteSelect2Component implements OnInit {
     });
     public options: Options;
     @Input() value;
+    @Input() disabled;
     @Output() changed = new EventEmitter<string>();
 
-    constructor(private personneService: PersonneService) {
+    constructor(private evenementService: EvenementService) {
     }
 
     ngOnInit(): void {
         this.options = {
             multiple: this.multiple
         };
-        this.data = new Observable(observer => {
-            observer.next([]);
-            observer.complete();
-        });
         this.initSelect();
     }
 
     private initSelect(): void {
-        this.personneService.getListeCodeNaf().subscribe(
+        this.evenementService.getListeTypeEvent().subscribe(
             data => {
-                const codeNaf = [];
-                data.map((item) => {
-                        codeNaf.push({
-                            id: item.uuid,
-                            text: item.naf_lib
-                        });
-                    }
-                );
+                const statut = [];
+                Object.keys(data).map((key) => {
+                    statut.push({
+                        id: key,
+                        text: data[key]
+                    });
+                });
                 this.data = new Observable(observer => {
-                    observer.next(codeNaf);
+                    observer.next(statut);
                     observer.complete();
                 });
             },

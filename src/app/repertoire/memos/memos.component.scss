@@ -14,15 +14,22 @@
 
 .container_memo {
   max-height: 300px;
+  margin-bottom: 50px;
   overflow-y: auto;
 }
 
 .input_memo input {
-  font-weight: 100;
-  font-size: 14px;
+  font-weight: var(--main-font-weight-regular);
 }
+
 .input_memo input::placeholder {
   color: var(--placeholder) !important;
+}
+
+::ng-deep .memo_fiche span {
+  color: var(--gris-foncé);
+  font-size: 16px;
+  font-weight: var(--main-font-weight-semibold);
 }
 
 ::ng-deep .fiche_bloc2 form .input_memo input {
@@ -33,12 +40,15 @@
   padding: 0 30px 0 30px;
 }
 
-.bandeau_fiche {
+.bandeau_fiche.bandeau_memo {
   background-color: var(--fond-de-page);
   text-align: center;
   margin: 10px auto 5px auto;
+  padding: 0 10px;
 }
 
-.donnee_memo {
-  font: normal normal var(--main-font-weight-semibold) 14px/27px var(--main-font-family);
+.donnee_memo span {
+  font-size: 14px;
+  font-weight: var(--main-font-weight-semibold);
+  line-height: 27px;
 }

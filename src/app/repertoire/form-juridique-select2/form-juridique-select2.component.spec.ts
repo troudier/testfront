@@ -1,14 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormJuridiqueSelect2Component } from './form-juridique-select2.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('PersonnesMoraleSelect2Component', () => {
+describe('FormeJuridiqueSelect2Component', () => {
   let component: FormJuridiqueSelect2Component;
   let fixture: ComponentFixture<FormJuridiqueSelect2Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormJuridiqueSelect2Component ]
+      declarations: [ FormJuridiqueSelect2Component ],
+      imports: [
+        HttpClientTestingModule
+      ],
     })
     .compileComponents();
   });

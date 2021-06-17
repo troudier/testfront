@@ -6,6 +6,10 @@
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
+  
+  a {
+    font-size: 16px;
+  }
 }
 
 .home.selected, .home:hover {
@@ -32,7 +36,19 @@
   background-color: var(--stats);
 }
 
-.nav-item.menu-home {
+// TODO : temporaire
+fa-icon.disabled.home,
+fa-icon.disabled.envelope,
+fa-icon.disabled.file-signature,
+fa-icon.disabled.chart-line {
+  color: var(--gris-clair) !important;
+}
+
+.home.disabled,
+.envelope.disabled,
+.file-signature.disabled,
+.chart-line.disabled {
+  background-color: transparent;
 }
 
 .nav-item fa-icon {

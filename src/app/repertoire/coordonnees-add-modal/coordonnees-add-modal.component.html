@@ -1,9 +1,8 @@
 <div class="bandeau_form_modal">Ajouter une coordonnée</div>
-<div class="edit_data" *ngIf="choix === 0">
+<div class="edit_data input_lg" *ngIf="choix === 0">
     <label>Type de Coordonnée : </label>
     <ng-select2 [data]="typesCoordoonees"
                 [options]="options"
-                [width]="273"
                 [className]="'typeSelect'"
                 id="modalTypeTel"
                 (valueChanged)="chooseCoordonnee($event)"

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Select2OptionData} from 'ng-select2';
 import { Options } from 'select2';
-import * as jquery from 'jquery';
 import {
   faListUl,
   faFilter,
@@ -102,7 +101,7 @@ export class OutilsComponent implements OnInit {
 
   }
   creerSegment(): void{
-    this.router.navigate(['segment/creer' ]);
+    this.router.navigate(['segment/modifier/nouveau' ]);
   }
 
 }

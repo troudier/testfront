@@ -1,4 +1,14 @@
-<div class="adresses">
+<div class="adresses warning" *ngIf="hasAdresse(adresses) === false">
+    <div class="data_adresses">
+        <div class="form_group">
+            <div class="icon i_alerte"></div>
+            <div>
+                <label class="type_coordonnee">Veuillez saisir au moins une adresse</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="adresses" *ngIf="adresses">
     <div class="data_adresses">
         <div *ngFor="let adresse of adresses" class="form_group">
             <input
@@ -8,14 +18,13 @@
                     [checked]="adresse.principal"
             />
             <div>
-                <span class="type_adresse">{{adresse.type}}</span>
-                <br>
-                <p *ngIf="adresse.ligne1">{{adresse.ligne1}}</p>
-                <p *ngIf="adresse.ligne2">{{adresse.ligne2}}</p>
-                <p *ngIf="adresse.ligne3">{{adresse.ligne3}}</p>
-                <p>{{adresse.cp}} {{adresse.ville}}</p>
-                <p>{{adresse.cedexCode}} {{adresse.cedexLibelle}}</p>
-                <p>{{adresse.pays}}</p>
+                <label class="type_adresse">{{adresse.type}}</label>
+                <span *ngIf="adresse.ligne1">{{adresse.ligne1}} </span>
+                <span *ngIf="adresse.ligne2">{{adresse.ligne2}} </span>
+                <span *ngIf="adresse.ligne3">{{adresse.ligne3}} </span>
+                <span>{{adresse.cp}} {{adresse.ville}} </span>
+                <span>{{adresse.cedexCode}} {{adresse.cedexLibelle}} </span>
+                <span>{{adresse.pays}}</span>
 
             </div>
             <div class="container_bouton_adresses">
@@ -38,7 +47,6 @@
             [edit]="false"
             (closed)="close()"
             (added)="addAdresses($event)"
-
     ></app-adresses-edit-modal>
 </jw-modal>
 <jw-modal id="adresseAddModal">

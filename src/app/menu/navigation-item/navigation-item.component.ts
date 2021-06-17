@@ -7,17 +7,17 @@ import {Router} from '@angular/router';
   styleUrls: ['./navigation-item.component.scss']
 })
 export class NavigationItemComponent implements OnInit {
-  @Input()
-  className;
-  @Input()
-  faIconName;
-  @Input()
-  route;
+  @Input() className;
+  @Input() faIconName;
+  @Input() route;
 
   constructor(public router: Router) {
   }
 
   ngOnInit(): void {
+    if (this.route === '/home' || this.route === '/campagne' || this.route === '/offre' || this.route === '/statistique') {
+      this.route = '/';
+    }
   }
 
 }

@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
 
-const API_URL = 'http://localhost:8083/api/v1/';
+const API_URL = environment.apiURL;
 
 const httpOptions = {
     headers: new HttpHeaders(
@@ -18,7 +20,8 @@ const httpOptions = {
 })
 export class PersonneService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private ngxService: NgxUiLoaderService
+    ) {
     }
 
     getPersonnesListe(offset, limit, recherche, type, statut): Observable<any> {
@@ -26,11 +29,11 @@ export class PersonneService {
             ?
             {
                 params: new HttpParams()
-                .set('offset', offset.toString())
-                .set('limit', limit.toString())
-                .set('recherche', recherche)
-                .set('type', type)
-                .set('statut', statut)
+                    .set('offset', offset.toString())
+                    .set('limit', limit.toString())
+                    .set('recherche', recherche)
+                    .set('type', type)
+                    .set('statut', statut)
             }
             :
             {};
@@ -39,6 +42,10 @@ export class PersonneService {
 
     getPersonne(uuid): Observable<any> {
         return this.http.get(API_URL + 'personnes/' + uuid);
+    }
+
+    getDatasPersonne(uuid): Observable<any> {
+        return this.http.get(API_URL + 'datas/personnes/' + uuid);
     }
 
     setTags(tags: string[], uuid: string): Observable<any> {
@@ -88,7 +95,7 @@ export class PersonneService {
         }, httpOptions);
     }
 
-    updatePersonnePhysique(uuid, form): Observable<any> {
+    updatePersonne(uuid, form): Observable<any> {
         return this.http.put(API_URL + 'personnes/' + uuid, {
             personne: form,
         }, httpOptions);
@@ -150,6 +157,7 @@ export class PersonneService {
     getListeOrganisationParente(): Observable<any> {
         return this.http.get(API_URL + 'personne-organisation-parente');
     }
+
     getPersonnesSelect(type): Observable<any> {
         return this.http.get(API_URL + 'personnes-select/' + type);
     }

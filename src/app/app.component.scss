@@ -12,6 +12,9 @@
 // Font awesome
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 
+// Select2 perso
+@import "./select2-perso.scss";
+
 ::ng-deep body {
     // Couleurs
     --ariane-bg: #D7DDDE;
@@ -32,6 +35,7 @@
     --labels-champs: #777777;
     --bg-tags: #CDD7D9;
     --alert: #CC0000;
+    --success: #49CD8F;
     --warning: #F86600;
     --incomplete-face: #FF4803;
     --incomplete-bg: #FFF7CC;
@@ -42,6 +46,9 @@
     --avatar-bg: #F3F3F3;
     --autre-bg: #8A999C;
     --placeholder: #D0D0D0;
+    --alert-evenement-transparent: rgba(204, 0, 0, 0.1);
+    --warning-evenement-transparent: rgba(248, 102, 0, 0.1);
+    --bleu-evenement-transparent: rgba(40, 184, 206, 0.1);
     // Fonts
     --main-font-family: noto-sans-display, sans-serif;
     --main-font-weight-regular: 400;
@@ -57,6 +64,45 @@
     box-sizing: border-box;
     font-family: var(--main-font-family);
     font-weight: var(--main-font-weight-medium);
+}
+
+::ng-deep h1 {
+    font-size: 26px;
+    font-weight: var(--main-font-weight-semibold);
+}
+
+::ng-deep h2 {
+    font-size: 18px;
+    font-weight: var(--main-font-weight-semibold);
+}
+
+::ng-deep h3, ::ng-deep::placeholder, ::ng-deep input {
+    font-size: 16px;
+}
+
+::ng-deep label, ::ng-deep a, ::ng-deep span, {
+    font-size: 14px;
+    font-weight: var(--main-font-weight-regular);
+}
+
+::ng-deep label {
+    display: flex;
+    color: var(--labels-champs);
+    margin-bottom: 5px;
+}
+
+::ng-deep p {
+    font-size: 12px;
+}
+
+::ng-deep textarea {
+    padding: 10px;
+    border: 1px solid var(--gris-clair);
+    background: var(--blanc);
+    font-size: 16px;
+    font-weight: var(--main-font-weight-semibold);
+    line-height: 22px;
+    color: var(--gris-fonce);
 }
 
 ::ng-deep *:focus {
@@ -128,7 +174,7 @@
 }
 
 // types de boutons
-::ng-deep .btn.btn-annuler, ::ng-deep .btn.btn-deconnexion, ::ng-deep .btn.btn-supprimer {
+::ng-deep .btn.btn-fermer, ::ng-deep .btn.btn-deconnexion, ::ng-deep .btn.btn-supprimer {
     background: var(--bg-title-blocks);
     border: solid 2px var(--bg-title-blocks);
 }
@@ -145,13 +191,13 @@
     border: solid 2px var(--repertoire-et-pp);
 }
 
-::ng-deep .btn.btn-annuler:hover, ::ng-deep .btn.btn-deconnexion:hover, ::ng-deep .btn.btn-supprimer:hover {
+::ng-deep .btn.btn-fermer:hover, ::ng-deep .btn.btn-deconnexion:hover, ::ng-deep .btn.btn-supprimer:hover {
     background: var(--blanc);
     border: solid 2px var(--alert);
     color: var(--alert);
 }
 
-::ng-deep .btn.btn-annuler::before {
+::ng-deep .btn.btn-fermer::before {
     content: "\f057";
 }
 
@@ -273,6 +319,7 @@
 
 ::ng-deep .icon.addresse_card::before {
     content: "\f2bb";
+    margin-right: 10px;
 }
 
 ::ng-deep .icon.building::before {
@@ -308,7 +355,6 @@
 ::ng-deep .icon.i_alerte:before {
     content: "\f06a";
     font-size: 20px;
-    margin-right: 10px;
 }
 
 ::ng-deep .icon.fleche_gauche:before {
@@ -328,12 +374,69 @@
     color: var(--bg-title-blocks);
 }
 
+::ng-deep .icon.search:before {
+    content: "\f002";
+}
+
 ::ng-deep .icon span, ::ng-deep .btn span {
     padding-left: 8px;
 }
 
 ::ng-deep .icon.list::before {
     content: "\f03a";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.calendrier::before {
+    content: "\f783";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.changement_statut::before {
+    content: "\f362";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.devis::before {
+    content: "\f15c";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.haut::before {
+    content: "\f062";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.bas::before {
+    content: "\f063";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.filter::before {
+    content: "\f0b0";
+    margin-right: 10px;
+}
+
+::ng-deep .icon.clock::before {
+    content: "\f017";
+    font-size: 19px;
+    font-weight: 100;
+    color: var(--blanc);
+}
+
+::ng-deep .icon.valider::before {
+    content: "\f00c";
+    font-size: 19px;
+    color: var(--blanc);
+}
+
+::ng-deep .icon.clock, ::ng-deep .icon.valider {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 10px;
 }
 
@@ -369,19 +472,25 @@
 // tailles boutons
 ::ng-deep .btn-sm {
     height: 26px;
-    font: normal normal var(--main-font-weight-semibold) 14px/19px var(--main-font-family);
+    font-weight: var(--main-font-weight-semibold);
+    font-size: 14px;
+    line-height: 19px;
     padding: 11px;
 }
 
 ::ng-deep .btn-med {
     height: 36px;
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+    font-weight: var(--main-font-weight-semibold);
+    font-size: 16px;
+    line-height: 22px;
     padding: 0 15px 0 15px;
 }
 
 ::ng-deep .btn-lg {
     height: 46px;
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+    font-weight: var(--main-font-weight-semibold);
+    font-size: 16px;
+    line-height: 22px;
     padding: 0 15px 0 15px;
 }
 
@@ -395,6 +504,11 @@
 
 ::ng-deep .btn-lg::before {
     font-size: 24px;
+}
+
+::ng-deep button span {
+    font-weight: var(--main-font-weight-semibold);
+    font-size: 16px;
 }
 
 ::ng-deep button.btn-picto-med {
@@ -459,7 +573,7 @@
     height: 48px;
     border: 1px solid var(--gris-clair);
     background: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+    font-weight: var(--main-font-weight-semibold);
     color: var(--gris-fonce);
 }
 
@@ -468,8 +582,6 @@
     box-shadow: inherit !important;
 
     input {
-        width: 100% !important;
-        height: 48px !important;
         border: 1px solid var(--gris-clair) !important;
     }
 
@@ -480,22 +592,14 @@
         position: absolute;
         right: 0;
         cursor: pointer;
-        top: 50%;
+        top: 40% !important;
         -webkit-transform: inherit !important;
         transform: inherit !important;
     }
 
-    .suggestions-container ul li a {
-        font: normal normal var(--main-font-weight-semibold) 15px/22px var(--main-font-family);
+    .input-container input {
+        font-size: 16px !important;
     }
-}
-
-::ng-deep textarea {
-    padding: 10px;
-    border: 1px solid var(--gris-clair);
-    background: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-    color: var(--gris-fonce);
 }
 
 // input type checkbox
@@ -590,26 +694,9 @@
 }
 
 ::ng-deep input[type="radio"] + label {
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-    color: var(--gris-fonce);
-}
-
-// labels
-::ng-deep label {
-    font: normal normal var(--main-font-weight-regular) 14px/19px var(--main-font-family);
-    margin-bottom: 6px;
-    display: flex;
-    color: var(--labels-champs);
-}
-
-::ng-deep .select2-selection {
-    width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 0 !important;
-    border: 1px solid var(--bg-title-blocks);
-    background: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
+    font-size: 16px;
+    font-weight: var(--main-font-weight-semibold);
+    line-height: 22px;
     color: var(--gris-fonce);
 }
 
@@ -623,23 +710,13 @@
     display: flex;
     align-items: center;
 
+    span {
+        font-weight: var(--main-font-weight-medium);
+    }
+
     .icon.i_alerte {
         display: flex;
     }
-}
-
-// icon chevron vers le bas select2
-::ng-deep .select2-selection:after {
-    color: var(--bg-title-blocks);
-    font-family: "Font Awesome 5 Free", serif;
-    font-weight: 900;
-    content: "\f078";
-    position: absolute;
-    right: 17px;
-    align-items: center;
-    align-self: center;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 // alerts
@@ -657,7 +734,7 @@
 }
 
 ::ng-deep .background_alert_recommended {
-    background-color: var(--incomplete-bg);
+    background-color: var(--incomplete-bg) !important;
 }
 
 ::ng-deep .background_alert_recommended span.select2-selection.select2-selection {
@@ -668,7 +745,9 @@
 ::ng-deep .alert {
     color: var(--alert);
     text-align: left;
-    font: normal normal var(--main-font-weight-regular) 14px/19px var(--main-font-family);
+    font-size: 14px;
+    font-weight: var(--main-font-weight-semibold);
+    line-height: 19px;
 }
 
 // icon par défaut
@@ -678,184 +757,10 @@
 }
 
 // select 2
-::ng-deep .bandeau_outils ng-select2 {
-    margin-right: 10px;
-    float: right;
-    font: normal normal var(--main-font-weight-semibold) 12px/27px var(--main-font-family);
-    text-transform: uppercase;
-}
 
-::ng-deep .select2-selection__choice__display {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-::ng-deep .select2-results, ::ng-deep .select2-container--default .select2-search--inline .select2-search__field {
-    font: normal normal var(--main-font-weight-semibold) 15px var(--main-font-family);
-}
-
-::ng-deep .select2-search .select2-search--inline {
-    position: relative;
-    top: 10px;
-}
-
-::ng-deep .select2-search .select2-search__field {
-    margin-top: unset !important;
-    margin-left: unset !important;
-    position: relative;
-}
-
-::ng-deep .select2-container .select2-selection--multiple .select2-selection__rendered {
-    display: flex !important;
-}
-
-// item select 2
-::ng-deep .select2-container--default .select2-selection--multiple .select2-selection__choice, ::ng-deep span.select2-selection__rendered {
-    padding-left: 5px;
-    font: normal normal var(--main-font-weight-semibold) 12px var(--main-font-family);
-    height: 29px;
-    display: flex;
-    align-items: center;
-    border-color: transparent;
-}
-
-// select2 type single
-::ng-deep span.selection .select2-selection--single span.select2-selection__rendered:not(.select2_sans_badge span) {
-    padding: 0 10px;
-    background-color: #e4e4e4;
-    height: auto;
-    border-radius: 4px;
-    box-sizing: border-box;
-    position: relative;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom;
-    white-space: nowrap;
-}
-
-::ng-deep .select2.select2-container.select2-container--default {
-    width: 100% !important;
-}
-
-// select2 type single
-::ng-deep .select2_sans_badge span.selection .select2-selection--single span.select2-selection__rendered {
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-    color: var(--gris-fonce);
-    align-items: center;
-    display: flex;
-    padding-left: 0;
-}
-
-// tag select 2 multiple
-::ng-deep .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    margin-top: 6px;
-    padding: 0 10px;
-}
-
-// tag select 2 multiple mais pas sur le 1er tag
-::ng-deep .select2-container--default .select2-selection--multiple li.select2-selection__choice:first-child {
-    margin-left: inherit;
-}
-
-::ng-deep span.select2-selection__rendered:not(.form_group.select2_sans_majuscule span.select2-selection__rendered),
-::ng-deep span.select2-selection__choice__display:not(.form_group.select2_sans_majuscule span.select2-selection__choice__display) {
-    //text-transform: uppercase;
-}
-
-::ng-deep .select2-selection.select2-selection--single {
-    height: 48px;
-    display: flex;
-    align-items: center;
-}
-
-::ng-deep .select2-selection.select2-selection--multiple {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    caret-color: transparent;
-    padding-right: 50px;
-}
-
-::ng-deep .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border: 1px solid var(--gris-clair) !important;
-}
-
-::ng-deep .bandeau_outils .select2-selection__choice[title="Prospect"], ::ng-deep span.select2-selection__rendered[title="Prospect"] {
-    background: var(--prospect-bg) 0 0 no-repeat padding-box;
-    border: 1px solid var(--prospect-border) !important;
-    color: var(--gris-fonce) !important;
-}
-
-::ng-deep .bandeau_outils .select2-selection__choice[title="Client"], ::ng-deep span.select2-selection__rendered[title="Client"] {
-    background: var(--gris-fonce) 0 0 no-repeat padding-box !important;
-    color: var(--blanc) !important;
-}
-
-::ng-deep .bandeau_outils .select2-selection__choice[title^="Partie"], ::ng-deep span.select2-selection__rendered[title^="Partie"] {
-    background: var(--alert) 0 0 no-repeat padding-box !important;
-    color: var(--blanc) !important;
-}
-
-::ng-deep .bandeau_outils .select2-selection__choice[title="Membre"], ::ng-deep span.select2-selection__rendered[title="Membre"] {
-    background: var(--bleu-azko) 0 0 no-repeat padding-box !important;
-    color: var(--blanc) !important;
-}
-
-::ng-deep .bandeau_outils .select2-selection__choice[title="Autre"], ::ng-deep span.select2-selection__rendered[title="Autre"] {
-    background: var(--autre-bg) 0 0 no-repeat padding-box !important;
-    color: var(--blanc) !important;
-}
-
-// icon supprimer item noir
-::ng-deep .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    background-color: transparent;
-    border: none;
-    border-right: transparent;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    padding: 0 4px;
-    position: relative;
-    left: -4px;
-    top: 0;
-}
-
-// suppression flèche par défaut sur l'input
-::ng-deep .select2-selection__arrow {
-    display: none;
-}
-
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
-    background-color: transparent;
-}
-
-// icon supprimer autre item
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Prospect"] .select2-selection__choice__remove {
-    border-color: var(--prospect-border);
-}
-
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title^="Partie"] .select2-selection__choice__remove {
-    color: var(--blanc);
-}
-
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Client"] .select2-selection__choice__remove {
-    color: var(--blanc);
-}
-
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Autre"] .select2-selection__choice__remove {
-    color: var(--blanc);
-}
-
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice[title="Membre"] .select2-selection__choice__remove {
-    color: var(--blanc);
-}
 
 // les cartes
 ::ng-deep .carte_titre {
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
     letter-spacing: 0;
     color: var(--blanc);
     margin: 0;
@@ -863,21 +768,33 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 8px 80px 8px 15px;
+
+    h2 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+::ng-deep .carte_texte {
+    padding: 0 15px;
+    line-height: 16px;
 }
 
 ::ng-deep .bandeau_personne {
     height: 40px;
+    display: flex;
     align-items: center;
+
+    h1 {
+        text-overflow: ellipsis;
+        width: 330px;
+        overflow: hidden;
+    }
 }
 
 ::ng-deep .bandeau_personne.bandeau_personne_lien {
     height: 30px;
     padding-top: 5px;
-}
-
-::ng-deep .bandeau_personne_morale {
-    background-color: var(--repertoire-pm);
-    color: white;
 }
 
 ::ng-deep .bandeau_personne_lien_multi {
@@ -891,6 +808,19 @@
         padding-bottom: 5px;
         height: 60px;
     }
+}
+
+::ng-deep .bandeau_evenement {
+    background-color: var(--bleu-azko);
+}
+
+::ng-deep .bandeau_personne_morale {
+    background-color: var(--repertoire-pm);
+    color: white;
+}
+
+::ng-deep .bandeau_personne_morale::before {
+    font-size: 18px;
 }
 
 ::ng-deep .bandeau_personne_physique, ::ng-deep .bandeau_personne_lien {
@@ -925,8 +855,7 @@
 }
 
 ::ng-deep .carte_sous_titre p {
-    font-size: 11px;
-    font-weight: 600;
+    font-weight: var(--main-font-weight-medium);
     line-height: 14px;
 }
 
@@ -983,6 +912,19 @@
 }
 
 // Modals
+::ng-deep jw-modal .jw-modal {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: -webkit-fill-available;
+}
+
+::ng-deep .jw-modal .jw-modal-body {
+    min-height: inherit !important;
+    height: max-content !important;
+}
+
 ::ng-deep .jw-modal-body {
     position: relative;
     box-shadow: 4px 4px 4px var(--ombre);
@@ -994,6 +936,31 @@
         label, span {
             color: var(--gris-fonce) !important;
         }
+    }
+
+    .bloc_title_modal {
+        font-size: 22px;
+        padding: 20px;
+        text-align: center;
+
+        .action_modal.valider {
+            color: var(--success);
+        }
+
+        .action_modal.desactiver {
+            color: var(--alert);
+        }
+    }
+
+    .bloc_body_modal {
+        font-size: 16px;
+        padding: 20px;
+        text-align: center;
+        font-weight: var(--main-font-weight-regular);
+    }
+
+    .bloc_footer_modal {
+        padding: 30px 0 20px 0;
     }
 }
 
@@ -1012,7 +979,9 @@
     align-items: center;
     display: flex;
     color: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 18px/24px var(--main-font-family);
+    font-size: 18px;
+    font-weight: var(--main-font-weight-semibold);
+    line-height: 24px;
     width: 100%;
     justify-content: space-between;
     height: 36px;
@@ -1023,16 +992,6 @@
 // Formulaire
 ::ng-deep .espace_input {
     margin-right: 25px;
-}
-
-::ng-deep .form_personne {
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-    color: var(--gris-foncé);
-
-    span.type_coordonnee, span.type_adresse {
-        color: var(--labels-champs);
-        font: normal normal var(--main-font-weight-regular) 14px/19px var(--main-font-family);
-    }
 }
 
 ::ng-deep .formulaire {
@@ -1049,31 +1008,43 @@
     margin-right: 30px;
 }
 
-::ng-deep .bandeau_personne_formulaire, ::ng-deep .bandeau_segment_formulaire {
+::ng-deep .bandeau_personne_formulaire,
+::ng-deep .bandeau_segment_formulaire,
+::ng-deep .bandeau_evenement {
     height: 40px;
     display: flex;
     align-items: center;
     color: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 18px/24px var(--main-font-family);
+    line-height: 19px;
+    font-weight: var(--main-font-weight-semibold);
     padding-left: 20px;
     margin-bottom: 20px;
+}
+
+::ng-deep .bandeau_personne::before,
+::ng-deep.bandeau_personne_formulaire::before,
+::ng-deep.bandeau_evenement::before {
+    font-size: 24px;
 }
 
 ::ng-deep .form_area {
     display: grid;
     grid-template-columns: 1fr;
+    margin-top: 13px;
 }
 
 ::ng-deep .form_group {
     display: flex;
-    margin-top: 18px;
+    margin-top: 13px;
 
     div {
         width: 100%;
     }
 }
 
-::ng-deep .container_civilite div, ::ng-deep .container_visibilite .choix_visibilite {
+::ng-deep .container_civilite div,
+::ng-deep .container_visibilite .choix_visibilite,
+::ng-deep .form_event .choix_statut {
     display: flex;
     align-items: center;
 
@@ -1092,7 +1063,7 @@
     margin-bottom: 30px;
 }
 
-::ng-deep .form_personne, ::ng-deep .form_segment {
+::ng-deep .form_personne, ::ng-deep .form_segment, ::ng-deep .form_event {
     padding: 20px 20px 0 20px;
     margin-bottom: 200px;
 }
@@ -1101,38 +1072,44 @@
     display: flex;
     align-items: center;
     color: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 18px/24px var(--main-font-family);
+    font-size: 18px;
+    font-weight: var(--main-font-weight-semibold);
     width: 100%;
     padding-left: 20px;
-    justify-content: space-between;
     height: 36px;
+}
+
+::ng-deep .bandeau_form:not(.bloc_contact .bandeau_form) {
     background-color: var(--bg-title-blocks);
-    margin-bottom: 10px;
+}
+
+::ng-deep .bandeau_segment {
+    background-color: var(--segments);
+    display: flex;
+    align-items: center;
+}
+
+::ng-deep .bandeau_segment::before {
+    font-size: 18px;
+    margin-right: 10px;
 }
 
 ::ng-deep .fiche {
-    font: normal normal var(--main-font-weight-semibold) 11px/27px var(--main-font-family);
+    line-height: 27px;
     padding: 20px 15px;
     display: flex;
-    height: 96%;
-    
+    //height: 96%;
+
     ::ng-deep .bandeau_fiche {
         display: flex;
         justify-content: space-between;
-        padding: 0 10px;
         color: var(--bg-title-blocks);
         text-align: left;
-        font: normal normal var(--main-font-weight-regular) 14px/19px var(--main-font-family);
-    }
-    
-    .bandeau_personne {
-        font-size: 20px;
-        display: flex;
     }
 }
 
-::ng-deep .fiche.physique, ::ng-deep.fiche.lien {
-    height: 92%;
+::ng-deep .row_event.group_by_date {
+    margin-top: 3px !important;
 }
 
 ::ng-deep .form_bas {
@@ -1141,7 +1118,7 @@
     justify-content: center;
     padding: 8px;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     width: 100vw;
     left: 50%;
     right: 50%;
@@ -1151,7 +1128,7 @@
     animation: formBasAnimation 0.5s linear 0s;
     @keyframes formBasAnimation {
         from{ bottom:-50px; opacity: 0; }
-        to{ bottom: 0px; opacity: 1; }
+        to{ bottom: 0; opacity: 1; }
     }
     button {
         margin-right: 20px;
@@ -1163,23 +1140,77 @@
     font-size: 16px;
     height: 40px;
     background-color: var(--fond-de-page);
-    
-    .onglet.icon.list {
+
+    .onglet_segment {
         border-top: solid 4px var(--segments);
         padding: 0 10px;
         background-color: var(--blanc);
         display: flex;
         align-items: center;
+    }
+
+    .onglet_evenement {
+        border-top: solid 4px var(--bleu-azko);
+        padding: 0 10px;
+        background-color: var(--blanc);
+        display: flex;
+        align-items: center;
     };
-    
+
     div.onglet {
         font-size: 16px;
     }
 }
 
+// EVENEMENTS
+::ng-deep .container_event .grey_five_percent {
+    background-color: var(--fond-de-page);
+}
+::ng-deep .container_event .border_grey {
+    border-left: 4px solid var(--bg-title-blocks);
+}
+::ng-deep .container_event .icon_grey, ::ng-deep .container_event .color_grey {
+    color: var(--bg-title-blocks);
+}
+::ng-deep .container_event .valider.icon_grey {
+    background-color: var(--bg-tags) ;
+}
+
+::ng-deep .container_event .warning_five_percent {
+    background-color: var(--warning-evenement-transparent);
+}
+::ng-deep .container_event .border_orange {
+    border-left: 4px solid var(--warning);
+}
+::ng-deep .container_event .icon_orange, ::ng-deep .container_event .color_orange {
+    color: var(--warning);
+}
+
+::ng-deep .container_event .blue_five_percent {
+    background-color: var(--bleu-evenement-transparent);
+}
+::ng-deep .container_event .border_blue {
+    border-left: 4px solid var(--bleu-azko);
+}
+::ng-deep .container_event .icon_blue, ::ng-deep .container_event .color_blue {
+    color: var(--bleu-azko);
+}
+
+::ng-deep .container_event .alert_five_percent {
+    background-color: var(--alert-evenement-transparent);
+}
+::ng-deep .container_event .border_red {
+    border-left: 4px solid var(--alert);
+}
+::ng-deep .container_event .icon_red, ::ng-deep .container_event .color_red {
+    color: var(--alert);
+}
+
 // Notifications
 ::ng-deep .notifier__notification-message {
-    font: normal normal var(--main-font-weight-regular) 14px/19px var(--main-font-family);
+    font-size: 14px;
+    font-weight: var(--main-font-weight-regular);
+    line-height: 19px;
 }
 
 ::ng-deep .notifier__notification--default {
@@ -1207,15 +1238,32 @@
     color: var(--blanc);
 }
 
-// Responsive formulaire
-@media (max-width: 1000px) {
-    ::ng-deep .form_gauche {
+// Responsive
+@media (max-width: 1080px) {
+    ::ng-deep .formulaire {
+        display: inherit;
+    }
+    ::ng-deep .fiche {
+        display: inline-block;
+        width: 100%;
+    }
+
+    ::ng-deep .fiche.segmenet {
+        width: 100%;
+    }
+
+    ::ng-deep  .fiche_gauche, ::ng-deep .fiche_droite {
+        width: 100% !important;
+        margin-top: 20px;
+    }
+
+    ::ng-deep .container_form.form_gauche {
         margin-bottom: 20px;
         margin-right: inherit;
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 779px) {
     ::ng-deep .formulaire {
         grid-template-columns: inherit;
         display: block;
@@ -1235,6 +1283,22 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
+
+    ::ng-deep .bandeau_outils .bloc2 {
+        flex-flow: row wrap;
+    }
+
+    ::ng-deep .cartes:not(.cartes_segments .cartes) {
+        margin-top: 70px !important;
+    }
+
+    // bandeau outil
+    ::ng-deep .bloc2 .recherche-bandeau-outils {
+        max-width: inherit !important;
+        margin-right: inherit !important;
+    }
+
+    ::ng-deep .bloc2.input_sm {
+        display: block !important;
+    }
 }
-
-

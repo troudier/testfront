@@ -1,74 +1,72 @@
 .bandeau_outils {
-  min-height: 30px;
-  padding: 1rem 23px 1rem 1rem;
-  font: normal normal var(--main-font-weight-semibold) 15px/21px var(--main-font-family);
-  display: grid;
-  grid-template-columns: 290px 1fr;
-
-  .bloc2 {
-    display: flex;
-    align-items: flex-start;
-    flex-flow: row wrap;
-    justify-content: flex-end;
-    margin-top: 3px;
-  }
-
-  .bloc1 .btn-mode-tableau {
-    margin-left: 10px;
-  }
+    min-height: 30px;
+    padding: 1rem 23px 1rem 1rem;
+    display: grid;
+    grid-template-columns: 290px 1fr;
+    
+    .bloc2 {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        margin-top: 3px;
+        
+        ng-select2 {
+            width: 273px;
+        }
+    }
+    
+    .bloc1 .btn-mode-tableau {
+        margin-left: 10px;
+    }
 }
 
 .bloc2 .recherche-bandeau-outils {
-  width: 273px;
-  position: relative;
-  margin-right: 10px;
-
-  .input-selection {
-    width: 100%;
-    padding-left: 10px;
-    border-radius: 0 !important;
-    background: var(--blanc);
-    font: normal normal var(--main-font-weight-semibold) 16px/22px var(--main-font-family);
-    color: var(--gris-fonce);
-  }
+    max-width: 273px;
+    position: relative;
+    margin-right: 10px;
+    
+    .input-selection {
+        padding-left: 10px;
+        border-radius: 0 !important;
+        background: var(--blanc);
+        color: var(--gris-fonce);
+    }
 }
 
 ::ng-deep .bandeau_outils .recherche-bandeau-outils input {
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  font: normal normal var(--main-font-weight-semibold) 15px/21px var(--main-font-family);
-  height: 32px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: var(--main-font-weight-semibold);
+    line-height: 22px;
+    height: 32px;
 }
 
-.repertoire_creer_fiche fa-icon{
-  margin-right: 5px;
+.repertoire_creer_fiche fa-icon {
+    margin-right: 5px;
 }
 
-.clear{
-  clear: both;
-}
-
-::ng-deep .bandeau_outils .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  height: 18px;
+.clear {
+    clear: both;
 }
 
 ::ng-deep .bandeau_outils .select2-selection.select2-selection--multiple {
-  display: inline-block;
-  align-items: center;
-  padding-right: 45px;
-  height: 1px;
-  caret-color: transparent;
+    display: flex;
+    align-items: center;
+    padding-right: 45px;
+    height: 1px;
+    caret-color: transparent;
 }
 
 .bloc1.segments .btn.btn-ajouter, .bloc1.segments .btn.btn-mode-tableau {
-  background-color: var(--segments);
-  border: solid 2px var(--segments);
-  display: inline-block;
+    background-color: var(--segments);
+    border: solid 2px var(--segments);
+    display: inline-block;
 }
 
 
 .bloc1.segments .btn.btn-ajouter:hover {
-  background-color: var(--blanc);
-  color: var(--segments);
-  border: solid 2px var(--segments);
+    background-color: var(--blanc);
+    color: var(--segments);
+    border: solid 2px var(--segments);
 }

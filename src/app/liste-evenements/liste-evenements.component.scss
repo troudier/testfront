@@ -1,0 +1,21 @@
+.container_event {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 0 25px 10px 0;
+}
+
+.container_event .information_event {
+    margin-left: 10px;
+
+    .icon.icon_blue.planifie {
+        background-color: var(--bleu-azko);
+    }
+
+    .icon.icon_orange.aujourdhui {
+        background-color: var(--warning);
+    }
+
+    .icon.icon_red.enRetard {
+        background-color: var(--alert);
+    }
+}

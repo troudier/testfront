@@ -5,7 +5,6 @@
 
 .block_menu_gauche {
     display: flex;
-    flex: 1;
 }
 
 .block_menu_centre {
@@ -24,13 +23,12 @@
     width: 1px;
     overflow-x: auto;
     direction: rtl;
-    
+    margin-left: 35px;
     
     .container_last_item {
         display: flex;
         height: 29px;
         direction: ltr;
-        margin-left: auto;
         margin-right: auto;
     }
 
@@ -39,6 +37,11 @@
         margin-left: 10px;
         white-space: nowrap;
         display: flex;
+        cursor: pointer;
+        
+        span {
+            font-size: 16px;
+        }
 
         .icon.user {
             color: var(--repertoire-et-pp);
@@ -59,10 +62,6 @@
         }
     }
     
-    // onglet last items
-    .container_last_item .onglet_last_item {
-        cursor: pointer;
-    }
     // physique
     .container_last_item .onglet_last_item.physique.active {
         border-bottom: 4px solid var(--repertoire-et-pp);
@@ -88,6 +87,7 @@
     justify-content: space-between;
     width: 50px;
     margin-left: 30px;
+    margin-right: 50px;
     
     .icon.fleche {
         opacity: 0.5;
@@ -102,7 +102,6 @@
 .block_menu_droite {
     display: flex;
     padding-right: 20px;
-    flex: 1;
     justify-content: flex-end;
     background-color: #2b3436;
     z-index: 1;

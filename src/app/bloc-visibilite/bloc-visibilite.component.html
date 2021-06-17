@@ -1,8 +1,9 @@
 <div class="container_visibilite"
      [formGroup]="form"
+     *ngIf="form"
 >
     <div class="bandeau_form">
-        <span>Visibilité</span>
+        Visibilité
         <div class="input_visibilite">
             <input type="checkbox"
                    class="switch"
@@ -38,11 +39,22 @@
                        name="visibilite"
                        id="visibilite_prive"
                        value="3"
-                       checked
                        formControlName="visibilite"
                        [ngClass]="{'background_alert_required': !form.controls.visibilite.value}"
                 >
                 <label for="visibilite_prive">Privé</label>
+            </div>
+            <div class="info_visibilite" *ngIf="form.controls.visibilite.value === '1'">
+                <label>Lecture : Tous</label>
+                <label>Ecriture: Tous</label>
+            </div>
+            <div class="info_visibilite" *ngIf="form.controls.visibilite.value === '2'">
+                <label>Lecture : Tous</label>
+                <label>Ecriture: Créateur, Référent, Intervenants</label>
+            </div>
+            <div class="info_visibilite" *ngIf="form.controls.visibilite.value === '3'">
+                <label>Lecture : Créateur, Référent, Intervenants</label>
+                <label>Ecriture: Créateur, Référent, Intervenants</label>
             </div>
         </div>
         <div class="form_group">

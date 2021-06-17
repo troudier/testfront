@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SegmentEditValeursComponent } from './segment-edit-valeurs.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('SegmentEditValeursComponent', () => {
   let component: SegmentEditValeursComponent;
@@ -8,7 +9,10 @@ describe('SegmentEditValeursComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SegmentEditValeursComponent ]
+      declarations: [ SegmentEditValeursComponent ],
+      imports: [
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   });
